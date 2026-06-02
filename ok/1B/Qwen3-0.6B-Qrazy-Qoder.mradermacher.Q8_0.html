@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>My File/Directory Manager</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+    }
+  </style>
+</head>
+
+<body class="nuxt-body nuxt-light-body">
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 border-b-4 border-gray-200 text-center">
+    <h1 class="text-4xl font-bold">Manager Files & Directories</h1>
+
+    <p class="mt-4 text-sm italic">Upload new files, view existing ones, share via direct links, and access from
+      anywhere!</p>
+
+    <ul class="space-y-1 list-none flex justify-end items-center">
+      <li>
+        <a class="flex items-center space-x-2 p-2 rounded-md bg-gray-200 hover:bg-sky-300 transition duration-300"
+          href="#"><i class="bi bi-cloud-upload-fill"></i></a>
+      </li>
+      <li>
+        <a class="flex items-center space-x-2 p-2 rounded-md bg-red-500 hover:bg-red-600 transition duration-300"
+          href="#">Add New (Cancel)</a>
+      </li>
+    </ul>
+  </div>
+
+  <main class="py-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section class="bg-white shadow p-4 rounded-lg mb-6">
+      <h2 class="text-xl font-semibold mb-2 text-green-900">Files Available</h2>
+      <div class="grid grid-cols-3 gap-2">
+        <div class="relative overflow-hidden">
+          <img :src="fileImage" alt="" class="w-full h-48 object-cover rounded-lg shadow-sm">
+          <div class="absolute right-4 top-4 px-2 py-1 bg-blue-600 text-white rounded-md">
+            <span v-if="fileIsShared">{{ shared }}</span>
+          </div>
+        </div>
+        <button @click="copyFileToClipboard(file)" type="button"
+          class="ml-2 px-3 py-2 bg-black text-white rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">Copy
+          to clipboard</button>
+      </div>
+    </section>
+
+    <section class="bg-white shadow p-4 rounded-lg mb-6">
+      <h2 class="text-xl font-semibold mb-2 text-green-900">Direct Shares</h2>
+      <div class="grid grid-cols-3 gap-2">
+        <div class="relative overflow-hidden">
+          <input type="url" value="@/assets/images/direct-share.png" accept=".png, .jpg, .jpeg"
+            class="w-full h-48 object-cover rounded-lg shadow-sm">
+        </div>
+        <button @click="shareItem()" type="button"
+          class="ml-2 px-3 py-2 bg-black text-white rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">Share</button>
+      </div>
+    </section>
+  </main>
+</body>
+
+</html>

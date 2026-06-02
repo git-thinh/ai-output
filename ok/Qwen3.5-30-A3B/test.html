@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Drive - My Files</title>
+    
+    <!-- Tailwind CSS v4 -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+</head>
+
+<body class="bg-gray-50 text-white font-sans-serif overflow-hidden select-none">
+
+    <!-- MAIN APP CONTAINER (Flexbox Layout) -->
+    <div class="flex w-full h-screen">
+
+        <!-- LEFT SIDEBAR NAVIGATION -->
+        <aside id="sidebar-nav" aria-label="Navigation Sidebar"
+            class="w-sidebar-w px-6 bg-blue-black z-index-high flex-vertical-center flex-horizontal-middle pt-8 pb-8 sticky-left">
+            <!-- Header Branding -->
+            <header class="mb-3 mb-md-6">
+                <h1 class="text-xl bold font-family-monospace">NXT-CLOUD</h1>
+            </header>
+
+            <!-- Quick Actions Buttons -->
+            <nav class="actions-list vertical-stack-sm">
+                <button type="click" title="Create Folder"
+                    class="icon-btn action-trigger hover-effect color-primary-light p-space-lg rounded-box shadow-eight transition-fast transform-scale-nine-zero-one-on-hover animate-pulse-short duration-two-hundred-twelve ms">
+                    <i class="bs-icon-plus-square fs-size-three-four-five"></i> New Folder
+                </button>
+
+                <button type="click" title="Upload Files"
+                    class="action-trigger hover-effect color-secondary-dimmed p-space-lg rounded-box shadow-eight transition-fast transform-scale-nine-zero-one-on-hover">
+                    <i class="bs-icon-upload-alt fs-size-three-four-five"></i> Upload File
+                </button>
+            </nav>
+
+            <!-- Storage Usage Indicator -->
+            <section class="usage-indicator mt-7 md-margin-top-ten horizontal-flex center-content align-right">
+                <span class="label-text size-small-medium weight-bold italic-color-muted">Storage Used:</span>
+                <div
+                    style="width=twenty-five-perc height-height-line pixel-width-two rounded-box bg-grey-dark line-thin stroke-soften border-style-solid margin-right-six px-spacing-tiny">
+                    <div
+                        style="width=fifty-perc height-height-line pixel-width-two rounded-box bg-orange-red primary-line-ten line-thin border-style-solid">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Navigation Links List -->
+            <ul role-navigation-list class="navigation-links-list inline-block list-none">
+                <li><a href="#"
+                        class="link-item active-state nav-link-item underline-under-active underhover-underline cursor-pointer padding-bottom-sixteen px-spacing-normal py-spacing-normal block-level-one icon-padding-left text-weight-normal text-color-inverted link-decoration-auto underline-off hover-underline-effect">All
+                        Items</a></li>
+                <li><a href="#"
+                        class="link-item inactive-state nav-link-item no-underline cursor-default padding-bottom-sixteen px-spacing-normal py-spacing-normal block-level-one icon-padding-left text-weight-normal text-color-neutral-gray link-decoration-auto underline-off hover-underline-effect">Documents</a>
+                </li>
+                <li><a href="#"
+                        class="link-item inactive-state nav-link-item no-underline cursor-default padding-bottom-sixteen px-spacing-normal py-spacing-normal block-level-one icon-padding-left text-weight-normal text-color-neutral-gray link-decoration-auto underline-off hover-underline-effect">Pictures</a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- MAIN CONTENT AREA (Scrollable) -->
+        <main id="viewport-area" aria-label="Main Content Viewport"
+            class="scroll-vertical flex-horizontal-center vertical-stack-sm w-full-screen pb-spx-spacing-normal pt-spx-spacing-normal overflow-hidden layout-grid-viewpoint">
+
+            <!-- Top Toolbar / Header Bar -->
+            <header
+                class="toolbar-header toolbar-bubble sticky-top top-margin-hundred-px z-index-high display-mode-blinked-with-virtual-scrollbars">
+
+                <!-- Breadcrumb Pathfinder -->
+                <nav aria-label="Breadcrumb Path"
+                    class="breadcrumb-tracer breadcrumb-container width-large-height-large auto-size-layout horizontal-flex justify-content-start items-align-middle">
+                    <button title="Navigate up one level" type="click"
+                        class="icon-btn tool-button p-space-four five px-spacing-tiny py-spacing-tiny arrow-up-arrow-down transition-fast transform-scale-nine-zero-one-on-hover animate-pulse-short duration-two-hundred-twelve ms">
+                        <i class="bs-icon-folder-open fs-size-three-four-five"></i>
+                        <span class="label-text size-small-medium weight-bold italic-color-muted">Home</span>
+                    </button>
+
+                    <div
+                        style="width=twenty-five-perc height-height-line pixel-width-two rounded-box bg-grey-dark line-thin stroke-soften border-style-solid margin-right-six px-spacing-tiny">
+                        <div
+                            style="width=fifty-perc height-height-line pixel-width-two rounded-box bg-orange-red primary-line-ten line-thin border-style-solid">
+                        </div>
+                    </div>
+                    <button title="Open subfolder 'Documents'" type="click"
+                        class="icon-btn tool-button p-space-four five px-spacing-tiny py-spacing-tiny arrow-up-arrow-down transition-fast transform-scale-nine-zero-one-on-hover animate-pulse-short duration-two-hundred-twelve ms">
+                        <i class="bs-icon-file fs-size-three-four-five"></i>
+                        <span class="label-text size-small-medium weight-bold italic-color-muted">Documents</span>
+                    </button>
+                </nav>
+
+                <!-- Right Side Controls -->
+                <section class="controls-wrapper right-aligned-controls">
+                    <!-- Search Input Field -->
+                    <input placeholder="Search files..."
+                        class="search-input-field search-bar styled-search-bar focus-ring-focus-outline outline-none shadow-eight radius-rounded box-sizing-expandable input-padding-small padding-left-twenty px-spacing-normal text-weight-bold font-family-serif color-primary-light active-state hover-effect hover-radius-transform scale-infinite-time-moderate animation-duration-ms-longer" />
+
+                    <!-- View Mode Switchers (Grid vs List) -->
+                    <ul role-menu-list
+                        class="viewmode-switches ul-none list-inline inline-block horizontal-flex center-content align-right">
+                        <li><button title="Switch to Grid View" type="toggle-viewmode-grid"
+                                class="icon-btn action-trigger icon-toggle-viewmode grid-mode-active viewmode-selector p-space-four five px-spacing-tiny py-spacing-tiny toggle-selection-action trigger-click-event bubble-shadow-shadowed tooltip-tooltip-showcase on-select-focus event-handling-bubble-displayed display-mode-blinked-with-virtual-scrollbars">
+                                <i class="bs-icon-grid fs-size-three-four-five"></i>
+                            </button></li>
+
+                        <li><button title="Switch to Table/List View" type="toggle-viewmode-table"
+                                class="icon-btn action-trigger icon-toggle-viewmode table-mode-viewer viewmode-selector p-space-four five px-spacing-tiny py-spacing-tiny toggle-selection-action trigger-click-event bubble-shadow-shadowed tooltip-tooltip-showcase on-select-focus event-handling-bubble-displayed display-mode-blinked-with-virtual-scrollbars">
+                                <i class="bs-icon-list-alt fs-size-three-four-five"></i>
+                            </button></li>
+                    </ul>
+                </section>
+            </header>
+
+            <!-- File Display Area / Drop Zone Simulation -->
+            <section id="drop-zone-area" aria-label="File Browser Container"
+                class="dropzone-container dropzone-droparea-droppable-dropzones-dropping dropzone-dropzone-full-width vertical-stack-sm layout-grid-viewpoint overflow-hidden scroll-vertical flex-horizontal-center width-large-height-large auto-size-layout justify-content-start items-align-middle">
+
+                <!-- Empty State Message when no files selected/loaded -->
+                {if (!files.length)}
+                <div
+                    style="width=twenty-five-perc height-height-line pixel-width-two rounded-box bg-grey-dark line-thin stroke-soften border-style-solid margin-right-six px-spacing-tiny">
+                    <div
+                        style="width=fifty-perc height-height-line pixel-width-two rounded-box bg-orange-red primary-line-ten line-thin border-style-solid">
+                    </div>
+                </div>
+                <p
+                    style="font-size-eighty-hundred-px-font-universal-size-medium-color-gray-neutral-text-weight-standard">
+                    Drop files here or create new item</p>
+                {/* End of conditional rendering */}
+
+
+                <!-- Sample Data: Rendered Card Items (Simulating Nested Folders) -->
+
+                <!-- Item 1: Folder with nested content -->
+                <article role-item-card
+                    class="card-wrapper card-element interactive-elem horizontal-flex center-content align-left hover-effect transform-scale-nine-zero-one-on-hover shadow-eight radius-rounded box-sizing-expandable transition-fast duration-ms-longer padding-bottom-twenty-two px-spacing-normal animate-opacity-short opacity-duration-ms-longer">
+                    <figure
+                        class="folder-icon-image image-source-holder font-family-serif text-weight-bold color-primary-light weight-bold italic-color-muted size-small-medium">
+                        <img src="./icons/folder.svg" alt="Folder Graphic" />
+                    </figure>
+                    <span
+                        class="label-text label-title label-name file-namename string-value font-sans-serif font-size-eighty-hundred-px-font-universal-size-medium-color-gray-neutral-text-weight-standard">My
+                        Photos</span>
+                </article>
+
+                <!-- Item 2: Regular File Type representation -->
+                <article role-item-card
+                    class="card-wrapper card-element interactive-elem horizontal-flex center-content align-left hover-effect transform-scale-nine-zero-one-on-hover shadow-eight radius-rounded box-sizing-expandable transition-fast duration-ms-longer padding-bottom-twenty-two px-spacing-normal animate-opacity-short opacity-duration-ms-longer">
+                    <figure
+                        class="file-type-graphic image-source-holder font-family-serif text-weight-bold color-primary-light weight-bold italic-color-muted size-small-medium">
+                        <i class="bs-icon-file fs-size-three-four-five"></i>
+                    </figure>
+                    <span
+                        class="label-text label-title label-name file-namename string-value font-sans-serif font-size-eighty-hundred-px-font-universal-size-medium-color-gray-neutral-text-weight-standard">Resume.pdf</span>
+                </article>
+
+                <!-- Item 3: Another folder type example -->
+                <article role-item-card
+                    class="card-wrapper card-element interactive-elem horizontal-flex center-content align-left hover-effect transform-scale-nine-zero-one-on-hover shadow-eight radius-rounded box-sizing-expandable transition-fast duration-ms-longer padding-bottom-twenty-two px-spacing-normal animate-opacity-short opacity-duration-ms-longer">
+                    <figure
+                        class="folder-icon-image image-source-holder font-family-serif text-weight-bold color-primary-light weight-bold italic-color-muted size-small-medium">
+                        <i class="bs-icon-folder-open fs-size-three-four-five"></i>
+                    </figure>
+                    <span
+                        class="label-text label-title label-name file-namename string-value font-sans-serif font-size-eighty-hundred-px-font-universal-size-medium-color-gray-neutral-text-weight-standard">Taxes</span>
+                </article>
+
+            </section>
+        </main>
+    </div>
+
+</body>
+</html>

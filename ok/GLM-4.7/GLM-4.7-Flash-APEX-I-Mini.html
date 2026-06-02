@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuxt Drive - Quản lý File Cloud</title>
+    <!-- Tích hợp Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Tích hợp Tailwind CSS (Sử dụng CDN cho prototype) -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script>
+        // Cấu hình Tailwind để sử dụng prefix 'bi' cho Bootstrap Icons
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9', // Sky-500
+                            600: '#0284c7', // Sky-600
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom styles cho hiệu ứng ẩn hiện */
+        .hidden-sidebar {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-slate-800 antialiased font-sans">
+
+    <!-- =========================================
+         SIDEBAR (BẢNG ĐIỀU HUỆNG)
+    ========================================== -->
+    <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-64 bg-gray-900 text-slate-300 overflow-y-auto transition-transform duration-300 lg:translate-x-0">
+        
+        <!-- Header Sidebar -->
+        <div class="flex items-center justify-between px-4 py-3 bg-gray-950">
+            <div class="flex items-center gap-2 text-white font-bold text-xl tracking-tight">
+                <i class="bi bi-cloud-fill text-brand-500 text-2xl"></i>
+                <span>Nuxt Drive</span>
+            </div>
+            <!-- Nút ẩn Sidebar trên Mobile -->
+            <button onclick="toggleSidebar()" class="lg:hidden text-gray-400 hover:text-white">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+
+        <!-- Area chứa nội dung Sidebar -->
+        <div class="p-4">
+            <!-- Nút Đăng nhập (Mô hình) -->
+            <div class="flex flex-col gap-3 mb-6">
+                <button class="w-full bg-brand-600 hover:bg-brand-500 text-white font-medium py-2 px-4 rounded-lg shadow transition-colors flex items-center justify-center gap-2">
+                    <i class="bi bi-box-arrow-in-right text-xl"></i>
+                    <span>Đăng nhập</span>
+                </button>
+            </div>
+
+            <!-- Danh sách thư mục (Tree View) -->
+            <div class="space-y-1">
+                <!-- Item Thư mục Mẫu -->
+                <div class="flex items-center justify-between group cursor-pointer hover:bg-gray-800 transition-colors rounded-md px-2 py-2">
+                    <div class="flex items-center gap-2">
+                        <i class="bi bi-folder-fill text-brand-500 text-xl"></i>
+                        <span class="font-medium">Thư mục cá nhân</span>
+                    </div>
+                    <i class="bi bi-chevron-right text-xs"></i>
+                </div>
+
+                <!-- Item Thư mục Mẫu (Đang chọn) -->
+                <div class="flex items-center justify-between group cursor-pointer bg-gray-800 rounded-md px-2 py-2 border border-gray-700 text-slate-100">
+                    <div class="flex items-center gap-2">
+                        <i class="bi bi-folder-fill text-yellow-500 text-xl"></i>
+                        <span class="font-medium">Thư viện ảnh</span>
+                    </div>
+                    <i class="bi bi-chevron-right text-xs text-gray-500"></i>
+                </div>
+
+                <!-- Item Thư mục Mẫu -->
+                <div class="flex items-center justify-between group cursor-pointer hover:bg-gray-800 transition-colors rounded-md px-2 py-2">
+                    <div class="flex items-center gap-2">
+                        <i class="bi bi-folder-fill text-brand-500 text-xl"></i>
+                        <span class="font-medium">Thư mục công việc</span>
+                    </div>
+                    <i class="bi bi-chevron-right text-xs"></i>
+                </div>
+            </div>
+
+            <!-- Phần Thao tác (Actions) -->
+            <div class="mt-6 pt-6 border-t border-gray-800">
+                <h3 class="text-xs font-semibold text-gray-500 uppercase mb-3">Thao tác nhanh</h3>
+                <button class="w-full text-left px-2 py-1.5 rounded text-sm hover:bg-gray-800 flex items-center gap-2">
+                    <i class="bi bi-folder-plus text-brand-500"></i> Tạo thư mục mới
+                </button>
+                <button class="w-full text-left px-2 py-1.5 rounded text-sm hover:bg-gray-800 flex items-center gap-2">
+                    <i class="bi bi-arrow-up-circle text-brand-500"></i> Tải file lên
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- =========================================
+         MAIN CONTENT (NỘI DUNG CHÍNH)
+    ========================================== -->
+    <div class="lg:ml-64 min-h-screen">
+        <!-- Top Bar (Header) -->
+        <header class="sticky top-0 z-30 flex items-center justify-between px-6 py-3 bg-white border-b border-gray-200 text-sm">
+            <div class="flex items-center gap-3 overflow-x-auto w-full max-w-full no-scrollbar">
+                <!-- Breadcrumbs (Điều hướng) -->
+                <div class="flex items-center text-slate-600">
+                    <i class="bi bi-house-door text-lg text-slate-400 hover:text-slate-800 cursor-pointer"></i>
+                    <i class="bi bi-chevron-right text-xs mx-1 text-slate-400"></i>
+                    <span class="text-slate-800 font-medium hover:text-slate-900 cursor-pointer">Thư viện ảnh</span>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex items-center gap-3">
+                <button class="px-4 py-2 border border-gray-300 rounded-lg text-slate-600 bg-white hover:bg-gray-50 flex items-center gap-2">
+                    <i class="bi bi-person-fill"></i>
+                    <span class="hidden sm:inline">Tài khoản</span>
+                </button>
+                <button class="px-4 py-2 border border-gray-300 rounded-lg text-slate-600 bg-white hover:bg-gray-50 flex items-center gap-2">
+                    <i class="bi bi-grid-gap"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Content Area: File List -->
+        <main class="p-6">
+            <div class="mb-4">
+                <h1 class="text-xl font-semibold text-slate-900">Thư viện ảnh</h1>
+                <p class="text-sm text-slate-500">Đã tải lên hôm nay, 7:41 PM</p>
+            </div>
+
+            <!-- Empty State (Mô hình khi không có file) -->
+            <div id="empty-state" class="border-2 border-dashed border-gray-300 rounded-lg p-8 flex flex-col items-center justify-center text-center bg-gray-50">
+                <img src="https://cdn-icons-png.flaticon.com/512/3375/3375069.png" alt="Empty Folder" class="w-16 h-16 mb-4 opacity-70">
+                <h3 class="text-lg font-medium text-slate-800">Không có file nào trong thư mục này</h3>
+                <p class="text-slate-500 text-sm mb-4">Tải các file lên hoặc tạo thư mục mới để bắt đầu.</p>
+                <button class="bg-brand-600 text-white px-4 py-2 rounded-lg hover:bg-brand-700 transition-colors">
+                    Tạo thư mục mới
+                </button>
+            </div>
+
+            <!-- File Grid (Hiển thị file thật) -->
+            <div id="file-grid" class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-4 hidden">
+                <!-- File Item 1: Image -->
+                <div class="aspect-square bg-gray-50 rounded hover:shadow-lg transition-all group cursor-pointer relative">
+                    <img src="https://picsum.photos/seed/img1/200/200" alt="Thumbnail" class="w-full h-full object-cover rounded-lg">
+                    <!-- Overlay khi hover -->
+                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors rounded-lg"></div>
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 flex items-center justify-center">
+                        <i class="bi bi-grid-3x3 text-white/50 hover:text-white text-2xl"></i>
+                    </div>
+                </div>
+
+                <!-- File Item 2: Image -->
+                <div class="aspect-square bg-gray-50 rounded hover:shadow-lg transition-all group cursor-pointer relative">
+                    <img src="https://picsum.photos/seed/img2/200/200" alt="Thumbnail" class="w-full h-full object-cover rounded-lg">
+                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors rounded-lg"></div>
+                     <div class="absolute inset-0 opacity-0 group-hover:opacity-100 flex items-center justify-center">
+                        <i class="bi bi-grid-3x3 text-white/50 hover:text-white text-2xl"></i>
+                    </div>
+                </div>
+
+                 <!-- File Item 3: Image -->
+                 <div class="aspect-square bg-gray-50 rounded hover:shadow-lg transition-all group cursor-pointer relative">
+                    <img src="https://picsum.photos/seed/img3/200/200" alt="Thumbnail" class="w-full h-full object-cover rounded-lg">
+                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors rounded-lg"></div>
+                     <div class="absolute inset-0 opacity-0 group-hover:opacity-100 flex items-center justify-center">
+                        <i class="bi bi-grid-3x3 text-white/50 hover:text-white text-2xl"></i>
+                    </div>
+                </div>
+
+                 <!-- File Item 4: Image -->
+                 <div class="aspect-square bg-gray-50 rounded hover:shadow-lg transition-all group cursor-pointer relative">
+                    <img src="https://picsum.photos/seed/img4/200/200" alt="Thumbnail" class="w-full h-full object-cover rounded-lg">
+                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors rounded-lg"></div>
+                     <div class="absolute inset-0 opacity-0 group-hover:opacity-100 flex items-center justify-center">
+                        <i class="bi bi-grid-3x3 text-white/50 hover:text-white text-2xl"></i>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Script để xử lý UI (Toggle Sidebar) -->
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('main-content'); // Giả định có id này nếu cần logic chuyển đổi
+            
+            // Ở đây đơn giản là toggle class để ẩn hiện sidebar
+            // Trong thực tế Nuxt ta sẽ dùng NuxtData hoặc Composables để quản lý state
+            sidebar.classList.toggle('hidden-sidebar'); 
+            // Logic mobile view: nếu sidebar ẩn, ta có thể thêm class translate-x-0, v.v.
+            
+            // Đối với layout hiện tại, ta sẽ dùng flex logic đơn giản
+            if(sidebar.style.display === 'none') {
+                sidebar.style.display = 'block';
+            } else {
+                sidebar.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
