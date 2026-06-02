@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- 
+        PHÂN TÍCH: Đây là tài liệu hướng dẫn sử dụng Tailwind CSS v4.
+        Nếu bạn muốn dùng đúng CDN thì link theo hướng dẫn trên bài viết.
+        
+        Hướng dẫn tải Tailwind CDN: https://tailwindcss.com/docs/getting-started/installation/
+    -->
+    <title>Miễn phí File Server - Prototype</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Vietnamese:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Custom Configuration Style (Để thiết lập color theme riêng nếu cần) -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: '#ffffff',
+                        dark: '#f3f3f3' // Màu nền tối nhẹ cho dashboard
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Thêm các style đặc biệt tùy chỉnh */
+        .navbar-brand {
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary-custom {
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-900 antialiased selection:bg-indigo-100 selection:text-indigo-900 font-sans">
+
+    <!-- ================= NAVBAR ================= -->
+    <!-- Sử dụng Tailwind config để set màu theme riêng -->
+    <nav class="fixed w-full z-50 bg-white border-b border-gray-200 shadow-sm top-0">
+        <div class="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+
+            <!-- Logo & Branding -->
+            <a href="#" class="flex-shrink-0">
+                <span class="text-xl md:text-2xl font-bold tracking-tight">Cloud<span
+                        class="font-light opacity-70">Files</span></span>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-8">
+                <a href="#folders" class="hover:text-red-600 transition-colors font-medium">Các thư mục</a>
+                <a href="#search" class="hover:text-blue-600 transition-colors font-medium">Tìm kiếm</a>
+                <a href="#settings" class="hover:text-purple-600 transition-colors font-medium">Quản lý</a>
+            </div>
+
+            <!-- Mobile Toggle & User Profile -->
+            <button class="md:hidden p-2 text-gray-600 focus:outline-none" aria-label="Menu">
+                <i class="bi bi-list"></i>
+            </button>
+
+            <!-- Hamburger Icon (Mobile) -->
+            <div class="-mr-2 relative inline-block cursor-pointer" @click="showMore = !showMore;">
+                <i
+                    class="bi bi-chevron-down absolute right-full left-[-30px] group-hover:block rounded-full outline-none bg-transparent"></i>
+                <span class="absolute top-0 -ml-2 block h-4 w-4 rotate-45 border-r border-l border-current"></span>
+
+                <!-- Avatar Placeholder -->
+                <img src="https://ui-avatars.com/api/?name=Admin&background=random" alt="Avatar"
+                    class="h-8 w-8 rounded-full ring-2 ring-brand dark:ring-indigo-900">
+            </div>
+        </div>
+
+        <!-- Dropdown Overlay for Desktop -->
+        <div x-show="!showMore"
+            class="bg-white border-y border-gray-200 fixed inset-y-0 right-0 w-64 transform translate-x-full transition-transform duration-300 ease-in-out z-50 hidden">
+            <ul role="navigation" class="py-1">
+                <li><a href="#" class="block py-3 px-6 text-sm font-semibold hover:bg-gray-50"><i
+                            class="bi bi-folder"></i> Thư mục</a></li>
+                <li><a href="#" class="block py-3 px-6 text-sm font-semibold hover:bg-gray-50"><i
+                            class="bi bi-search"></i> Tìm kiếm</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ================= MAIN CONTENT AREA ================= -->
+
+    <!-- 1. CONTAINER PAGE (Home View) -->
+    <main id="content-container" class="pt-[70px] pb-20 max-w-[1920px] mx-auto animate-fadeIn">
+        <header class="mb-10 flex items-center justify-between">
+            <div>
+                <p class="text-xs font-bold tracking-wide uppercase opacity-60 mb-1">Tổng quan dữ liệu</p>
+                <h1 class="text-3xl md:text-4xl font-extrabold leading-tight tracking-tight">
+                    Bạn đang ở đâu? <br>
+                    <span class="text-red-500">Tìm thấy được.</span>
+                </h1>
+                <p class="mt-2 text-lg text-gray-500">
+                    Quản lý tập hợp lớn với khả năng lưu trữ trên đám mây & tìm kiếm nhanh chóng
+                </p>
+            </div>
+
+            <!-- Search Bar Custom Tailwind -->
+            <form @submit.prevent="performSearch()"
+                class="relative group block focus-within:scale-105 transition-shadow">
+                <input type="search" name="q" placeholder="Nhập tên thư mục hoặc tìm kiếm file..."
+                    class="w-full h-12 pl-10 pr-4 bg-white border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 outline-none text-sm placeholder-gray-400 sm:max-w-xl min-h-[48px]"
+                    aria-label="Chức năng tìm kiếm">
+                <button type="submit"
+                    class="absolute right-2 top-2 bottom-2 w-8 h-8 bg-brand dark:bg-black text-white rounded-full flex items-center justify-center hover:bg-opacity-80 transition-colors shadow-sm z-10">
+                    <i class="bi bi-search"></i>
+                </button>
+            </form>
+        </header>
+
+        <!-- Grid Container for Files/Folders -->
+        <div x-data="{ activeFolder: null }">
+
+            <!-- Folder List Card (Desktop/Table style) -->
+            <div x-show="activeFolder === 'folders'"
+                class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:col-span-2 fade-in-bottom">
+
+                <!-- Card 1: Home Folder -->
+                <a href="#"
+                    class="flex items-start p-4 rounded-xl hover:bg-blue-50 dark:hover:bg-slate-700/20 transition-all cursor-pointer group border-l-4 border-indigo-500">
+                    <img src="https://ui-avatars.com/api/?name=Home&background=random" alt=""
+                        class="hidden md:block w-16 h-16 rounded-lg mr-4 object-contain">
+                    <div class="min-w-0">
+                        <h4 class="font-bold text-base truncate">Thư mục chủ</h4>
+                        <p class="text-xs text-gray-500 mt-1">Linh hoạt, linh hoạt và có thể mở rộng.</p>
+                    </div>
+                </a>
+
+                <!-- Card 2: Documents -->
+                <a href="#"
+                    class="flex items-start p-4 rounded-xl hover:bg-orange-50 dark:hover:bg-slate-700/20 transition-all cursor-pointer group border-l-4 border-pink-500">
+                    <span
+                        class="bg-orange-100 text-orange-700 px-2 py-1 rounded text-xs font-semibold inline-block mb-2 hidden sm:inline-block">📁</span>
+                    <div class="min-w-0">
+                        <h4 class="font-bold text-base truncate">Hoàn thiện dự án</h4>
+                        <p class="text-xs text-gray-500 mt-1">Sắp xếp file theo tiêu đề.</p>
+                    </div>
+                </a>
+
+                <!-- Card 3: Projects -->
+                <a href="#"
+                    class="flex items-start p-4 rounded-xl hover:bg-purple-50 dark:hover:bg-slate-700/20 transition-all cursor-pointer group border-l-4 border-violet-500">
+                    <span
+                        class="bg-purple-100 text-purple-700 px-2 py-1 rounded text-xs font-semibold inline-block mb-2 hidden sm:inline-block">⚙️</span>
+                    <div class="min-w-0">
+                        <h4 class="font-bold text-base truncate">Khác biệt</h4>
+                        <p class="text-xs text-gray-500 mt-1">Quản lý các tính năng riêng tư của bạn.</p>
+                    </div>
+                </a>
+
+            </div>
+
+            <!-- File List Grid (Mobile/Table style) -->
+            <x-data x-bind:key="id" data-key="files-list-id" :class="{ 'dark': activeFolder === 'folders' }">
+
+                <!-- Mobile Only View -->
+                <div x-show="activeFolder === 'folders'" class="grid grid-cols-[auto_1fr_auto] gap-8 fade-in-bottom">
+
+                    <!-- Folder Item -->
+                    <a href="#folders"
+                        class="group relative flex flex-col justify-between bg-white dark:bg-dark shadow-sm hover:-translate-y-1 transition-transform duration-150 border-b border-transparent focus-within:border-indigo-300">
+                        <img src="https://ui-avatars.com/api/?name=Home&background=random" alt=""
+                            class="w-full h-32 object-contain mb-6">
+
+                        <div>
+                            <h3 class="font-medium text-lg leading-tight mb-1">Thư mục chủ</h3>
+                            <p class="text-sm opacity-90 line-through mb-3">Tổng cộng có từ hơn 50MB</p>
+
+                            <!-- Stats Widget for this folder -->
+                            <div class="flex space-x-4 text-sm">
+                                <div><span class="block text-green-600 font-bold"><i
+                                            class="bi bi-speedometer-fill"></i></span> 1.2 TB lưu trữ</div>
+                                <div><span class="block text-yellow-600 font-bold"><i
+                                            class="bi bi-shield-check"></i></span> 20% bảo mật</div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Empty State Message -->
+                    <div x-text="'Không có thư mục nào ở đây.'"></div>
+                </div>
+
+                <!-- Desktop List View -->
+                <div x-show="activeFolder !== 'folders'"
+                    class="hidden md:flex items-center space-x-4 overflow-auto py-4 pb-20 pr-12 pt-6 border-t">
+                    <!-- Placeholder Files -->
+                    <div
+                        class="border rounded-lg p-4 min-w-max cursor-pointer hover:shadow-md transition-all group w-full aspect-square">
+                        <div
+                            class="aspect-video bg-gray-200 dark:bg-slate-700 rounded-lg flex items-center justify-center text-gray-400">
+                            <i class="bi fa-file-plus text-xl"></i>
+                        </div>
+                    </div>
+
+                    <button @click="activeFolder = 'files-list-id'" ;
+                        class="bg-brand dark:bg-black text-white px-4 py-2 rounded-lg text-sm uppercase tracking-wide font-semibold shadow-sm hover:bg-opacity-90 transition-colors ml-[-10px]">
+                        → Xem danh sách tất cả
+                    </button>
+
+                    <x-data :key="id" data-key="folder-list-item" :class="{ 'dark': activeFolder === 'folders' }"
+                        class="ml-auto max-w-[280px] px-1 py-2 rounded-lg">
+                        <ul>
+                            <li
+                                class="py-2 pl-4 border-b border-dashed border-gray-300 mx-auto h-[calc(20%-1em)] last:border-0">
+                                <input type="checkbox" name="" id="all-files" checked@default value="true"
+                                    class="peer sr-only appearance-none">
+                                <label for="all-files"
+                                    class="text-base leading-normal peer-checked:text-red-500 peer-focus:text-indigo-500 peer-focus:absolute peer-focus:left-4 top-2.5 bottom-2 right-0 w-full z-10 bg-transparent/0 outline-none ring-offset-1 ring-inset ring-white/0 peer-checked:bg-orange-600/60 peer-checked:h-8 peak-transition"></label>
+                            </li>
+
+                            <li
+                                class="py-2 pl-4 border-b border-dashed border-gray-300 mx-auto h-[calc(20%-1em)] last:border-0">
+                                <input type="checkbox" name="" id="documents" checked@default value="false"
+                                    class="peer sr-only appearance-none">
+                                <label for="documents"
+                                    class="text-base leading-normal peer-checked:text-blue-500 peer-focus:text-violet-500 peer-focus:absolute peer-focus:left-4 top-2.5 bottom-0 sm:w-32"></label>
+                            </li>
+
+                            <li class="py-2 pr-4"><span
+                                    class="mr-2 inline-block w-2 h-2 rounded-full bg-gray-300 mr-1"></span>
+                                <h4 class="font-bold text-sm mb-1 truncate">Hoàn thiện dự án</h4>
+                            </li>
+
+                            <!-- Additional items can be inserted here -->
+                            <div x-text="'... và nhiều file khác...'"></div>
+                        </ul>
+                    </x-data>
+                </div>
+
+            </x-data>
+    </main>
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="bg-slate-900 text-white pt-12 pb-8 mt-10">
+        <div class="max-w-[1920px] mx-auto px-4 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+
+            <!-- Brand Info -->
+            <div class="col-span-1 md:col-span-1">
+                <a href="#" class="flex items-center space-x-2 mb-4 block">
+                    <i class="bi bi-cloud-arrow-up text-2xl opacity-70"></i>
+                    <span class="text-xl font-extrabold tracking-tight">&lt;Cloud<span
+                            class="font-light opacity-70">Files</span>&gt;</span>
+                </a>
+                <p class="text-xs text-slate-400 max-w-md">
+                    Cung cấp công cụ quản lý tập hợp lớn, tối ưu cho các hệ sinh thái đám mây. Nhanh chóng, dễ dàng,
+                    miễn phí.
+                </p>
+            </div>
+
+            <!-- Links -->
+            <div>
+                <h3 class="text-lg font-semibold mb-4 uppercase tracking-wide text-white/80">Danh mục</h3>
+                <ul class="space-y-2">
+                    <li><a href="#folders"
+                            class="hover:text-indigo-400 transition-colors flex items-center group cursor-pointer">📁
+                            Thư mục</a></li>
+                    <li><a href="#search"
+                            class="hover:text-blue-400 transition-colors flex items-center group cursor-pointer">🔍 Tìm
+                            kiếm</a></li>
+                    <li><a href="#">💾 Lưu trữ trên đám mây</a></li>
+                </ul>
+            </div>
+
+            <!-- Features (Optional) -->
+            <div class="col-span-1 md:col-span-1 border-t border-slate-700 pt-6 hidden sm:block">
+                <h3 class="text-base font-bold leading-7 uppercase text-gray-500 mb-4">Xin vui lòng xem thêm:</h3>
+                <ul class="list-disc list-inside text-sm space-y-2">
+                    <li>Sản phẩm thử nghiệm</li>
+                    <li>Cài đặt tùy chọn (Customize)</li>
+                    <li>Giao diện đẹp mắt & Responsive</li>
+                    <li>Hỗ trợ nhân viên 24/7</li>
+                </ul>
+            </div>
+        </div>
+
+        <div
+            class="max-w-[1920px] mx-auto px-4 lg:px-8 mt-12 py-6 bg-slate-900 rounded-lg border border-slate-800 shadow-inner">
+            <p class="text-center text-slate-500 text-xs">© 2023 Cloud Files Project - Prototype Demo.</p>
+        </div>
+    </footer>
+
+
+    <!-- ================= BOOTSTRAP JS LIBRARY (Imported from CDN) ================= -->
+
+    <!-- Tailwind CSS v4 via CDN Script Block -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Custom Config Injection for Brand Colors
+        tail.config = { theme: {}, extend: {} }
+    </script>
+
+    <!-- Bootstrap Icons Import -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <!-- Nuxt V4 Router Logic (Placeholder to simulate routing logic without full build env) -->
+    <script type="module">
+        import { createApp, ref, onMounted } from 'nuxt/app'
+
+        const app = createApp({
+            setup() {
+
+                const activeFolder = ref('folders')
+                const showMoreRef = ref(false)
+
+                return () => app.mount('#content-container')
+            },
+            mounted() {
+                // Simulate route loading
+                console.log(`Route loaded: ${activeFolder.value}`);
+            },
+            async beforeMount() {
+                await this.$nextTick(() => {
+                    if (this.activeFolder === 'files-list-id') this.renderFilesList();
+
+                    // Auto scroll to bottom when new folder appears
+                    window.scrollTo(0, document.body.scrollHeight);
+                });
+            }
+        })
+
+        onMounted(async () => {
+            try {
+                await app.beforeMount()
+
+                // Simulate fetching data from backend API
+                await fetch('/api/files', { method: 'GET' }).then(res => res.json()).then(files => {
+                    activeFolder.value = files[0].key || 'default-folder';
+                    renderFilesList(files.length > 0 ? files[0].data : null);
+                });
+            } catch (err) {
+                console.error("Error loading files:", err);
+            }
+        })
+    </script>
+</body>
+
+</html>
