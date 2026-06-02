@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cloud Drive - Home</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Drive Clone Prototype - Dashboard</title>
+    <!-- Link Tailwind CSS (Sử dụng CDN cho prototype nhanh) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom configuration for Tailwind (Optional: Define custom colors or fonts) */
+        :root {
+            --primary-color: #1a73e8; /* Google Blue */
+        }
+        /* Custom scrollbar for a cleaner look */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #ccc;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex">
+
+    <!-- 1. Sidebar Navigation (Thanh điều hướng bên trái) -->
+    <aside class="w-64 bg-white shadow-lg p-4 flex flex-col">
+        
+        <!-- Logo/App Name -->
+        <div class="text-2xl font-bold text-blue-600 mb-8 border-b pb-4">
+            DriveClone
+        </div>
+
+        <!-- Navigation Links -->
+        <nav class="flex-grow">
+            <a href="#" class="flex items-center p-3 text-sm font-medium text-white bg-blue-500 rounded-lg mb-2 transition duration-150">
+                <!-- Icon Placeholder -->
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                My Drive
+            </a>
+            <a href="#" class="flex items-center p-3 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-lg mb-2 transition duration-150">
+                <!-- Icon Placeholder -->
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>
+                Shared with me
+            </a>
+            <a href="#" class="flex items-center p-3 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-lg mb-2 transition duration-150">
+                <!-- Icon Placeholder -->
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                Starred
+            </a>
+        </nav>
+
+        <!-- Footer/User Profile -->
+        <div class="mt-auto pt-4 border-t">
+            <div class="flex items-center p-2 hover:bg-gray-100 rounded-lg cursor-pointer">
+                <img class="w-8 h-8 rounded-full mr-3" src="https://via.placeholder.com/150/1a73e8/ffffff?text=U" alt="User Avatar">
+                <span class="text-sm font-medium text-gray-800">User Name</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- 2. Main Content Area -->
+    <main class="flex-grow flex flex-col overflow-hidden">
+        
+        <!-- Top Header/Toolbar -->
+        <header class="bg-white shadow-md p-4 flex justify-between items-center z-10">
+            <div class="flex items-center">
+                <div class="text-xl font-semibold text-gray-800">My Drive</div>
+                <span class="ml-4 text-sm text-gray-500">Welcome back!</span>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="flex space-x-3">
+                <button class="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm hover:bg-gray-50 transition duration-150 flex items-center">
+                    <!-- Upload Icon -->
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                    New File
+                </button>
+                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition duration-150 flex items-center">
+                    <!-- New Folder Icon -->
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    New Folder
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <div class="flex-grow p-6 overflow-y-auto">
+            <h1 class="text-3xl font-bold text-gray-800 mb-6">My Drive</h1>
+
+            <!-- Folder/File List Container -->
+            <div class="space-y-4">
+                
+                <!-- Folder Card 1 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-200 border border-gray-200">
+                    <div class="flex items-center p-4 cursor-pointer">
+                        <!-- Folder Icon -->
+                        <div class="w-10 h-10 bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center mr-4">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>
+                        </div>
+                        <div class="flex-grow">
+                            <p class="font-semibold text-gray-800 truncate">Project Alpha Files</p>
+                            <p class="text-sm text-gray-500">12 files, 3 folders</p>
+                        </div>
+                        <span class="text-gray-400">2023-10-25</span>
+                    </div>
+                </div>
+
+                <!-- Folder Card 2 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-200 border border-gray-200">
+                    <div class="flex items-center p-4 cursor-pointer">
+                        <!-- Folder Icon -->
+                        <div class="w-10 h-10 bg-green-100 text-green-600 rounded-full flex items-center justify-center mr-4">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>
+                        </div>
+                        <div class="flex-grow">
+                            <p class="font-semibold text-gray-800 truncate">Marketing Assets</p>
+                            <p class="text-sm text-gray-500">5 files, 1 folder</p>
+                        </div>
+                        <span class="text-gray-400">2023-11-01</span>
+                    </div>
+                </div>
+
+                <!-- Folder Card 3 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-200 border border-gray-200">
+                    <div class="flex items-center p-4 cursor-pointer">
+                        <!-- Folder Icon -->
+                        <div class="w-10 h-10 bg-red-100 text-red-600 rounded-full flex items-center justify-center mr-4">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>
+                        </div>
+                        <div class="flex-grow">
+                            <p class="font-semibold text-gray-800 truncate">Personal Documents</p>
+                            <p class="text-sm text-gray-500">25 files</p>
+                        </div>
+                        <span class="text-gray-400">2024-01-15</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>

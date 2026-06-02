@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudDrive - Home</title>
+    
+    <!-- Link Tailwind CSS (Thay thế bằng cách import trong Nuxt/Vite) -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    
+    <!-- Link Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Custom Tailwind Configuration (Optional: Define custom colors if needed) -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-blue': '#3b82f6', // Blue for primary actions
+                        'bg-light': '#f4f7f9',    // Light background
+                        'sidebar-bg': '#ffffff', // White for sidebar
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-bg-light min-h-screen flex">
+
+    <!-- 1. Sidebar Navigation (Fixed on Desktop, Collapsible on Mobile) -->
+    <aside class="w-64 bg-sidebar-bg shadow-xl p-4 flex flex-col fixed h-full z-20 lg:relative lg:translate-x-0 transition-transform duration-300 ease-in-out">
+        
+        <!-- Logo/App Name -->
+        <div class="text-2xl font-bold text-primary-blue mb-8 flex items-center">
+            <i class="bi bi-hdd-stack mr-2"></i> CloudDrive
+        </div>
+
+        <!-- Navigation Links -->
+        <nav class="space-y-2 flex-grow">
+            <a href="#" class="flex items-center p-3 rounded-lg bg-primary-blue text-white font-semibold shadow-md hover:bg-blue-700 transition duration-150">
+                <i class="bi bi-folder-fill mr-3"></i> My Files
+            </a>
+            <a href="#" class="flex items-center p-3 rounded-lg text-gray-600 hover:bg-gray-100 transition duration-150">
+                <i class="bi bi-folder mr-3"></i> Shared Drives
+            </a>
+            <a href="#" class="flex items-center p-3 rounded-lg text-gray-600 hover:bg-gray-100 transition duration-150">
+                <i class="bi bi-file-earmark-arrow-up mr-3"></i> Upload
+            </a>
+            <div class="border-t border-gray-200 my-4 pt-4">
+                <p class="text-xs text-gray-500 mb-2 uppercase tracking-wider">Quick Access</p>
+                <a href="#" class="flex items-center p-3 rounded-lg text-gray-600 hover:bg-gray-100 transition duration-150">
+                    <i class="bi bi-file-earmark-pdf mr-3"></i> PDF Documents
+                </a>
+                <a href="#" class="flex items-center p-3 rounded-lg text-gray-600 hover:bg-gray-100 transition duration-150">
+                    <i class="bi bi-file-earmark-image mr-3"></i> Photos
+                </a>
+                <a href="#" class="flex items-center p-3 rounded-lg text-gray-600 hover:bg-gray-100 transition duration-150">
+                    <i class="bi bi-file-earmark-code mr-3"></i> Code Projects
+                </a>
+            </div>
+        </nav>
+
+        <!-- User Profile/Settings -->
+        <div class="mt-auto pt-4 border-t border-gray-200">
+            <div class="flex items-center p-3 rounded-lg hover:bg-gray-100 cursor-pointer">
+                <img class="w-10 h-10 rounded-full object-cover mr-3" src="https://via.placeholder.com/150/3b82f6/ffffff?text=U" alt="User Avatar">
+                <div>
+                    <p class="font-semibold text-gray-800">John Doe</p>
+                    <p class="text-sm text-gray-500">john.doe@example.com</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- 2. Main Content Area -->
+    <main class="flex-grow ml-64 p-4 lg:p-8">
+        
+        <!-- Header Bar -->
+        <header class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-extrabold text-gray-800">Welcome back, John!</h1>
+            <div class="flex items-center space-x-4">
+                <!-- Search Bar -->
+                <div class="relative hidden sm:block">
+                    <input type="text" placeholder="Search files and folders..." class="w-80 py-2 pl-10 pr-4 border border-gray-300 rounded-full focus:ring-primary-blue focus:border-primary-blue transition duration-150">
+                    <i class="bi bi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                </div>
+                
+                <!-- Notification/Settings -->
+                <button class="p-2 rounded-full text-gray-500 hover:bg-gray-100 transition duration-150">
+                    <i class="bi bi-bell text-xl"></i>
+                </button>
+                <button class="p-2 rounded-full text-gray-500 hover:bg-gray-100 transition duration-150">
+                    <i class="bi bi-gear text-xl"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Column 1: Upload & Quick Actions (2/3 width on large screens) -->
+            <div class="lg:col-span-2 space-y-6">
+                
+                <!-- Upload Card -->
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="bi bi-cloud-upload-fill text-primary-blue mr-3"></i> Upload New File
+                    </h2>
+                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-10 text-center cursor-pointer hover:border-primary-blue transition duration-200">
+                        <i class="bi bi-cloud-upload text-6xl text-gray-400 mb-3"></i>
+                        <p class="text-gray-600 font-medium">Drag and drop files here, or click to browse.</p>
+                        <p class="text-sm text-gray-400 mt-1">Supports JPG, PDF, DOCX, ZIP, and more.</p>
+                        <input type="file" id="file-upload" class="hidden">
+                    </div>
+                </div>
+
+                <!-- Recent Activity Card -->
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="bi bi-clock-fill text-yellow-500 mr-3"></i> Recent Activity
+                    </h2>
+                    <ul class="space-y-3">
+                        <li class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition duration-150">
+                            <div class="flex items-center">
+                                <i class="bi bi-file-earmark-pdf text-red-500 mr-3"></i>
+                                <div>
+                                    <p class="font-medium text-gray-800">Quarterly Report Q3.pdf</p>
+                                    <p class="text-sm text-gray-500">Uploaded by Admin 2 hours ago</p>
+                                </div>
+                            </div>
+                            <span class="text-xs text-gray-400">1.2 MB</span>
+                        </li>
+                        <li class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition duration-150">
+                            <div class="flex items-center">
+                                <i class="bi bi-file-earmark-image text-green-500 mr-3"></i>
+                                <div>
+                                    <p class="font-medium text-gray-800">Vacation Photos 2024</p>
+                                    <p class="text-sm text-gray-500">Uploaded by John Doe 1 day ago</p>
+                                </div>
+                            </div>
+                            <span class="text-xs text-gray-400">45 MB</span>
+                        </li>
+                        <li class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition duration-150">
+                            <div class="flex items-center">
+                                <i class="bi bi-file-earmark-code text-purple-500 mr-3"></i>
+                                <div>
+                                    <p class="font-medium text-gray-800">Project Alpha Codebase</p>
+                                    <p class="text-sm text-gray-500">Modified by John Doe 3 days ago</p>
+                                </div>
+                            </div>
+                            <span class="text-xs text-gray-400">12 MB</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Column 2: Folder Structure (1/3 width on large screens) -->
+            <div class="lg:col-span-1">
+                <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                        <i class="bi bi-folder-open text-primary-blue mr-3"></i> My Folders
+                    </h2>
+                    
+                    <!-- Folder Tree View -->
+                    <div class="space-y-2">
+                        <!-- Folder 1 (Active) -->
+                        <div class="group">
+                            <a href="#" class="flex items-center p-3 rounded-lg bg-gray-50 text-gray-800 font-medium hover:bg-gray-100 transition duration-150">
+                                <i class="bi bi-folder-fill text-primary-blue mr-3"></i>
+                                Project Alpha
+                            </a>
+                            <ul class="ml-6 mt-1 space-y-1 hidden group-hover:block">
+                                <li class="text-sm text-gray-500 hover:text-primary-blue cursor-pointer">
+                                    <i class="bi bi-file-earmark-pdf mr-2"></i> Report Q1.pdf
+                                </li>
+                                <li class="text-sm text-gray-500 hover:text-primary-blue cursor-pointer">
+                                    <i class="bi bi-file-earmark-code mr-2"></i> Codebase v2.1
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Folder 2 -->
+                        <div class="group">
+                            <a href="#" class="flex items-center p-3 rounded-lg text-gray-600 hover:bg-gray-100 transition duration-150">
+                                <i class="bi bi-folder mr-3"></i> Personal Docs
+                            </a>
+                        </div>
+
+                        <!-- Folder 3 -->
+                        <div class="group">
+                            <a href="#" class="flex items-center p-3 rounded-lg text-gray-600 hover:bg-gray-100 transition duration-150">
+                                <i class="bi bi-folder mr-3"></i> Photos
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+</body>
+</html>
