@@ -1,7 +1,7 @@
 - Hãy mô tả chi tiết công việc và khả năng mà bạn có thể thực hiện
-- phân tích và mô tả yêu cầu chi tiết và lập kết hoạch rồi chia nhỏ thành các task nhỏ nhất (Task Breakdown và Atomic Task Breakdown) để xây dựng 1 dự án web quản lý các thư mục và tập tin trên cloud online giống như google driver. Chỉ sử dụng các công nghệ sau: html, tailwind css v4, nuxt v4 (vuejs), icons use bootstrap-icons. Tạo Cấu trúc thư mục (Project Architecture Nuxt 4 gồm app và server), Cấu trúc dữ liệu (Data Model) và danh sách task list chi tiết.
-- Code prototype page home by hml and tailwind css for this project, icons use bootstrap-icons, and do not use Javascript, SVG.
-- Code page login only use Html and Tailwind css v4, icons use bootstrap-icons, and do not use Javascript, SVG.
+- phân tích và mô tả yêu cầu chi tiết và lập kết hoạch rồi chia nhỏ thành các task nhỏ nhất (Task Breakdown và Atomic Task Breakdown) để xây dựng 1 dự án web quản lý các thư mục và tập tin trên cloud online giống như google driver. Chỉ sử dụng các công nghệ sau: html, tailwind css v4, nuxt v4 (vuejs), icons use bootstrap-icons. Tạo Cấu trúc thư mục (Project Architecture Nuxt 4 gồm app và server), Cấu trúc dữ liệu (Data Model) và danh sách task list chi tiết
+- Code prototype page home by hml and tailwind css for this project, icons use bootstrap-icons, and do not use Javascript, SVG
+- Code page login only use Html and Tailwind css v4, icons use bootstrap-icons, and do not use Javascript, SVG
 
 # Qưen
 

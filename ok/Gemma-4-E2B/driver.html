@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudDrive Prototype - Dashboard</title>
+    <!-- Liên kết đến Tailwind CSS v4 (Trong môi trường thực tế, bạn sẽ build file CSS) -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Cấu hình Tailwind để sử dụng Bootstrap Icons -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-blue': '#1a73e8', // Màu xanh đặc trưng của Google/Drive
+                        'sidebar-bg': '#f8f9fa',
+                        'card-bg': '#ffffff',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Link Bootstrap Icons CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body class="bg-gray-50 font-sans antialiased text-gray-800 min-h-screen flex">
+
+    <!-- 1. SIDEBAR NAVIGATION (Cố định bên trái) -->
+    <aside class="w-64 bg-white shadow-xl p-4 border-r border-gray-200 hidden md:block sticky top-0 h-screen">
+        <div class="text-2xl font-bold text-primary-blue mb-8 flex items-center">
+            <i class="bi bi-hdd-stack mr-2 text-primary-blue"></i> CloudDrive
+        </div>
+
+        <!-- Navigation Links -->
+        <nav>
+            <ul class="space-y-2">
+                <li>
+                    <a href="#" class="flex items-center p-3 rounded-lg bg-primary-blue/10 text-primary-blue font-semibold transition duration-150 hover:bg-primary-blue/20">
+                        <i class="bi bi-layout-text-sidebar mr-3"></i> Trang Chủ
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center p-3 rounded-lg text-gray-600 hover:bg-gray-100 transition duration-150">
+                        <i class="bi bi-folder mr-3"></i> Thư Mục Của Tôi
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center p-3 rounded-lg text-gray-600 hover:bg-gray-100 transition duration-150">
+                        <i class="bi bi-file-earmark-arrow-up mr-3"></i> Tệp Tin
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center p-3 rounded-lg text-gray-600 hover:bg-gray-100 transition duration-150">
+                        <i class="bi bi-gear mr-3"></i> Cài Đặt
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- User Profile Placeholder -->
+        <div class="absolute bottom-4 left-4 right-4 p-3 border-t pt-4 mt-4">
+             <div class="flex items-center space-x-3 p-2 bg-gray-50 rounded-lg">
+                 <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white font-bold">AN</div>
+                 <div>
+                     <p class="font-semibold text-sm">Admin User</p>
+                     <p class="text-xs text-gray-500">Đăng xuất</p>
+                 </div>
+             </div>
+        </div>
+    </aside>
+
+    <!-- 2. MAIN CONTENT AREA -->
+    <main class="flex-1 p-8 md:p-12 overflow-y-auto">
+
+        <!-- Top Bar / Header -->
+        <header class="mb-8 pb-4 border-b border-gray-200 sticky top-0 bg-gray-50 z-10">
+            <div class="flex justify-between items-center">
+                <h1 class="text-3xl font-extrabold text-gray-900">Chào mừng, Admin!</h1>
+                <div class="flex items-center space-x-4">
+                    <button class="px-4 py-2 bg-primary-blue text-white rounded-lg shadow-md hover:bg-blue-700 transition duration-200 text-sm">
+                        <i class="bi bi-plus-circle mr-1"></i> Tạo Thư Mục Mới
+                    </button>
+                    <button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-100 transition duration-200 text-sm">
+                        <i class="bi bi-bell"></i> Thông báo
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Column 1 & 2: Folder Structure (2/3 width on large screens) -->
+            <section class="lg:col-span-2 space-y-6">
+                
+                <!-- Folder Management Card -->
+                <div class="bg-card-bg p-6 rounded-xl shadow-lg border border-gray-100">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-bold text-gray-800 flex items-center">
+                            <i class="bi bi-folder-fill mr-2 text-yellow-500"></i> Cấu trúc Thư mục Hiện tại
+                        </h2>
+                        <button class="text-sm text-primary-blue hover:text-blue-700 font-medium">Xem Toàn Bộ</button>
+                    </div>
+
+                    <!-- Mock Tree View Container -->
+                    <div class="bg-gray-50 p-4 rounded-lg h-[60vh] overflow-y-auto border border-dashed border-gray-300">
+                        <p class="text-center text-gray-500 pt-10">
+                            [Mô phỏng Cây thư mục sẽ hiển thị ở đây...]
+                        </p>
+                         <!-- Ví dụ về một node giả lập -->
+                         <div class="p-3 mb-2 bg-white rounded-md shadow-sm cursor-pointer hover:bg-blue-50 transition border border-transparent">
+                             <div class="flex justify-between items-center">
+                                <span class="font-medium">Tài liệu Dự án Q3</span>
+                                <span class="text-xs text-gray-400">1.2 GB</span>
+                             </div>
+                         </div>
+                          <div class="p-3 mb-2 bg-white rounded-md shadow-sm cursor-pointer hover:bg-blue-50 transition border border-transparent">
+                             <div class="flex justify-between items-center">
+                                <span class="font-medium">Ảnh Cá nhân</span>
+                                <span class="text-xs text-gray-400">45 MB</span>
+                             </div>
+                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Column 3: Quick Actions / Recent Files (1/3 width on large screens) -->
+            <section class="lg:col-span-1 space-y-6">
+
+                <!-- File Upload Area Card -->
+                <div class="bg-card-bg p-6 rounded-xl shadow-lg border border-gray-100">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="bi bi-cloud-upload-fill mr-2 text-green-500"></i> Tải Tệp Lên
+                    </h2>
+                    
+                    <!-- Drag and Drop Zone Simulation -->
+                    <div id="drop-zone" class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer hover:border-primary-blue transition duration-200 bg-gray-50">
+                        <i class="bi bi-cloud-upload text-5xl text-gray-400 mb-3"></i>
+                        <p class="font-semibold text-gray-700 mb-1">Kéo và Thả tệp vào đây</p>
+                        <p class="text-sm text-gray-500 mb-3">Hoặc click để chọn tệp (.jpg, .pdf)</p>
+                        <input type="file" id="fileInput" class="hidden">
+                        <button class="px-6 py-2 bg-primary-blue text-white rounded-full hover:bg-blue-700 transition text-sm">Chọn Tệp</button>
+                    </div>
+                    <p class="text-xs text-red-500 mt-2 hidden" id="uploadError">Lỗi khi tải lên.</p>
+                </div>
+
+                <!-- Recent Activity Card -->
+                 <div class="bg-card-bg p-6 rounded-xl shadow-lg border border-gray-100">
+                     <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="bi bi-history mr-2 text-indigo-500"></i> Hoạt động Gần đây
+                    </h2>
+                    <ul class="space-y-3">
+                        <li class="flex justify-between items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
+                            <div>
+                                <p class="font-medium truncate">Báo cáo Tháng 1 (PDF)</p>
+                                <p class="text-xs text-gray-500">Vừa tải lên lúc 10:30 AM</p>
+                            </div>
+                             <span class="text-xs text-gray-400">1.2 GB</span>
+                        </li>
+                         <li class="flex justify-between items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
+                            <div>
+                                <p class="font-medium truncate">Thư mục mới: Kế hoạch Mới</p>
+                                <p class="text-xs text-gray-500">Đã tạo bởi bạn</p>
+                            </div>
+                             <span class="text-xs text-gray-400">Mới</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</body>
+</html>
