@@ -1,0 +1,25 @@
+{
+    "temperature": 0.7,
+    "max_tokens": 16384,
+    "agentId": "ba",
+    "agentVersions": {
+        "ui-block": "01",
+        "ba": "01"
+    },
+    "message": "Xây dựng hệ thống phê duyệt yêu cầu nghỉ phép cho nhân viên. Nhân viên gửi đơn, quản lý trực tiếp duyệt hoặc từ chối. Nếu quá 48h mà quản lý không phản hồi thì tự động đẩy lên cấp cao hơn. Phải có thông báo qua email và ứng dụng.",
+    "disableAI": false,
+    "log": true,
+    "mode": "dev",
+    "flowIds": [],
+    "projectId": "no",
+    "threadId": "no",
+    "index": 0,
+    "taskId": "260604090800-no-ba.0185cbf7f4a9e",
+    "status": "completed",
+    "createdAt": 260604090800,
+    "tools": [],
+    "model": "GLM-4.6V-Flash-UD.unsloth.Q5_K_XL",
+    "outputType": "text",
+    "stream": true,
+    "updatedAt": 260604094652
+}
