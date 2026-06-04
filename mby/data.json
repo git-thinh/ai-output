@@ -1,0 +1,252 @@
+{
+  "contentType": "categoryCardsModule",
+  "id": "b0cd3eab-5b15-4c32-beaf-653c0ac040b9",
+  "properties": {
+    "categoryCardsItems": {
+      "items": [
+        {
+          "content": {
+            "contentType": "categoryCardsModuleItem",
+            "id": "bb16d2d7-1b7e-4ce8-b720-5ab260ada32e",
+            "properties": {
+              "categoryCardsItemItemSize": "Large",
+              "categoryCardsItemTitle": "Trousers",
+              "categoryCardsItemSubtitle": null,
+              "categoryCardsItemImage": [
+                {
+                  "focalPoint": null,
+                  "crops": [],
+                  "id": "d4f16d45-63e9-4e7c-bf1c-f3d6b5d0f1e8",
+                  "name": "cdff770acb8945a467bacb7124d2649df1facd22.jpg",
+                  "mediaType": "Image",
+                  "url": "/media/zktloyua/cdff770acb8945a467bacb7124d2649df1facd22.jpg",
+                  "extension": "jpg",
+                  "width": 2731,
+                  "height": 4096,
+                  "bytes": 9000996,
+                  "properties": {}
+                }
+              ],
+              "link": [
+                {
+                  "url": null,
+                  "queryString": null,
+                  "title": "MASCOT SmartStore ©",
+                  "target": null,
+                  "destinationId": "a000e12f-d0f6-4060-acfe-7e7755c0e972",
+                  "destinationType": "contentPage",
+                  "route": {
+                    "path": "/services/mascot-smartstore/",
+                    "queryString": null,
+                    "startItem": {
+                      "id": "aed77de5-0e0d-4350-be60-ff0d9b87f141",
+                      "path": "m-by-mascot-website"
+                    }
+                  },
+                  "linkType": "Content"
+                }
+              ]
+            }
+          },
+          "settings": null
+        },
+        {
+          "content": {
+            "contentType": "categoryCardsModuleItem",
+            "id": "8159758d-c95b-476b-b348-5131db38cdc9",
+            "properties": {
+              "categoryCardsItemItemSize": "Large",
+              "categoryCardsItemTitle": "Jackets",
+              "categoryCardsItemSubtitle": "This is a subtitle",
+              "categoryCardsItemImage": [
+                {
+                  "focalPoint": {
+                    "left": 0.47842401500938087,
+                    "top": 0.4425
+                  },
+                  "crops": [],
+                  "id": "034dc7f7-ec42-4f8f-922b-b964dea53435",
+                  "name": "42a033407921fb71df27c53279bb742f6974c954.jpg",
+                  "mediaType": "Image",
+                  "url": "/media/pagbxnjl/42a033407921fb71df27c53279bb742f6974c954.jpg",
+                  "extension": "jpg",
+                  "width": 533,
+                  "height": 800,
+                  "bytes": 63751,
+                  "properties": {}
+                }
+              ],
+              "link": [
+                {
+                  "url": null,
+                  "queryString": null,
+                  "title": "MASCOT LogoService",
+                  "target": null,
+                  "destinationId": "198e5dc6-b838-414e-8d06-14adcc601ba2",
+                  "destinationType": "contentPage",
+                  "route": {
+                    "path": "/services/mascot-logoservice/",
+                    "queryString": null,
+                    "startItem": {
+                      "id": "aed77de5-0e0d-4350-be60-ff0d9b87f141",
+                      "path": "m-by-mascot-website"
+                    }
+                  },
+                  "linkType": "Content"
+                }
+              ]
+            }
+          },
+          "settings": null
+        },
+        {
+          "content": {
+            "contentType": "categoryCardsModuleItem",
+            "id": "5fb29839-af88-4d3c-b85b-166be3af36a2",
+            "properties": {
+              "categoryCardsItemItemSize": "Large",
+              "categoryCardsItemTitle": "Footwear",
+              "categoryCardsItemSubtitle": null,
+              "categoryCardsItemImage": [
+                {
+                  "focalPoint": {
+                    "left": 0.5220822837951301,
+                    "top": 0.36464631385135976
+                  },
+                  "crops": [],
+                  "id": "40b127ad-3f26-4e65-ae00-f80f800de01a",
+                  "name": "6dcd18fabe56466ee102f73ef49e201f19acdcaf.jpg",
+                  "mediaType": "Image",
+                  "url": "/media/elwpp3sp/6dcd18fabe56466ee102f73ef49e201f19acdcaf.jpg",
+                  "extension": "jpg",
+                  "width": 2731,
+                  "height": 4096,
+                  "bytes": 8216823,
+                  "properties": {}
+                }
+              ],
+              "link": [
+                {
+                  "url": null,
+                  "queryString": null,
+                  "title": "Logistics and delivery",
+                  "target": null,
+                  "destinationId": "db5fd4c3-4eb9-47e8-bd43-4cf1a7bbe85b",
+                  "destinationType": "contentPage",
+                  "route": {
+                    "path": "/services/logistics-and-delivery/",
+                    "queryString": null,
+                    "startItem": {
+                      "id": "aed77de5-0e0d-4350-be60-ff0d9b87f141",
+                      "path": "m-by-mascot-website"
+                    }
+                  },
+                  "linkType": "Content"
+                }
+              ]
+            }
+          },
+          "settings": null
+        },
+        {
+          "content": {
+            "contentType": "categoryCardsModuleItem",
+            "id": "2a02ad91-d646-4a29-92ff-c0447a47c1ad",
+            "properties": {
+              "categoryCardsItemItemSize": "Small",
+              "categoryCardsItemTitle": "Safety Wear",
+              "categoryCardsItemSubtitle": null,
+              "categoryCardsItemImage": [
+                {
+                  "focalPoint": {
+                    "left": 0.6794342958161461,
+                    "top": 0.37273179219487945
+                  },
+                  "crops": [],
+                  "id": "1f49b4f4-0ec9-462f-8e42-6390126dbb93",
+                  "name": "c4f1f3061ad7e81bbbbb5d12cb964f3dba0b2454.jpg",
+                  "mediaType": "Image",
+                  "url": "/media/pn5a5kna/c4f1f3061ad7e81bbbbb5d12cb964f3dba0b2454.jpg",
+                  "extension": "jpg",
+                  "width": 4096,
+                  "height": 2731,
+                  "bytes": 10785473,
+                  "properties": {}
+                }
+              ],
+              "link": [
+                {
+                  "url": null,
+                  "queryString": null,
+                  "title": "Measuring",
+                  "target": null,
+                  "destinationId": "29ae7eed-8f5d-48ee-9b84-1e8abf23b03e",
+                  "destinationType": "contentPage",
+                  "route": {
+                    "path": "/services/measuring/",
+                    "queryString": null,
+                    "startItem": {
+                      "id": "aed77de5-0e0d-4350-be60-ff0d9b87f141",
+                      "path": "m-by-mascot-website"
+                    }
+                  },
+                  "linkType": "Content"
+                }
+              ]
+            }
+          },
+          "settings": null
+        },
+        {
+          "content": {
+            "contentType": "categoryCardsModuleItem",
+            "id": "b1beac5a-b121-414f-bd10-d01385172fce",
+            "properties": {
+              "categoryCardsItemItemSize": "Large",
+              "categoryCardsItemTitle": "Footwear",
+              "categoryCardsItemSubtitle": null,
+              "categoryCardsItemImage": [
+                {
+                  "focalPoint": {
+                    "left": 0.5220822837951301,
+                    "top": 0.36464631385135976
+                  },
+                  "crops": [],
+                  "id": "40b127ad-3f26-4e65-ae00-f80f800de01a",
+                  "name": "6dcd18fabe56466ee102f73ef49e201f19acdcaf.jpg",
+                  "mediaType": "Image",
+                  "url": "/media/elwpp3sp/6dcd18fabe56466ee102f73ef49e201f19acdcaf.jpg",
+                  "extension": "jpg",
+                  "width": 2731,
+                  "height": 4096,
+                  "bytes": 8216823,
+                  "properties": {}
+                }
+              ],
+              "link": [
+                {
+                  "url": null,
+                  "queryString": null,
+                  "title": "Logistics and delivery",
+                  "target": null,
+                  "destinationId": "db5fd4c3-4eb9-47e8-bd43-4cf1a7bbe85b",
+                  "destinationType": "contentPage",
+                  "route": {
+                    "path": "/services/logistics-and-delivery/",
+                    "queryString": null,
+                    "startItem": {
+                      "id": "aed77de5-0e0d-4350-be60-ff0d9b87f141",
+                      "path": "m-by-mascot-website"
+                    }
+                  },
+                  "linkType": "Content"
+                }
+              ]
+            }
+          },
+          "settings": null
+        }
+      ]
+    }
+  }
+}

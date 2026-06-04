@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Nhập - Chỉ HTML & Tailwind CSS</title>
+    
+    <!-- 
+      NOTE: In a real-world scenario, you must include the compiled Tailwind CSS 
+      file (e.g., output.css) here. For this standalone example, I am using a CDN 
+      setup that *mimics* Tailwind utility usage, although this is not best practice 
+      for production. 
+      
+      For true Tailwind v4 usage, you need a build process (PostCSS/CLI).
+    -->
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!-- Configure Tailwind to use Bootstrap Icons setup if necessary, 
+         but since we are using the standard CDN for demonstration, 
+         we will rely on linking the icons directly. -->
+    
+    <style>
+        /* Custom styles if needed, but mostly sticking to Tailwind utilities */
+        .form-container {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+
+    <!-- Login Card Container -->
+    <div class="w-full max-w-md bg-white p-8 rounded-xl form-container border border-gray-200">
+        
+        <!-- Header Section -->
+        <div class="text-center mb-8">
+            <!-- Icon using Bootstrap Icons class structure -->
+            <i class="bi bi-person-circle text-6xl text-indigo-600 mb-3"></i>
+            <h2 class="text-3xl font-bold text-gray-900">Chào mừng trở lại</h2>
+            <p class="text-gray-500 mt-2">Vui lòng đăng nhập để tiếp tục</p>
+        </div>
+
+        <!-- Login Form -->
+        <!-- Note: action and method are present but will not work without JS/backend -->
+        <form action="#" method="POST">
+            
+            <!-- Username Field -->
+            <div class="mb-5">
+                <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email hoặc Tên đăng nhập</label>
+                <div class="relative">
+                    <!-- Icon inside the input area -->
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                        <i class="bi bi-envelope-fill"></i>
+                    </span>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        autocomplete="email" 
+                        required 
+                        placeholder="nhập email của bạn"
+                        class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"
+                    >
+                </div>
+            </div>
+
+            <!-- Password Field -->
+            <div class="mb-8">
+                <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Mật khẩu</label>
+                <div class="relative">
+                    <!-- Icon inside the input area -->
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                        <i class="bi bi-lock-fill"></i>
+                    </span>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        autocomplete="current-password" 
+                        required 
+                        placeholder="nhập mật khẩu của bạn"
+                        class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"
+                    >
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div>
+                <button 
+                    type="submit"
+                    class="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-lg text-lg font-semibold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-200"
+                >
+                    <!-- Submit Icon -->
+                    <i class="bi bi-box-arrow-in-right mr-2"></i> 
+                    Đăng Nhập
+                </button>
+            </div>
+        </form>
+
+        <!-- Footer Links -->
+        <div class="mt-6 text-center text-sm">
+            <a href="#" class="text-indigo-600 hover:text-indigo-500 mr-4 transition duration-150">Quên mật khẩu?</a>
+            <span class="text-gray-300">|</span>
+            <a href="#" class="text-indigo-600 hover:text-indigo-500 ml-4 transition duration-150">Tạo tài khoản mới</a>
+        </div>
+        
+    </div>
+
+    <!-- 
+      IMPORTANT: Include the Bootstrap Icons CSS library link here 
+      so the <i> tags display the icons correctly.
+    -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</body>
+</html>

@@ -2,3 +2,4 @@ no/*
 *.log
 /tasks
 web.config
+/logs

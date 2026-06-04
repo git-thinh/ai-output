@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Drive Manager Prototype</title>
+    
+    <!-- 1. Tailwind CSS CDN (For quick prototyping) -->
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    
+    <!-- 2. Bootstrap Icons CSS (Must be linked to use the icons) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <!-- 3. Tailwind Configuration (Optional but good practice for customization) -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-blue': '#1a73e8',
+                        'sidebar-bg': '#f8fafc',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 antialiased">
+
+    <!-- Main Container -->
+    <div class="flex h-screen overflow-hidden">
+
+        <!-- ========================= 1. SIDEBAR (Navigation) ========================= -->
+        <aside class="w-64 bg-sidebar-bg border-r border-gray-200 flex flex-col p-4 shadow-lg">
+            
+            <!-- Logo/App Title -->
+            <div class="text-2xl font-bold text-primary-blue mb-8 flex items-center">
+                <i class="bi bi-cloud-fill text-3xl mr-2"></i> CloudDrive
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="space-y-3 flex-grow">
+                <a href="#" class="flex items-center p-3 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-primary-blue font-medium bg-blue-100 text-primary-blue shadow-sm">
+                    <i class="bi bi-house-door-fill w-5 h-5 mr-3"></i> My Drive
+                </a>
+                <a href="#" class="flex items-center p-3 rounded-lg text-gray-600 hover:bg-gray-100 font-medium">
+                    <i class="bi bi-folder-fill w-5 h-5 mr-3"></i> Shared With Me
+                </a>
+                <a href="#" class="flex items-center p-3 rounded-lg text-gray-600 hover:bg-gray-100 font-medium">
+                    <i class="bi bi-people-fill w-5 h-5 mr-3"></i> Team Space
+                </a>
+            </nav>
+
+            <!-- User Profile / Footer -->
+            <div class="border-t pt-4 mt-4">
+                 <div class="flex items-center p-2 bg-white rounded-lg shadow-sm">
+                    <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white font-bold mr-3">JD</div>
+                    <div>
+                        <p class="text-sm font-semibold text-gray-800">John Doe</p>
+                        <p class="text-xs text-gray-500">Pro Plan</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ========================= 2. MAIN CONTENT AREA ========================= -->
+        <main class="flex-1 flex flex-col overflow-y-auto">
+            
+            <!-- Toolbar/Header Section -->
+            <header class="p-4 bg-white border-b shadow-sm flex justify-between items-center sticky top-0 z-10">
+                
+                <!-- Breadcrumbs / Current Path -->
+                <div class="text-lg text-gray-700">
+                    Home / <span class="text-primary-blue font-medium">General Files</span>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex space-x-3">
+                    <!-- New Folder Button -->
+                    <button class="flex items-center bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg shadow-sm hover:bg-gray-50 transition duration-150">
+                        <i class="bi bi-folder-plus mr-2"></i> New Folder
+                    </button>
+                    <!-- New File Button -->
+                    <button class="flex items-center bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg shadow-sm hover:bg-gray-50 transition duration-150">
+                        <i class="bi bi-file-plus mr-2"></i> New File
+                    </button>
+                    <!-- Upload Button -->
+                    <button class="flex items-center bg-primary-blue text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-150">
+                        <i class="bi bi-upload mr-2"></i> Upload
+                    </button>
+                </div>
+            </header>
+
+            <!-- File Listing Area -->
+            <div class="p-8 flex-grow">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-semibold text-gray-800">Files & Folders</h2>
+                    <!-- Simple View Toggle (Static) -->
+                    <div class="text-sm text-gray-500">
+                         <span class="mr-2">List View</span>
+                         <button class="text-gray-400 hover:text-gray-600">Grid View</button>
+                    </div>
+                </div>
+
+                <!-- File Grid / List Container -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    
+                    <!-- ========================= MOCK FILE ITEM TEMPLATE (FOLDER) ========================= -->
+                    <div class="bg-white rounded-xl shadow-md p-4 border border-gray-100 hover:shadow-lg transition duration-200 cursor-pointer group">
+                        <div class="flex items-center mb-2">
+                            <!-- Folder Icon -->
+                            <i class="bi bi-folder text-4xl text-yellow-500 mr-4"></i>
+                            <!-- File Name -->
+                            <p class="font-semibold text-lg text-gray-800 group-hover:text-primary-blue">Project Alpha</p>
+                        </div>
+                        <!-- Metadata -->
+                        <div class="text-sm text-gray-500 flex justify-between mt-2">
+                            <span>3 Items</span>
+                            <span>2d ago</span>
+                        </div>
+                    </div>
+
+                    <!-- ========================= MOCK FILE ITEM TEMPLATE (DOCUMENT) ========================= -->
+                    <div class="bg-white rounded-xl shadow-md p-4 border border-gray-100 hover:shadow-lg transition duration-200 cursor-pointer group">
+                        <div class="flex items-center mb-2">
+                            <!-- Document Icon -->
+                            <i class="bi bi-file-pdf text-4xl text-red-600 mr-4"></i>
+                            <!-- File Name -->
+                            <p class="font-semibold text-lg text-gray-800 group-hover:text-primary-blue">Quarterly_Report.pdf</p>
+                        </div>
+                        <!-- Metadata -->
+                        <div class="text-sm text-gray-500 flex justify-between mt-2">
+                            <span>3.2 MB</span>
+                            <span>Yesterday</span>
+                        </div>
+                    </div>
+
+                    <!-- ========================= MOCK FILE ITEM TEMPLATE (IMAGE) ========================= -->
+                    <div class="bg-white rounded-xl shadow-md p-4 border border-gray-100 hover:shadow-lg transition duration-200 cursor-pointer group">
+                        <div class="flex items-center mb-2">
+                            <!-- Image Icon -->
+                            <i class="bi bi-image text-4xl text-green-500 mr-4"></i>
+                            <!-- File Name -->
+                            <p class="font-semibold text-lg text-gray-800 group-hover:text-primary-blue">Logo_V3.png</p>
+                        </div>
+                        <!-- Metadata -->
+                        <div class="text-sm text-gray-500 flex justify-between mt-2">
+                            <span>120 KB</span>
+                            <span>2w ago</span>
+                        </div>
+                    </div>
+                    
+                    <!-- ========================= MOCK FILE ITEM TEMPLATE (SPREADSHEET) ========================= -->
+                    <div class="bg-white rounded-xl shadow-md p-4 border border-gray-100 hover:shadow-lg transition duration-200 cursor-pointer group">
+                        <div class="flex items-center mb-2">
+                            <!-- Spreadsheet Icon -->
+                            <i class="bi bi-table text-4xl text-indigo-500 mr-4"></i>
+                            <!-- File Name -->
+                            <p class="font-semibold text-lg text-gray-800 group-hover:text-primary-blue">Budget_2024.xlsx</p>
+                        </div>
+                        <!-- Metadata -->
+                        <div class="text-sm text-gray-500 flex justify-between mt-2">
+                            <span>5.1 MB</span>
+                            <span>Last Month</span>
+                        </div>
+                    </div>
+                    
+                     <!-- More placeholders to fill the grid -->
+                    <div class="bg-white rounded-xl shadow-md p-4 border border-gray-100 hover:shadow-lg transition duration-200 cursor-pointer group">
+                        <div class="flex items-center mb-2">
+                            <i class="bi bi-folder text-4xl text-yellow-500 mr-4"></i>
+                            <p class="font-semibold text-lg text-gray-800 group-hover:text-primary-blue">Assets Archive</p>
+                        </div>
+                        <div class="text-sm text-gray-500 flex justify-between mt-2"><span>12 Files</span><span>1y ago</span></div>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-md p-4 border border-gray-100 hover:shadow-lg transition duration-200 cursor-pointer group">
+                        <div class="flex items-center mb-2">
+                            <i class="bi bi-file-code text-4xl text-teal-600 mr-4"></i>
+                            <p class="font-semibold text-lg text-gray-800 group-hover:text-primary-blue">README.md</p>
+                        </div>
+                        <div class="text-sm text-gray-500 flex justify-between mt-2"><span>1 KB</span><span>3h ago</span></div>
+                    </div>
+
+
+                </div>
+                <!-- End File Listing Area -->
+
+                <!-- Empty State Placeholder -->
+                <div id="empty-state" class="text-center py-20 mt-10 border-2 border-dashed border-gray-200 rounded-xl hidden">
+                    <i class="bi bi-archive text-5xl text-gray-400 mb-4"></i>
+                    <h3 class="text-xl font-medium text-gray-600 mb-2">This folder is empty.</h3>
+                    <p class="text-gray-500">Start by creating a new folder or uploading your first file!</p>
+                </div>
+
+            </div>
+            
+            <!-- Footer Placeholder -->
+            <footer class="p-3 text-center text-sm text-gray-400 border-t bg-white">
+                &copy; 2024 CloudDrive Prototype | Designed with HTML & Tailwind CSS
+            </footer>
+
+        </main>
+
+    </div>
+
+</body>
+</html>
