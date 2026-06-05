@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Drive Prototype</title>
+    <!-- Link Tailwind CSS CDN (For quick prototyping) -->
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Link Bootstrap Icons CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <style>
+        /* Custom scrollbar for a cleaner look */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #d1d5db; /* Gray-300 */
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex">
+
+    <!-- ================================================== -->
+    <!-- 🌳 1. SIDEBAR (Navigation) -->
+    <!-- ================================================== -->
+    <aside class="w-64 bg-white border-r border-gray-200 p-4 flex flex-col shadow-lg">
+        <div class="text-2xl font-bold text-blue-600 mb-8">
+            CloudDrive
+        </div>
+
+        <!-- Quick Links -->
+        <nav class="space-y-2 mb-8">
+            <a href="#" class="flex items-center p-2 rounded-lg text-blue-600 bg-blue-50 font-medium">
+                <i class="bi bi-house-door-fill mr-3"></i>
+                My Drive
+            </a>
+            <a href="#" class="flex items-center p-2 rounded-lg text-gray-600 hover:bg-gray-100">
+                <i class="bi bi-folder-fill mr-3"></i>
+                Shared With Me
+            </a>
+            <a href="#" class="flex items-center p-2 rounded-lg text-gray-600 hover:bg-gray-100">
+                <i class="bi bi-trash-fill mr-3"></i>
+                Trash
+            </a>
+        </nav>
+
+        <!-- Folder Structure (Tree View Mockup) -->
+        <div class="flex-grow overflow-y-auto custom-scrollbar">
+            <h3 class="text-xs font-semibold uppercase text-gray-400 mb-2">Folders</h3>
+            <ul class="space-y-1 text-sm">
+                <li class="text-gray-700 hover:text-blue-600 cursor-pointer flex items-center p-1 rounded">
+                    <i class="bi bi-folder-fill text-yellow-500 mr-2"></i>
+                    Projects
+                </li>
+                <li class="text-gray-700 hover:text-blue-600 cursor-pointer flex items-center p-1 rounded pl-4">
+                    <i class="bi bi-folder-fill text-yellow-500 mr-2"></i>
+                    Q3 Marketing
+                </li>
+                <li class="text-gray-700 hover:text-blue-600 cursor-pointer flex items-center p-1 rounded pl-8">
+                    <i class="bi bi-folder-fill text-yellow-500 mr-2"></i>
+                    Assets
+                </li>
+                <li class="text-gray-700 hover:text-blue-600 cursor-pointer flex items-center p-1 rounded">
+                    <i class="bi bi-folder-fill text-yellow-500 mr-2"></i>
+                    Personal Docs
+                </li>
+            </ul>
+        </div>
+
+        <!-- User Profile -->
+        <div class="mt-6 pt-4 border-t border-gray-200">
+            <div class="flex items-center p-2 hover:bg-gray-100 rounded-lg cursor-pointer">
+                <img class="w-10 h-10 rounded-full object-cover mr-3" src="https://via.placeholder.com/150/4f46e5/ffffff?text=U" alt="User Avatar">
+                <div>
+                    <p class="text-sm font-medium">User Name</p>
+                    <p class="text-xs text-gray-500">user@cloud.com</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ================================================== -->
+    <!-- 📄 2. MAIN CONTENT AREA -->
+    <!-- ================================================== -->
+    <main class="flex-1 flex flex-col overflow-hidden">
+        
+        <!-- Header Bar (Action Buttons) -->
+        <header class="bg-white p-4 border-b border-gray-200 shadow-sm flex justify-between items-center">
+            <h1 class="text-xl font-semibold text-gray-800">My Drive</h1>
+            <div class="flex space-x-3">
+                <!-- New Folder Button -->
+                <button class="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-150 shadow-md">
+                    <i class="bi bi-folder-plus mr-2"></i>
+                    New Folder
+                </button>
+                <!-- Upload Button -->
+                <button class="flex items-center px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition duration-150">
+                    <i class="bi bi-upload mr-2"></i>
+                    Upload Files
+                </button>
+            </div>
+        </header>
+
+        <!-- File List Area -->
+        <div class="flex-1 p-6 overflow-y-auto custom-scrollbar">
+            
+            <!-- File List Table/Grid Mockup -->
+            <div class="space-y-1">
+                
+                <!-- Item 1: Folder -->
+                <div class="flex items-center p-3 bg-white rounded-lg shadow-sm hover:bg-gray-50 transition duration-100 cursor-pointer">
+                    <i class="bi bi-folder-fill text-yellow-500 text-2xl mr-4 flex-shrink-0"></i>
+                    <div class="flex-grow min-w-0">
+                        <p class="text-lg font-medium text-gray-800 truncate">Q4 Financial Reports</p>
+                        <p class="text-sm text-gray-500">Folder</p>
+                    </div>
+                    <div class="text-sm text-gray-500 flex-shrink-0 ml-4">
+                        <span class="mr-4">12/15/2023</span>
+                        <span>3 items</span>
+                    </div>
+                    <div class="flex space-x-2 ml-4 flex-shrink-0">
+                        <i class="bi bi-ellipsis-vertical text-gray-400 hover:text-gray-600 cursor-pointer"></i>
+                        <i class="bi bi-trash text-gray-400 hover:text-red-600 cursor-pointer"></i>
+                    </div>
+                </div>
+
+                <!-- Item 2: PDF File -->
+                <div class="flex items-center p-3 bg-white rounded-lg shadow-sm hover:bg-gray-50 transition duration-100 cursor-pointer">
+                    <i class="bi bi-file-pdf-fill text-red-600 text-2xl mr-4 flex-shrink-0"></i>
+                    <div class="flex-grow min-w-0">
+                        <p class="text-lg font-medium text-gray-800 truncate">Project_Proposal_V2.pdf</p>
+                        <p class="text-sm text-gray-500">PDF Document</p>
+                    </div>
+                    <div class="text-sm text-gray-500 flex-shrink-0 ml-4">
+                        <span class="mr-4">10/20/2023</span>
+                        <span>1.2 MB</span>
+                    </div>
+                    <div class="flex space-x-2 ml-4 flex-shrink-0">
+                        <i class="bi bi-ellipsis-vertical text-gray-400 hover:text-gray-600 cursor-pointer"></i>
+                        <i class="bi bi-trash text-gray-400 hover:text-red-600 cursor-pointer"></i>
+                    </div>
+                </div>
+
+                <!-- Item 3: Image File -->
+                <div class="flex items-center p-3 bg-white rounded-lg shadow-sm hover:bg-gray-50 transition duration-100 cursor-pointer">
+                    <i class="bi bi-image text-green-600 text-2xl mr-4 flex-shrink-0"></i>
+                    <div class="flex-grow min-w-0">
+                        <p class="text-lg font-medium text-gray-800 truncate">Logo_Final.png</p>
+                        <p class="text-sm text-gray-500">Image</p>
+                    </div>
+                    <div class="text-sm text-gray-500 flex-shrink-0 ml-4">
+                        <span class="mr-4">11/01/2023</span>
+                        <span>450 KB</span>
+                    </div>
+                    <div class="flex space-x-2 ml-4 flex-shrink-0">
+                        <i class="bi bi-ellipsis-vertical text-gray-400 hover:text-gray-600 cursor-pointer"></i>
+                        <i class="bi bi-trash text-gray-400 hover:text-red-600 cursor-pointer"></i>
+                    </div>
+                </div>
+
+                <!-- Item 4: Document File -->
+                <div class="flex items-center p-3 bg-white rounded-lg shadow-sm hover:bg-gray-50 transition duration-100 cursor-pointer">
+                    <i class="bi bi-file-earmark-text text-blue-600 text-2xl mr-4 flex-shrink-0"></i>
+                    <div class="flex-grow min-w-0">
+                        <p class="text-lg font-medium text-gray-800 truncate">Meeting_Notes_2023.docx</p>
+                        <p class="text-sm text-gray-500">Word Document</p>
+                    </div>
+                    <div class="text-sm text-gray-500 flex-shrink-0 ml-4">
+                        <span class="mr-4">11/15/2023</span>
+                        <span>89 KB</span>
+                    </div>
+                    <div class="flex space-x-2 ml-4 flex-shrink-0">
+                        <i class="bi bi-ellipsis-vertical text-gray-400 hover:text-gray-600 cursor-pointer"></i>
+                        <i class="bi bi-trash text-gray-400 hover:text-red-600 cursor-pointer"></i>
+                    </div>
+                </div>
+
+                <!-- Item 5: Empty Folder -->
+                <div class="flex items-center p-3 bg-white rounded-lg shadow-sm hover:bg-gray-50 transition duration-100 cursor-pointer">
+                    <i class="bi bi-folder-fill text-yellow-500 text-2xl mr-4 flex-shrink-0"></i>
+                    <div class="flex-grow min-w-0">
+                        <p class="text-lg font-medium text-gray-800 truncate">Archive_2022</p>
+                        <p class="text-sm text-gray-500">Folder</p>
+                    </div>
+                    <div class="text-sm text-gray-500 flex-shrink-0 ml-4">
+                        <span class="mr-4">01/01/2022</span>
+                        <span>0 items</span>
+                    </div>
+                    <div class="flex space-x-2 ml-4 flex-shrink-0">
+                        <i class="bi bi-ellipsis-vertical text-gray-400 hover:text-gray-600 cursor-pointer"></i>
+                        <i class="bi bi-trash text-gray-400 hover:text-red-600 cursor-pointer"></i>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>
