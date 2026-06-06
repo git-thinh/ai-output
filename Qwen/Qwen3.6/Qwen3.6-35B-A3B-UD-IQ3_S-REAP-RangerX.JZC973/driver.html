@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+ 
+</head>
+
+<body class="flex items-center justify-center p-4 sm:p-8">
+ <!-- Main Workspace Container -->
+<main id="main-content" tabindex="-1" class="flex-col gap-y-6 p-4 md:p-6 lg:p-8 xl:p-10 grow-shrink overflow-auto content-scroll h-screen pt-20 pb-4 px-3 flex-col gap-y-2 sticky-top shadow-right-sm">
+  
+  <!-- Breadcrumb Navigation Trail -->
+  <div class="mb-4 flex items-center gap-x-2 shrink-0 text-gray-500 leading-relaxed select-none pointer-events-none group-hover:text-blue-600 transition-colors duration-200">
+    <a href="/" class="hover:underline decoration-solid underline-offset-2"><i class="bi bi-house-fill me-1 align-middle"></i></a>
+    <span>/</span>
+    <span class="font-medium text-gray-900">My Drive</span>
+  </div>
+
+  <!-- Toolbar Controls Row -->
+  <section class="sticky top-16 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200 mb-4 -translate-y-full translate-y-full animate-slide-down duration-300 ease-in-out">
+    <div class="px-4 py-2 flex items-center justify-between gap-x-4 shrink-0">
+      
+      <!-- Left Group: Sort & Filter Options -->
+      <div class="flex items-center gap-x-4 shrink-0">
+        <button class="rounded-full p-2 hover:bg-slate-100 transition-all duration-200 ease-out">
+          <i class="bi bi-sort-up fs-md"></i>
+        </button>
+        
+        <!-- Dropdown Trigger Button -->
+        <button class="relative inline-flex items-center gap-x-2 rounded-full px-4 py-2 hover:bg-slate-100 transition-bg duration-200 ease-out transform-scale-95 active:scale-100 cursor-pointer group-hover:text-black">
+          <i class="bi bi-filter fs-md"></i>Filter by Type
+          
+          <!-- Dropdown Menu Panel (Hidden State Simulation) -->
+          <div class="absolute left-0 mt-2 w-48 rounded-xl bg-white shadow-lg opacity-0 scale-95 origin-tl transition-opacity-duration-transform duration-200 ease-out hidden group-hover:block group-focus-within:block focus-visible:block visible:block">
+            <ul role="listbox" tabindex="-1" class="select-none outline-none focus-visible:ring-2 focus-visible:ring-blue-300">
+              <li role="option" aria-selected="false" class="pl-4 pr-3 py-2 rounded-lg hover:bg-slate-100 cursor-pointer transition-bg duration-200 ease-out">All Types</li>
+              <li role="option" aria-selected="true" class="pl-4 pr-3 py-2 rounded-lg bg-blue-50 text-blue-800 cursor-pointer transition-bg duration-200 ease-out">Documents Only</li>
+              <li role="option" aria-selected="false" class="pl-4 pr-3 py-2 rounded-lg hover:bg-slate-100 cursor-pointer transition-bg duration-200 ease-out">Images Only</li>
+              <li role="option" aria-selected="false" class="pl-4 pr-3 py-2 rounded-lg hover:bg-slate-100 cursor-pointer transition-bg duration-200 ease-out">Videos Only</li>
+            </ul>
+          </div>
+        </button>
+      </div>
+
+      <!-- Right Group: View Toggle Buttons -->
+      <div class="flex items-center gap-x-4 shrink-0">
+        <button class="rounded-full p-2 hover:bg-slate-100 transition-all duration-200 ease-out">
+          <i class="bi bi-grid fs-md"></i>Grid View
+        </button>
+        <button class="rounded-full p-2 hover:bg-slate-100 transition-all duration-200 ease-out">
+          <i class="bi bi-list-ul fs-md"></i>List View
+        </button>
+        
+        <!-- Context Menu Trigger Button -->
+        <button class="relative inline-flex items-center gap-x-2 rounded-full px-4 py-2 hover:bg-slate-100 transition-bg duration-200 ease-out transform-scale-95 active:scale-100 cursor-pointer group-hover:text-black">
+          <i class="bi bi-three-dots-vertical fs-md"></i>More Actions
+          
+          <!-- Dropdown Menu Panel (Hidden State Simulation) -->
+          <div class="absolute right-0 mt-2 w-64 rounded-xl bg-white shadow-lg opacity-0 scale-95 origin-tr transition-opacity-duration-transform duration-200 ease-out hidden group-hover:block group-focus-within:block focus-visible:block visible:block">
+            <ul role="listbox" tabindex="-1" class="select-none outline-none focus-visible:ring-2 focus-visible:ring-blue-300">
+              <li role="option" class="pl-4 pr-3 py-2 rounded-lg hover:bg-slate-100 cursor-pointer transition-bg duration-200 ease-out"><i class="bi bi-plus-circle me-2 align-middle"></i>Create New Folder</li>
+              <li role="option" class="pl-4 pr-3 py-2 rounded-lg hover:bg-slate-100 cursor-pointer transition-bg duration-200 ease-out"><i class="bi bi-cloud-upload me-2 align-middle"></i>Upload Files...</li>
+              <li role="option" class="pl-4 pr-3 py-2 rounded-lg hover:bg-slate-100 cursor-pointer transition-bg duration-200 ease-out"><i class="bi bi-link-4 me-2 align-middle"></i>Get Shareable Link</li>
+              <hr class="my-2 border-t border-b border-slate-200"/>
+              <li role="option" class="pl-4 pr-3 py-2 rounded-lg text-red-700 hover:bg-red-50 cursor-pointer transition-bg duration-200 ease-out"><i class="bi bi-trash me-2 align-middle"></i>Purge Trash Permanently</li>
+            </ul>
+          </div>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- File/Folder Grid Display Area -->
+  <section aria-label="File and folder grid view" class="grid auto-cols-fill min-w-fit gap-y-8 p-4 md:p-6 lg:p-8 xl:p-10 grow-shrink overflow-auto content-scroll h-screen pt-20 pb-4 px-3 flex-col gap-y-2 sticky-top shadow-right-sm">
+    
+    <!-- Individual File Card Component -->
+    <article class="group relative inline-flex items-center justify-between gap-x-4 shrink-0 rounded-xl bg-white border border-transparent hover:border-blue-300 hover:shadow-md transition-all duration-200 ease-out transform-scale-95 active:scale-100 cursor-pointer group-hover:text-black">
+      
+      <!-- Left Group: Icon + Metadata Info -->
+      <div class="flex items-start gap-x-4 shrink-0 select-none pointer-events-none group-hover:text-blue-600 transition-colors duration-200">
+        
+        <!-- Dynamic Icon Based on MIME Type (Simulated via conditional classes) -->
+        <figure class="relative w-12 h-12 rounded-lg object-cover ring-offset-white ring-offset-2">
+          <img src="/api/file-preview.jpg" alt="Preview thumbnail" class="w-full h-full rounded-lg object-cover" />
+          
+          <!-- Overlay Badge for Video Content -->
+          <span class="absolute bottom-0 right-0 block w-6 h-6 rounded-full bg-black/70 backdrop-blur-md text-xs font-bold leading-relaxed text-center text-white translate-y-1/2 translate-x-1/2">▶️</span>
+        </figure>
+        
+        <figcaption class="mt-1.5 max-w-[calc(100%-3rem)] truncate whitespace-pre-wrap break-word line-clamp-2 text-gray-700 leading-snug">
+          Project Proposal Q3.docx
+        </figcaption>
+      </div>
+
+      <!-- Right Group: Action Buttons & Timestamp -->
+      <div class="flex items-center gap-x-4 shrink-0 select-none pointer-events-none group-hover:text-blue-600 transition-colors duration-200">
+        <time datetime="2024-08-15T14:30:00Z" class="text-xs text-gray-500 tabular-nums tracking-tight leading-relaxed">Aug 15, 2024</time>
+        
+        <!-- Context Menu Trigger Button -->
+        <button aria-label="More actions for this file" class="rounded-full p-2 hover:bg-slate-100 transition-all duration-200 ease-out">
+          <i class="bi bi-three-dots-vertical fs-md"></i>
+        </button>
+      </div>
+    </article>
+
+    <!-- Folder Card Component Variant -->
+    <article class="group relative inline-flex items-center justify-between gap-x-4 shrink-0 rounded-xl bg-yellow-50 border border-transparent hover:border-yellow-300 hover:shadow-md transition-all duration-200 ease-out transform-scale-95 active:scale-100 cursor-pointer group-hover:text-black">
+      
+      <!-- Left Group: Icon + Metadata Info -->
+      <div class="flex items-start gap-x-4 shrink-0 select-none pointer-events-none group-hover:text-yellow-700 transition-colors duration-200">
+        
+        <!-- Dynamic Icon Based on MIME Type (Simulated via conditional classes) -->
+        <figure class="relative w-12 h-12 rounded-lg object-cover ring-offset-white ring-offset-2">
+          <img src="/api/folder-preview.jpg" alt="Preview thumbnail" class="w-full h-full rounded-lg object-cover" />
+          
+          <!-- Overlay Badge for Video Content -->
+          <span class="absolute bottom-0 right-0 block w-6 h-6 rounded-full bg-black/70 backdrop-blur-md text-xs font-bold leading-relaxed text-center text-white translate-y-1/2 translate-x-1/2">▶️</span>
+        </figure>
+        
+        <figcaption class="mt-1.5 max-w-[calc(100%-3rem)] truncate whitespace-pre-wrap break-word line-clamp-2 text-gray-700 leading-snug">
+          Shared With Team
+        </figcaption>
+      </div>
+
+      <!-- Right Group: Action Buttons & Timestamp -->
+      <div class="flex items-center gap-x-4 shrink-0 select-none pointer-events-none group-hover:text-blue-600 transition-colors duration-200">
+        <time datetime="2024-08-15T14:30:00Z" class="text-xs text-gray-500 tabular-nums tracking-tight leading-relaxed">Aug 15, 2024</time>
+        
+        <!-- Context Menu Trigger Button -->
+        <button aria-label="More actions for this file" class="rounded-full p-2 hover:bg-slate-100 transition-all duration-200 ease-out">
+          <i class="bi bi-three-dots-vertical fs-md"></i>
+        </button>
+      </div>
+    </article>
+    
+    <!-- Pagination Footer Component -->
+    <footer class="sticky bottom-0 z-30 bg-white border-t border-slate-200 py-4 px-4 flex items-center justify-between gap-x-4 shrink-0 -translate-y-full translate-y-full animate-slide-up duration-300 ease-in-out">
+      
+      <!-- Left Group: Page Info Text -->
+      <p class="text-sm text-gray-500 leading-relaxed"><span class="font-medium">Page 1 of 12</span></p>
+      
+      <!-- Center Group: Navigation Controls -->
+      <nav aria-label="Pagination controls" class="flex items-center gap-x-4 shrink-0">
+        <button disabled aria-disabled="true" class="rounded-full p-2 opacity-50 cursor-not-allowed transition-opacity duration-200 ease-out">
+          <i class="bi bi-chevron-left fs-lg"></i>
+        </button>
+        
+        <!-- Active Page Indicator -->
+        <a href="#" class="inline-flex items-center justify-center rounded-full w-9 h-9 bg-blue-600 text-white font-bold shadow-inner transform-scale-95 active:scale-100 cursor-pointer group-hover:text-black">1</a>
+        
+        <!-- Inactive Page Indicators -->
+        <a href="#" class="inline-flex items-center justify-center rounded-full w-9 h-9 hover:bg-slate-100 transition-bg duration-200 ease-out transform-scale-95 active:scale-100 cursor-pointer group-hover:text-black">2</a>
+        <a href="#" class="inline-flex items-center justify-center rounded-full w-9 h-9 hover:bg-slate-100 transition-bg duration-200 ease-out transform-scale-95 active:scale-100 cursor-pointer group-hover:text-black">3</a>
+        
+        <!-- Ellipsis Separator -->
+        <span class="mx-2 text-gray-400 select-none pointer-events-none group-hover:text-blue-600 transition-colors duration-200">...</span>
+        
+        <a href="#" class="inline-flex items-center justify-center rounded-full w-9 h-9 hover:bg-slate-100 transition-bg duration-200 ease-out transform-scale-95 active:scale-100 cursor-pointer group-hover:text-black">12</a>
+        
+        <!-- Next Button -->
+        <button class="rounded-full p-2 hover:bg-slate-100 transition-all duration-200 ease-out">
+          <i class="bi bi-chevron-right fs-lg"></i>
+        </button>
+      </nav>
+
+      <!-- Right Group: Settings & Help Links -->
+      <div class="flex items-center gap-x-4 shrink-0 select-none pointer-events-none group-hover:text-blue-600 transition-colors duration-200">
+        <a href="/settings" class="text-sm underline decoration-solid underline-offset-2 hover:underline decoration-dashed transition-colors duration-200">Settings →</a>
+        <a href="/help" class="text-sm underline decoration-solid underline-offset-2 hover:underline decoration-dashed transition-colors duration-200">Help Center →</a>
+      </div>
+    </footer>
+  </section>
+
+</body>
+
+</html>

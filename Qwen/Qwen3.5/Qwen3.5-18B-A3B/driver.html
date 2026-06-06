@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cloud File Manager - Prototype</title>
+  
+  <!-- 1. Tailwind CSS v4 CDN -->
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  
+  <!-- 2. Bootstrap Icons CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Custom Configuration if needed -->
+  <style>
+    /* Optional custom tweaks */
+    .hover-card:hover {
+      @apply shadow-lg;
+    }
+    .icon-bg-blue {
+      @apply bg-blue-50 text-blue-600 rounded-full p-3 flex items-center justify-center;
+    }
+    .icon-bg-green {
+      @apply bg-green-50 text-green-600 rounded-full p-3 flex items-center justify-center;
+    }
+    .icon-bg-red {
+      @apply bg-red-50 text-red-600 rounded-full p-3 flex items-center justify-center;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans-serif min-h-screen">
+
+  <!-- Header Section -->
+  <header class="flex items-center justify-between px-4 py-3 bg-white border-b border-gray-200 sticky top z-10">
+    <div class="flex items-center gap-x-2">
+      <!-- Logo -->
+      <i class="bi bi-folder-fill text-xl text-blue-600 mr-2"></i>
+      <h1 class="text-xl font-bold text-gray-800 m-auto">Cloud Drive</h1>
+    </div>
+    
+    <!-- Navigation / Status -->
+    <div class="flex items-center gap-x-4">
+      <!-- Search Icon -->
+      <i class="bi bi-search text-gray-500 cursor-pointer hover:text-black"></i>
+        <!-- User Profile -->
+      <i class="bi bi-person-circle text-gray-500 cursor-pointer hover:text-black"></i>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="px-4 py-4">
+    <!-- Title and Actions -->
+    <div class="mb-4 flex items-center justify-between">
+      <h2 class="text-sm font-semibold text-gray-700 mb-2">Root Folder</h2>
+      
+      <!-- Action Buttons -->
+      <button class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors flex items-center gap-x-2">
+        <i class="bi bi-plus"></i>
+        <span class="font-medium">Create Folder</span>
+      </button>
+    </div>
+
+    <!-- File Grid View -->
+    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4">
+      <!-- Item 1 (Folder) -->
+      <div class="hover-card bg-white rounded-md overflow-hidden border border-gray-200">
+        <div class="p-4 flex items-center justify-center">
+          <i class="bi bi-folder-open icon-bg-green w-1/1 h-1/1">
+            <icon:folder></icon:folder>
+          </i>
+        </div>
+        <div class="px-4 pb-4">
+          <h3 class="font-medium truncate text-gray-800 mb-1">Documents</h3>
+          <p class="text-xs text-gray-500 mt-1">Created on 2029.000</p>
+        </div>
+      </div>
+
+      <!-- Item 2 (File - PDF) -->
+      <div class="hover-card bg-white rounded-md overflow-hidden border border-gray-200">
+        <div class="p-4 flex items-center justify-center">
+          <i class="bi bi-file-text icon-bg-red w-1/1 h-1/1">
+            <icon:file-pdf></icon:file-pdf>
+          </i>
+        </div>
+        <div class="px-4 pb-4">
+          <h3 class="font-medium truncate text-gray-800 mb-1">Report.pdf</h3>
+          <p class="text-xs text-gray-500 mt-1">Size: 1.5 MB</p>
+        </div>
+      </div>
+
+      <!-- Item 3 (File - Image) -->
+      <div class="hover-card bg-white rounded-md overflow-hidden border border-gray-200">
+        <div class="p-4 flex items-center justify-center">
+          <i class="bi bi-image icon-bg-blue w-1/1 h-1/1">
+            <icon:image></icon:image>
+          </i>
+        </div>
+        <div class="px-4 pb-4">
+          <h3 class="font-medium truncate text-gray-800 mb-1">Photo.jpg</h3>
+          <p class="text-xs text-gray-500 mt-1">Size: 2.0 MB</p>
+        </div>
+      </div>
+
+      <!-- Item 4 (Folder) -->
+      <div class="hover-card bg-white rounded-md overflow-hidden border border-gray-200">
+        <div class="p-4 flex items-center justify-center">
+          <i class="bi bi-folder-open icon-bg-green w-1/1 h-1/1">
+            <icon:folder></icon:folder>
+          </i>
+        </div>
+        <div class="px-4 pb-4">
+          <h3 class="font-medium truncate text-gray-800 mb-1">Photos</h3>
+          <p class="text-xs text-gray-500 mt-1">Created on 2029.000</p>
+        </div>
+      </div>
+
+      <!-- Item 5 (Empty Folder Placeholder) -->
+      <div class="bg-white rounded-md p-4 hover:bg-gray-60 transition-colors cursor-pointer">
+        <i class="bi bi-plus-circle text-xl text-gray-400"></i>
+        <h3 class="font-medium truncate text-gray-700 mt-2">New Folder</h3>
+      </div>
+    </section>
+
+    <!-- Footer / Status Bar -->
+    <footer class="mt-auto px-4 py-3 bg-white border-t border-gray-200 flex items-center gap-x-4">
+      <span class="text-sm font-semibold text-gray-700">Total Files:</span>
+      <span class="text-sm text-gray-500">4</span>
+      <span class="text-sm font-semibold text-gray-700 ml-4">Storage Used:</span>
+      <span class="text-sm text-gray-500">10 GB / 20 GB</span>
+    </footer>
+</body>
+</html>
