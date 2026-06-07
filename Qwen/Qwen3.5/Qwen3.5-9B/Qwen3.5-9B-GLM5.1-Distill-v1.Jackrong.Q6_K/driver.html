@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Drive - Dashboard</title>
+    <!-- Tailwind CSS v4 CDN -->
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <style>
+        /* Custom scrollbar for a polished look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased">
+
+    <div class="flex h-screen overflow-hidden">
+
+        <!-- SIDEBAR -->
+        <aside class="w-64 bg-white border-r border-gray-200 flex flex-col justify-between hidden md:flex">
+            <!-- Logo -->
+            <div class="p-6">
+                <div class="flex items-center gap-3 text-indigo-600">
+                    <i class="bi bi-cloud-fill text-3xl"></i>
+                    <span class="text-xl font-bold tracking-tight">CloudDrive</span>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="flex-1 px-4 space-y-1">
+                <a href="#" class="flex items-center gap-3 px-4 py-3 bg-indigo-50 text-indigo-700 rounded-lg transition-colors">
+                    <i class="bi bi-folder2-open text-lg"></i>
+                    <span class="font-medium">My Drive</span>
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-lg transition-colors">
+                    <i class="bi bi-hdd text-lg"></i>
+                    <span class="font-medium">My Computer</span>
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-lg transition-colors">
+                    <i class="bi bi-trash text-lg"></i>
+                    <span class="font-medium">Trash</span>
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-lg transition-colors">
+                    <i class="bi bi-star text-lg"></i>
+                    <span class="font-medium">Starred</span>
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-lg transition-colors">
+                    <i class="bi bi-clock-history text-lg"></i>
+                    <span class="font-medium">Recent</span>
+                </a>
+            </nav>
+
+            <!-- User Profile -->
+            <div class="p-4 border-t border-gray-200">
+                <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors">
+                    <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold">
+                        JD
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-medium text-gray-900 truncate">John Doe</p>
+                        <p class="text-xs text-gray-500 truncate">john@example.com</p>
+                    </div>
+                    <i class="bi bi-chevron-down text-gray-400"></i>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="flex-1 flex flex-col h-full overflow-hidden">
+            
+            <!-- TOP HEADER -->
+            <header class="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between gap-4">
+                <!-- Breadcrumbs -->
+                <nav class="flex items-center text-sm text-gray-500">
+                    <a href="#" class="hover:text-indigo-600 transition-colors"><i class="bi bi-house-door"></i></a>
+                    <i class="bi bi-chevron-right mx-2 text-xs"></i>
+                    <a href="#" class="hover:text-indigo-600 transition-colors">My Drive</a>
+                    <i class="bi bi-chevron-right mx-2 text-xs"></i>
+                    <span class="text-gray-900 font-medium">Documents</span>
+                </nav>
+
+                <!-- Right Actions -->
+                <div class="flex items-center gap-4">
+                    <!-- View Toggle (CSS Only) -->
+                    <div class="relative">
+                        <input type="checkbox" id="view-toggle" class="peer sr-only">
+                        <label for="view-toggle" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors">
+                            <i class="bi bi-grid-3x3 text-gray-600 peer-checked:hidden"></i>
+                            <i class="bi bi-list text-gray-600 peer-checked:block"></i>
+                        </label>
+                    </div>
+
+                    <!-- Upload Button -->
+                    <button class="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-sm">
+                        <i class="bi bi-cloud-arrow-up"></i>
+                        <span>New</span>
+                    </button>
+
+                    <!-- Search -->
+                    <div class="relative hidden sm:block">
+                        <i class="bi bi-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        <input type="text" placeholder="Search" class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none w-64 transition-all">
+                    </div>
+                </div>
+            </header>
+
+            <!-- CONTENT AREA -->
+            <div class="flex-1 overflow-y-auto p-6">
+                
+                <!-- Empty State (Hidden by default, shown when no files) -->
+                <div id="empty-state" class="hidden flex flex-col items-center justify-center h-64 text-gray-400">
+                    <i class="bi bi-folder-x text-6xl mb-4"></i>
+                    <p class="text-lg font-medium">Your drive is empty</p>
+                    <p class="text-sm">Upload files to get started</p>
+                </div>
+
+                <!-- Grid View (Default) -->
+                <div id="grid-view" class="grid grid-cols-4 sm:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-4">
+                    
+                    <!-- FOLDER ITEM -->
+                    <div class="group flex flex-col items-center p-4 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer">
+                        <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center text-blue-600 mb-3 group-hover:scale-105 transition-transform">
+                            <i class="bi bi-folder2-open text-4xl"></i>
+                        </div>
+                        <span class="text-sm font-medium text-center truncate w-full px-2">Work Projects</span>
+                    </div>
+
+                    <!-- FOLDER ITEM -->
+                    <div class="group flex flex-col items-center p-4 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer">
+                        <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center text-blue-600 mb-3 group-hover:scale-105 transition-transform">
+                            <i class="bi bi-folder2-open text-4xl"></i>
+                        </div>
+                        <span class="text-sm font-medium text-center truncate w-full px-2">Photos</span>
+                    </div>
+
+                    <!-- FOLDER ITEM -->
+                    <div class="group flex flex-col items-center p-4 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer">
+                        <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center text-blue-600 mb-3 group-hover:scale-105 transition-transform">
+                            <i class="bi bi-folder2-open text-4xl"></i>
+                        </div>
+                        <span class="text-sm font-medium text-center truncate w-full px-2">Design Assets</span>
+                    </div>
+
+                    <!-- FILE ITEM (PDF) -->
+                    <div class="group flex flex-col items-center p-4 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer">
+                        <div class="w-16 h-16 bg-red-100 rounded-2xl flex items-center justify-center text-red-600 mb-3 group-hover:scale-105 transition-transform">
+                            <i class="bi bi-file-earmark-pdf text-4xl"></i>
+                        </div>
+                        <span class="text-sm font-medium text-center truncate w-full px-2">Report.pdf</span>
+                        <span class="text-xs text-gray-500 mt-1">2.4 MB</span>
+                    </div>
+
+                    <!-- FILE ITEM (DOCX) -->
+                    <div class="group flex flex-col items-center p-4 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer">
+                        <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center text-blue-600 mb-3 group-hover:scale-105 transition-transform">
+                            <i class="bi bi-file-earmark-word text-4xl"></i>
+                        </div>
+                        <span class="text-sm font-medium text-center truncate w-full px-2">Proposal.docx</span>
+                        <span class="text-xs text-gray-500 mt-1">1.1 MB</span>
+                    </div>
+
+                    <!-- FILE ITEM (XLSX) -->
+                    <div class="group flex flex-col items-center p-4 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer">
+                        <div class="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center text-green-600 mb-3 group-hover:scale-105 transition-transform">
+                            <i class="bi bi-file-earmark-excel text-4xl"></i>
+                        </div>
+                        <span class="text-sm font-medium text-center truncate w-full px-2">Budget.xlsx</span>
+                        <span class="text-xs text-gray-500 mt-1">450 KB</span>
+                    </div>
+
+                    <!-- FILE ITEM (ZIP) -->
+                    <div class="group flex flex-col items-center p-4 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer">
+                        <div class="w-16 h-16 bg-yellow-100 rounded-2xl flex items-center justify-center text-yellow-600 mb-3 group-hover:scale-105 transition-transform">
+                            <i class="bi bi-file-earmark-zip text-4xl"></i>
+                        </div>
+                        <span class="text-sm font-medium text-center truncate w-full px-2">Backup.zip</span>
+                        <span class="text-xs text-gray-500 mt-1">12.5 MB</span>
+                    </div>
+
+                    <!-- FILE ITEM (JPG) -->
+                    <div class="group flex flex-col items-center p-4 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer">
+                        <div class="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center text-purple-600 mb-3 group-hover:scale-105 transition-transform">
+                            <i class="bi bi-file-earmark-image text-4xl"></i>
+                        </div>
+                        <span class="text-sm font-medium text-center truncate w-full px-2">Logo.png</span>
+                        <span class="text-xs text-gray-500 mt-1">850 KB</span>
+                    </div>
+                </div>
+
+                <!-- List View (Hidden by default) -->
+                <div id="list-view" class="hidden space-y-2">
+                    
+                    <!-- LIST ITEM: FOLDER -->
+                    <div class="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer group">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600">
+                            <i class="bi bi-folder2-open text-2xl"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-medium text-gray-900 truncate">Work Projects</p>
+                            <p class="text-xs text-gray-500">12 items</p>
+                        </div>
+                        <div class="text-xs text-gray-400">
+                            <i class="bi bi-clock"></i> 2 hours ago
+                        </div>
+                        <div class="opacity-0 group-hover:opacity-100 transition-opacity">
+                            <i class="bi bi-three-dots-vertical text-gray-400 hover:text-gray-600"></i>
+                        </div>
+                    </div>
+
+                    <!-- LIST ITEM: FOLDER -->
+                    <div class="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer group">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600">
+                            <i class="bi bi-folder2-open text-2xl"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-medium text-gray-900 truncate">Photos</p>
+                            <p class="text-xs text-gray-500">45 items</p>
+                        </div>
+                        <div class="text-xs text-gray-400">
+                            <i class="bi bi-clock"></i> 1 day ago
+                        </div>
+                        <div class="opacity-0 group-hover:opacity-100 transition-opacity">
+                            <i class="bi bi-three-dots-vertical text-gray-400 hover:text-gray-600"></i>
+                        </div>
+                    </div>
+
+                    <!-- LIST ITEM: FILE -->
+                    <div class="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer group">
+                        <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center text-red-600">
+                            <i class="bi bi-file-earmark-pdf text-2xl"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-medium text-gray-900 truncate">Report.pdf</p>
+                            <p class="text-xs text-gray-500">2.4 MB</p>
+                        </div>
+                        <div class="text-xs text-gray-400">
+                            <i class="bi bi-clock"></i> 3 hours ago
+                        </div>
+                        <div class="opacity-0 group-hover:opacity-100 transition-opacity">
+                            <i class="bi bi-three-dots-vertical text-gray-400 hover:text-gray-600"></i>
+                        </div>
+                    </div>
+
+                    <!-- LIST ITEM: FILE -->
+                    <div class="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer group">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600">
+                            <i class="bi bi-file-earmark-word text-2xl"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-medium text-gray-900 truncate">Proposal.docx</p>
+                            <p class="text-xs text-gray-500">1.1 MB</p>
+                        </div>
+                        <div class="text-xs text-gray-400">
+                            <i class="bi bi-clock"></i> 5 hours ago
+                        </div>
+                        <div class="opacity-0 group-hover:opacity-100 transition-opacity">
+                            <i class="bi bi-three-dots-vertical text-gray-400 hover:text-gray-600"></i>
+                        </div>
+                    </div>
+
+                    <!-- LIST ITEM: FILE -->
+                    <div class="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer group">
+                        <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center text-green-600">
+                            <i class="bi bi-file-earmark-excel text-2xl"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-medium text-gray-900 truncate">Budget.xlsx</p>
+                            <p class="text-xs text-gray-500">450 KB</p>
+                        </div>
+                        <div class="text-xs text-gray-400">
+                            <i class="bi bi-clock"></i> 1 day ago
+                        </div>
+                        <div class="opacity-0 group-hover:opacity-100 transition-opacity">
+                            <i class="bi bi-three-dots-vertical text-gray-400 hover:text-gray-600"></i>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- CSS Logic for View Toggle -->
+    <style>
+        /* Hide the checkbox */
+        #view-toggle {
+            display: none;
+        }
+
+        /* Show Grid View by default */
+        #grid-view {
+            display: grid;
+        }
+
+        /* Hide Grid View when checkbox is checked */
+        #view-toggle:checked ~ #grid-view {
+            display: none;
+        }
+
+        /* Show List View when checkbox is checked */
+        #view-toggle:checked ~ #list-view {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Hide List View by default */
+        #list-view {
+            display: none;
+        }
+    </style>
+</body>
+</html>

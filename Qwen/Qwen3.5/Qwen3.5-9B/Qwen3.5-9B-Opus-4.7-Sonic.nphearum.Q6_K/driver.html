@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Storage - Dashboard</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4F46E5',
+                        secondary: '#6366F1',
+                        accent: '#8B5CF6',
+                        success: '#10B981',
+                        warning: '#F59E0B',
+                        danger: '#EF4444',
+                        gray: {
+                            50: '#F9FAFB',
+                            100: '#F3F4F6',
+                            200: '#E5E7EB',
+                            300: '#D1D5DB',
+                            400: '#9CA3AF',
+                            500: '#6B7280',
+                            600: '#4B5563',
+                            700: '#374151',
+                            800: '#1F2937',
+                            900: '#111827',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a1a1a1;
+        }
+        /* File card hover effect */
+        .file-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+        /* Folder tree active state */
+        .folder-tree-item.active {
+            background-color: #EEF2FF;
+            color: #4F46E5;
+            border-left: 3px solid #4F46E5;
+        }
+        /* Search input focus */
+        .search-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Top Navigation Bar -->
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <!-- Left: Logo & Navigation -->
+                <div class="flex items-center gap-6">
+                    <!-- Logo -->
+                    <div class="flex items-center gap-2">
+                        <div class="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-xl flex items-center justify-center">
+                            <i class="bi bi-cloud-fill text-white text-2xl"></i>
+                        </div>
+                        <span class="text-xl font-bold text-gray-900">CloudStore</span>
+                    </div>
+
+                    <!-- Navigation Links -->
+                    <div class="hidden md:flex items-center gap-1 ml-8">
+                        <a href="#" class="px-4 py-2 text-primary font-medium rounded-lg bg-primary/10">
+                            <i class="bi bi-house-door mr-2"></i>Home
+                        </a>
+                        <a href="#" class="px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
+                            <i class="bi bi-folder mr-2"></i>Folders
+                        </a>
+                        <a href="#" class="px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
+                            <i class="bi bi-file-earmark mr-2"></i>Files
+                        </a>
+                        <a href="#" class="px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
+                            <i class="bi bi-share mr-2"></i>Shared
+                        </a>
+                        <a href="#" class="px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
+                            <i class="bi bi-trash mr-2"></i>Trash
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right: Search, Upload, Profile -->
+                <div class="flex items-center gap-4">
+                    <!-- Search Bar -->
+                    <div class="hidden md:flex items-center">
+                        <div class="relative">
+                            <i class="bi bi-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                            <input type="text" placeholder="Search files, folders..." 
+                                   class="w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent search-input transition-all">
+                        </div>
+                    </div>
+
+                    <!-- Upload Button -->
+                    <button class="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2">
+                        <i class="bi bi-cloud-upload"></i>
+                        <span class="hidden sm:inline">Upload</span>
+                    </button>
+
+                    <!-- User Profile -->
+                    <div class="flex items-center gap-3 pl-4 border-l border-gray-200">
+                        <div class="text-right hidden sm:block">
+                            <p class="text-sm font-medium text-gray-900">John Doe</p>
+                            <p class="text-xs text-gray-500">john@example.com</p>
+                        </div>
+                        <div class="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-white font-semibold">
+                            JD
+                        </div>
+                        <i class="bi bi-chevron-down text-gray-500 cursor-pointer hover:text-gray-700"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Welcome Section -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">Welcome back, John! 👋</h1>
+            <p class="text-gray-600">Here's what's happening with your files today.</p>
+        </div>
+
+        <!-- Storage Usage Card -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900">Storage Usage</h3>
+                    <p class="text-sm text-gray-500">You're using 4.2 GB of 10 GB</p>
+                </div>
+                <div class="text-right">
+                    <span class="text-2xl font-bold text-primary">42%</span>
+                    <p class="text-xs text-gray-500">used</p>
+                </div>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3 mb-2">
+                <div class="bg-gradient-to-r from-primary to-accent h-3 rounded-full" style="width: 42%"></div>
+            </div>
+            <div class="flex justify-between text-xs text-gray-500">
+                <span>0 GB</span>
+                <span>4.2 GB used</span>
+                <span>10 GB total</span>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <button class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-primary hover:shadow-md transition-all text-left group">
+                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-blue-200 transition-colors">
+                    <i class="bi bi-folder-plus text-blue-600 text-2xl"></i>
+                </div>
+                <h4 class="font-semibold text-gray-900 mb-1">New Folder</h4>
+                <p class="text-sm text-gray-500">Create a new folder</p>
+            </button>
+            <button class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-primary hover:shadow-md transition-all text-left group">
+                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-green-200 transition-colors">
+                    <i class="bi bi-upload text-green-600 text-2xl"></i>
+                </div>
+                <h4 class="font-semibold text-gray-900 mb-1">Upload Files</h4>
+                <p class="text-sm text-gray-500">Add files to cloud</p>
+            </button>
+            <button class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-primary hover:shadow-md transition-all text-left group">
+                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-purple-200 transition-colors">
+                    <i class="bi bi-share text-purple-600 text-2xl"></i>
+                </div>
+                <h4 class="font-semibold text-gray-900 mb-1">Share Files</h4>
+                <p class="text-sm text-gray-500">Share with others</p>
+            </button>
+            <button class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-primary hover:shadow-md transition-all text-left group">
+                <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-orange-200 transition-colors">
+                    <i class="bi bi-gear text-orange-600 text-2xl"></i>
+                </div>
+                <h4 class="font-semibold text-gray-900 mb-1">Settings</h4>
+                <p class="text-sm text-gray-500">Manage preferences</p>
+            </button>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <!-- Left Sidebar: Folder Tree -->
+            <aside class="lg:col-span-1">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200">
+                    <div class="p-4 border-b border-gray-200">
+                        <h3 class="font-semibold text-gray-900">Folders</h3>
+                    </div>
+                    <div class="p-2">
+                        <!-- Root Folder -->
+                        <div class="folder-tree-item active flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-colors">
+                            <i class="bi bi-folder text-yellow-500 text-lg"></i>
+                            <span class="text-sm font-medium text-gray-900">My Files</span>
+                        </div>
+                        <!-- Sub Folders -->
+                        <div class="mt-1">
+                            <div class="folder-tree-item flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <i class="bi bi-folder text-yellow-500 text-lg"></i>
+                                <span class="text-sm text-gray-700">Documents</span>
+                            </div>
+                            <div class="folder-tree-item flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <i class="bi bi-folder text-yellow-500 text-lg"></i>
+                                <span class="text-sm text-gray-700">Photos</span>
+                            </div>
+                            <div class="folder-tree-item flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <i class="bi bi-folder text-yellow-500 text-lg"></i>
+                                <span class="text-sm text-gray-700">Projects</span>
+                            </div>
+                            <div class="folder-tree-item flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                <i class="bi bi-folder text-yellow-500 text-lg"></i>
+                                <span class="text-sm text-gray-700">Downloads</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Files -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 mt-6">
+                    <div class="p-4 border-b border-gray-200">
+                        <h3 class="font-semibold text-gray-900">Recent Files</h3>
+                    </div>
+                    <div class="p-2">
+                        <div class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors">
+                            <i class="bi bi-file-earmark-pdf text-red-500 text-2xl"></i>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-gray-900 truncate">Project Proposal.pdf</p>
+                                <p class="text-xs text-gray-500">2.4 MB • 2 hours ago</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors">
+                            <i class="bi bi-file-earmark-excel text-green-500 text-2xl"></i>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-gray-900 truncate">Budget 2024.xlsx</p>
+                                <p class="text-xs text-gray-500">1.2 MB • 5 hours ago</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors">
+                            <i class="bi bi-file-earmark-image text-blue-500 text-2xl"></i>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-gray-900 truncate">Team Photo.jpg</p>
+                                <p class="text-xs text-gray-500">3.8 MB • 1 day ago</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Right Content: File List -->
+            <div class="lg:col-span-3">
+                <!-- Toolbar -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 mb-6">
+                    <div class="p-4 border-b border-gray-200 flex flex-wrap items-center justify-between gap-4">
+                        <div class="flex items-center gap-2">
+                            <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                                <i class="bi bi-grid text-gray-600"></i>
+                            </button>
+                            <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                                <i class="bi bi-list text-gray-600"></i>
+                            </button>
+                            <div class="h-6 w-px bg-gray-300 mx-2"></div>
+                            <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                                <i class="bi bi-arrow-up-left text-gray-600"></i>
+                            </button>
+                            <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                                <i class="bi bi-arrow-down-right text-gray-600"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                                <i class="bi bi-filter text-gray-600"></i>
+                            </button>
+                            <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                                <i class="bi bi-sort-numeric-down text-gray-600"></i>
+                            </button>
+                            <div class="h-6 w-px bg-gray-300 mx-2"></div>
+                            <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                                <i class="bi bi-three-dots text-gray-600"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- File Grid -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200">
+                    <div class="p-4 border-b border-gray-200 flex items-center justify-between">
+                        <h3 class="font-semibold text-gray-900">Files</h3>
+                        <span class="text-sm text-gray-500">127 items</span>
+                    </div>
+                    <div class="p-4">
+                        <!-- File Card 1 -->
+                        <div class="file-card bg-white border border-gray-200 rounded-lg p-4 hover:border-primary transition-all cursor-pointer">
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <i class="bi bi-file-earmark-pdf text-red-500 text-2xl"></i>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="font-medium text-gray-900 truncate">Project Proposal.pdf</h4>
+                                    <p class="text-sm text-gray-500">PDF • 2.4 MB</p>
+                                    <div class="flex items-center gap-4 mt-2">
+                                        <span class="text-xs text-gray-400">Modified: 2 hours ago</span>
+                                        <span class="text-xs text-gray-400">Modified by: John Doe</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                                        <i class="bi bi-eye text-gray-600"></i>
+                                    </button>
+                                    <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                                        <i class="bi bi-download text-gray-600"></i>
+                                    </button>
+                                    <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                                        <i class="bi bi-three-dots text-gray-600"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- File Card 2 -->
+                        <div class="file-card bg-white border border-gray-200 rounded-lg p-4 hover:border-primary transition-all cursor-pointer">
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <i class="bi bi-file-earmark-excel text-green-500 text-2xl"></i>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="font-medium text-gray-900 truncate">Budget 2024.xlsx</h4>
+                                    <p class="text-sm text-gray-500">Excel • 1.2 MB</p>
+                                    <div class="flex items-center gap-4 mt-2">
+                                        <span class="text-xs text-gray-400">Modified: 5 hours ago</span>
+                                        <span class="text-xs text-gray-400">Modified by: Sarah Smith</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                                        <i class="bi bi-eye text-gray-600"></i>
+                                    </button>
+                                    <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                                        <i class="bi bi-download text-gray-600"></i>
+                                    </button>
+                                    <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                                        <i class="bi bi-three-dots text-gray-600"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- File Card 3 -->
+                        <div class="file-card bg-white border border-gray-200 rounded-lg p-4 hover:border-primary transition-all cursor-pointer">
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <i class="bi bi-file-earmark-image text-blue-500 text-2xl"></i>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="font-medium text-gray-900 truncate">Team Photo.jpg</h4>
+                                    <p class="text-sm text-gray-500">Image • 3.8 MB</p>
+                                    <div class="flex items-center gap-4 mt-2">
+                                        <span class="text-xs text-gray-400">Modified: 1 day ago</span>
+                                        <span class="text-xs text-gray-400">Modified by: John Doe</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                                        <i class="bi bi-eye text-gray-600"></i>
+                                    </button>
+                                    <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                                        <i class="bi bi-download text-gray-600"></i>
+                                    </button>
+                                    <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                                        <i class="bi bi-three-dots text-gray-600"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- File Card 4 -->
+                        <div class="file-card bg-white border border-gray-200 rounded-lg p-4 hover:border-primary transition-all cursor-pointer">
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <i class="bi bi-file-earmark-word text-purple-500 text-2xl"></i>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="font-medium text-gray-900 truncate">Meeting Notes.docx</h4>
+                                    <p class="text-sm text-gray-500">Word • 856 KB</p>
+                                    <div class="flex items-center gap-4 mt-2">
+                                        <span class="text-xs text-gray-400">Modified: 2 days ago</span>
+                                        <span class="text-xs text-gray-400">Modified by: Mike Johnson</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                                        <i class="bi bi-eye text-gray-600"></i>
+                                    </button>
+                                    <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                                        <i class="bi bi-download text-gray-600"></i>
+                                    </button>
+                                    <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                                        <i class="bi bi-three-dots text-gray-600"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- File Card 5 -->
+                        <div class="file-card bg-white border border-gray-200 rounded-lg p-4 hover:border-primary transition-all cursor-pointer">
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <i class="bi bi-file-earmark-zip text-orange-500 text-2xl"></i>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="font-medium text-gray-900 truncate">Website Assets.zip</h4>
+                                    <p class="text-sm text-gray-500">Archive • 45.2 MB</p>
+                                    <div class="flex items-center gap-4 mt-2">
+                                        <span class="text-xs text-gray-400">Modified: 3 days ago</span>
+                                        <span class="text-xs text-gray-400">Modified by: John Doe</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                                        <i class="bi bi-eye text-gray-600"></i>
+                                    </button>
+                                    <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                                        <i class="bi bi-download text-gray-600"></i>
+                                    </button>
+                                    <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                                        <i class="bi bi-three-dots text-gray-600"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- File Card 6 -->
+                        <div class="file-card bg-white border border-gray-200 rounded-lg p-4 hover:border-primary transition-all cursor-pointer">
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <i class="bi bi-file-earmark-video text-pink-500 text-2xl"></i>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="font-medium text-gray-900 truncate">Product Demo.mp4</h4>
+                                    <p class="text-sm text-gray-500">Video • 125.8 MB</p>
+                                    <div class="flex items-center gap-4 mt-2">
+                                        <span class="text-xs text-gray-400">Modified: 1 week ago</span>
+                                        <span class="text-xs text-gray-400">Modified by: Sarah Smith</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                                        <i class="bi bi-eye text-gray-600"></i>
+                                    </button>
+                                    <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                                        <i class="bi bi-download text-gray-600"></i>
+                                    </button>
+                                    <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                                        <i class="bi bi-three-dots text-gray-600"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
+                        <i class="bi bi-cloud-fill text-white text-lg"></i>
+                    </div>
+                    <span class="text-lg font-bold text-gray-900">CloudStore</span>
+                </div>
+                <p class="text-sm text-gray-500">© 2024 CloudStore. All rights reserved.</p>
+                <div class="flex items-center gap-4">
+                    <a href="#" class="text-gray-500 hover:text-gray-900 transition-colors">
+                        <i class="bi bi-github text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-gray-900 transition-colors">
+                        <i class="bi bi-twitter text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-gray-900 transition-colors">
+                        <i class="bi bi-linkedin text-xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Secure Access</title>
+    
+    <!-- Tailwind CSS v4 (CDN) -->
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body class="bg-gradient-to-br from-slate-100 to-slate-200 min-h-screen flex items-center justify-center p-4">
+
+    <!-- Main Card -->
+    <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden border border-slate-100">
+        
+        <!-- Decorative Header -->
+        <div class="h-32 bg-slate-900 relative overflow-hidden">
+            <div class="absolute inset-0 flex items-center justify-center">
+                <i class="bi bi-shield-lock text-6xl text-white opacity-90"></i>
+            </div>
+            <!-- Gradient Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+        </div>
+
+        <!-- Form Content -->
+        <div class="px-8 pb-8 pt-4">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-slate-800">Welcome Back</h2>
+                <p class="text-slate-500 mt-2">Please enter your details to sign in.</p>
+            </div>
+
+            <form action="#" method="POST" class="space-y-5">
+                
+                <!-- Email Input -->
+                <div class="space-y-1">
+                    <label for="email" class="block text-sm font-medium text-slate-700">Email Address</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="bi bi-envelope text-slate-400"></i>
+                        </div>
+                        <input type="email" id="email" name="email" 
+                            class="block w-full pl-10 pr-3 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition duration-200 placeholder-slate-400" 
+                            placeholder="you@example.com" required>
+                    </div>
+                </div>
+
+                <!-- Password Input -->
+                <div class="space-y-1">
+                    <label for="password" class="block text-sm font-medium text-slate-700">Password</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="bi bi-lock text-slate-400"></i>
+                        </div>
+                        <input type="password" id="password" name="password" 
+                            class="block w-full pl-10 pr-3 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition duration-200 placeholder-slate-400" 
+                            placeholder="••••••••" required>
+                    </div>
+                </div>
+
+                <!-- Remember Me & Forgot Password -->
+                <div class="flex items-center justify-between text-sm">
+                    <div class="flex items-center">
+                        <input id="remember-me" name="remember-me" type="checkbox" 
+                            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded cursor-pointer">
+                        <label for="remember-me" class="ml-2 block text-slate-600 cursor-pointer">Remember me</label>
+                    </div>
+                    <a href="#" class="font-medium text-blue-600 hover:text-blue-500 transition duration-200">Forgot password?</a>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" 
+                    class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-200">
+                    Sign in
+                </button>
+            </form>
+
+            <!-- Divider -->
+            <div class="relative my-6">
+                <div class="absolute inset-0 flex items-center">
+                    <div class="w-full border-t border-slate-200"></div>
+                </div>
+                <div class="relative flex justify-center text-sm">
+                    <span class="px-2 bg-white text-slate-500">Or continue with</span>
+                </div>
+            </div>
+
+            <!-- Social Login (Icons only) -->
+            <div class="grid grid-cols-2 gap-3">
+                <button type="button" class="flex items-center justify-center px-4 py-2 border border-slate-300 rounded-lg shadow-sm bg-white text-sm font-medium text-slate-700 hover:bg-slate-50 transition duration-200">
+                    <i class="bi bi-google text-red-500 mr-2"></i>
+                    Google
+                </button>
+                <button type="button" class="flex items-center justify-center px-4 py-2 border border-slate-300 rounded-lg shadow-sm bg-white text-sm font-medium text-slate-700 hover:bg-slate-50 transition duration-200">
+                    <i class="bi bi-github text-slate-800 mr-2"></i>
+                    GitHub
+                </button>
+            </div>
+
+            <!-- Footer -->
+            <p class="mt-8 text-center text-sm text-slate-600">
+                Don't have an account? 
+                <a href="#" class="font-semibold text-blue-600 hover:text-blue-500 transition duration-200">Sign up for free</a>
+            </p>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Drive - Dashboard</title>
+    <!-- Tailwind CSS v4 via CDN -->
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white border-r border-gray-200 flex flex-col">
+            <!-- Logo -->
+            <div class="h-16 flex items-center px-6 border-b border-gray-200">
+                <i class="bi bi-cloud-fill text-blue-600 text-2xl mr-2"></i>
+                <span class="text-xl font-bold text-gray-800">Cloud Drive</span>
+            </div>
+            
+            <!-- Navigation -->
+            <nav class="flex-1 overflow-y-auto py-4">
+                <ul class="space-y-1 px-3">
+                    <li>
+                        <a href="#" class="flex items-center px-3 py-2 text-sm font-medium rounded-lg bg-blue-50 text-blue-700">
+                            <i class="bi bi-folder2-open mr-3"></i>
+                            My Drive
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center px-3 py-2 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100">
+                            <i class="bi bi-hdd-network mr-3"></i>
+                            My Computer
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center px-3 py-2 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100">
+                            <i class="bi bi-trash mr-3"></i>
+                            Trash
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center px-3 py-2 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100">
+                            <i class="bi bi-star mr-3"></i>
+                            Starred
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center px-3 py-2 text-sm font-medium rounded-lg text-gray-700 hover:bg-gray-100">
+                            <i class="bi bi-clock-history mr-3"></i>
+                            Recent
+                        </a>
+                    </li>
+                </ul>
+                
+                <!-- New Folder Button -->
+                <div class="px-3 mt-4">
+                    <button class="w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                        <i class="bi bi-folder-plus mr-2"></i>
+                        New Folder
+                    </button>
+                </div>
+            </nav>
+            
+            <!-- User Profile -->
+            <div class="p-4 border-t border-gray-200">
+                <div class="flex items-center">
+                    <img src="https://ui-avatars.com/api/?name=John+Doe&background=0D8ABC&color=fff" alt="User" class="h-9 w-9 rounded-full">
+                    <div class="ml-3">
+                        <p class="text-sm font-medium text-gray-700">John Doe</p>
+                        <p class="text-xs text-gray-500">john@example.com</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top Bar -->
+            <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6">
+                <!-- Search -->
+                <div class="relative w-96">
+                    <i class="bi bi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" placeholder="Search files and folders" class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                </div>
+                
+                <!-- Right Actions -->
+                <div class="flex items-center space-x-4">
+                    <button class="p-2 text-gray-500 hover:text-gray-700">
+                        <i class="bi bi-bell"></i>
+                    </button>
+                    <button class="p-2 text-gray-500 hover:text-gray-700">
+                        <i class="bi bi-gear"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Main Content Area -->
+            <main class="flex-1 overflow-y-auto p-6">
+                <!-- Breadcrumbs -->
+                <nav class="flex items-center text-sm text-gray-500 mb-4">
+                    <i class="bi bi-house mr-2"></i>
+                    <span class="mx-2">/</span>
+                    <span class="text-gray-800 font-medium">My Drive</span>
+                </nav>
+
+                <!-- Toolbar -->
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center space-x-2">
+                        <button class="p-2 text-gray-500 hover:text-gray-700">
+                            <i class="bi bi-arrow-left"></i>
+                        </button>
+                        <button class="p-2 text-gray-500 hover:text-gray-700">
+                            <i class="bi bi-arrow-right"></i>
+                        </button>
+                        <button class="p-2 text-gray-500 hover:text-gray-700">
+                            <i class="bi bi-arrow-up-left"></i>
+                        </button>
+                        <button class="p-2 text-gray-500 hover:text-gray-700">
+                            <i class="bi bi-arrow-up-right"></i>
+                        </button>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button class="p-2 text-gray-500 hover:text-gray-700">
+                            <i class="bi bi-grid"></i>
+                        </button>
+                        <button class="p-2 text-gray-500 hover:text-gray-700">
+                            <i class="bi bi-list"></i>
+                        </button>
+                        <button class="p-2 text-gray-500 hover:text-gray-700">
+                            <i class="bi bi-sort-numeric-down"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Files and Folders Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                    <!-- Folder Card 1 -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow cursor-pointer">
+                        <div class="flex items-center justify-between mb-2">
+                            <i class="bi bi-folder text-yellow-500 text-3xl"></i>
+                            <i class="bi bi-three-dots text-gray-400"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800">Documents</h3>
+                        <p class="text-sm text-gray-500">12 files</p>
+                    </div>
+
+                    <!-- Folder Card 2 -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow cursor-pointer">
+                        <div class="flex items-center justify-between mb-2">
+                            <i class="bi bi-folder text-yellow-500 text-3xl"></i>
+                            <i class="bi bi-three-dots text-gray-400"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800">Images</h3>
+                        <p class="text-sm text-gray-500">45 files</p>
+                    </div>
+
+                    <!-- Folder Card 3 -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow cursor-pointer">
+                        <div class="flex items-center justify-between mb-2">
+                            <i class="bi bi-folder text-yellow-500 text-3xl"></i>
+                            <i class="bi bi-three-dots text-gray-400"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800">Projects</h3>
+                        <p class="text-sm text-gray-500">8 files</p>
+                    </div>
+
+                    <!-- File Card 1 -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow cursor-pointer">
+                        <div class="flex items-center justify-between mb-2">
+                            <i class="bi bi-file-earmark-pdf text-red-500 text-3xl"></i>
+                            <i class="bi bi-three-dots text-gray-400"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800">Resume.pdf</h3>
+                        <p class="text-sm text-gray-500">2.4 MB • 12/15/2023</p>
+                    </div>
+
+                    <!-- File Card 2 -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow cursor-pointer">
+                        <div class="flex items-center justify-between mb-2">
+                            <i class="bi bi-file-earmark-excel text-green-500 text-3xl"></i>
+                            <i class="bi bi-three-dots text-gray-400"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800">Budget.xlsx</h3>
+                        <p class="text-sm text-gray-500">1.2 MB • 11/28/2023</p>
+                    </div>
+
+                    <!-- File Card 3 -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow cursor-pointer">
+                        <div class="flex items-center justify-between mb-2">
+                            <i class="bi bi-file-earmark-word text-blue-500 text-3xl"></i>
+                            <i class="bi bi-three-dots text-gray-400"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800">Meeting Notes.docx</h3>
+                        <p class="text-sm text-gray-500">85 KB • 12/01/2023</p>
+                    </div>
+
+                    <!-- File Card 4 -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow cursor-pointer">
+                        <div class="flex items-center justify-between mb-2">
+                            <i class="bi bi-file-earmark-image text-purple-500 text-3xl"></i>
+                            <i class="bi bi-three-dots text-gray-400"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800">Profile.jpg</h3>
+                        <p class="text-sm text-gray-500">2.1 MB • 12/10/2023</p>
+                    </div>
+
+                    <!-- File Card 5 -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow cursor-pointer">
+                        <div class="flex items-center justify-between mb-2">
+                            <i class="bi bi-file-earmark-zip text-orange-500 text-3xl"></i>
+                            <i class="bi bi-three-dots text-gray-400"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800">Backup.zip</h3>
+                        <p class="text-sm text-gray-500">15.6 MB • 12/05/2023</p>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div class="flex items-center justify-between mt-8">
+                    <div class="flex items-center space-x-2">
+                        <button class="p-2 text-gray-500 hover:text-gray-700">
+                            <i class="bi bi-chevron-left"></i>
+                        </button>
+                        <span class="text-sm text-gray-700">Page 1 of 10</span>
+                        <button class="p-2 text-gray-500 hover:text-gray-700">
+                            <i class="bi bi-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button class="p-2 text-gray-500 hover:text-gray-700">
+                            <i class="bi bi-download"></i>
+                        </button>
+                        <button class="p-2 text-gray-500 hover:text-gray-700">
+                            <i class="bi bi-share"></i>
+                        </button>
+                        <button class="p-2 text-gray-500 hover:text-gray-700">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+</html>
