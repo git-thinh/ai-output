@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Storage Manager</title>
+    
+    <!-- Tailwind CSS v4 -->
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    
+    <!-- Configuration for Tailwind Colors & Fonts -->
+    <script>
+        // tailwind.config = {
+        //     darkMode: 'class',
+        //     theme: {
+        //         extend: {
+        //             colors: {
+        //                 border: '#e5e7eb',
+        //                 input: '#f9fafb',
+        //                 ring: '#d1d5db',
+        //                 background: '#ffffff',
+        //                 foreground: '#1f2937',
+        //                 primary: {
+        //                     DEFAULT: '#3b82f6', // Blue-500
+        //                     foreground: '#ffffff'
+        //                 },
+        //                 secondary: {
+        //                     DEFAULT: '#6b7280', // Gray-500
+        //                     foreground: '#ffffff'
+        //                 }
+        //             },
+        //             fontFamily: {
+        //                 sans: ['Inter', 'system-ui', 'sans-serif'],
+        //             }
+        //         }
+        //     }
+        // }
+    </script>
+    
+    <!-- Bootstrap Icons CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        
+        /* Smooth transitions */
+        .fade-in-up { animation: fadeInUp 0.3s ease-out forwards; opacity: 0; transform: translateY(10px); }
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+        
+        /* Scrollbar styling */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a1a1a1; }
+        
+        /* Loading skeleton styles */
+        .loader-skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        @keyframes shimmer { 
+            0% { background-position: 200% 0; } 
+            100% { background-position: -200% 0; } 
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 transition-colors duration-300 min-h-screen flex">
+
+    <!-- Navigation Bar (Sidebar) -->
+    <nav class="fixed left-0 top-0 h-full w-[280px] bg-white border-r border-gray-200 shadow-lg z-50 hidden md:flex flex-col">
+        <!-- Logo & Branding -->
+        <div class="p-6 border-b border-gray-100">
+            <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                📦 CloudManager
+            </h1>
+            <p class="text-xs text-gray-500 mt-1">Organize your digital life</p>
+        </div>
+
+        <!-- User Profile Section -->
+        <div class="p-6 border-b border-gray-100">
+            <div class="flex items-center gap-3 mb-4">
+                <img src="https://ui-avatars.com/api/?name=Admin+User&background=random" alt="Profile" class="w-10 h-10 rounded-full object-cover">
+                <div>
+                    <p class="font-semibold text-sm">Administrator</p>
+                    <p class="text-xs text-green-600 flex items-center gap-1">
+                        <span class="w-2 h-2 bg-green-500 rounded-full"></span> Online
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Quick Actions -->
+            <button onclick="router.navigate('dashboard')" class="w-full py-2 px-4 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2">
+                <i class="bi bi-house-door-fill"></i> Dashboard
+            </button>
+            <button onclick="router.navigate('upload')" class="w-full py-2 px-4 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2">
+                <i class="bi bi-cloud-upload"></i> Upload Files
+            </button>
+            <button onclick="router.navigate('settings')" class="w-full py-2 px-4 bg-gray-50 hover:bg-gray-100 text-gray-700 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2">
+                <i class="bi bi-gear"></i> Settings
+            </button>
+        </div>
+
+        <!-- Navigation Links -->
+        <ul class="flex-1 overflow-y-auto p-4 space-y-1">
+            <li><a href="#" onclick="router.navigate('folders')"><i class="bi bi-folder tree me-2"></i>Folders & Documents</a></li>
+            <li><a href="#" onclick="router.navigate('files')"><i class="bi bi-file-earmark-text me-2"></i>All Files (8,942)</a></li>
+            <li><a href="#"><i class="bi bi-search me-2"></i>Search Everything</a></li>
+            <li><a href="#"><i class="bi bi-download me-2"></i>Export Data</a></li>
+            <li><a href="#"><i class="bi bi-trash me-2" title="Delete Account"></i>Delete Account</a></li>
+        </ul>
+
+        <!-- Footer -->
+        <div class="p-4 border-t border-gray-100 text-xs text-gray-400 text-center">
+            © 2024 CloudStorage Manager. All rights reserved.
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="md:ml-[280px] min-h-screen flex flex-col">
+        
+        <!-- Header Bar -->
+        <header class="bg-white border-b border-gray-200 sticky top-0 z-30">
+            <div class="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+                
+                <!-- Search Bar -->
+                <div class="relative w-full max-w-md hidden md:block">
+                    <input 
+                        type="text" 
+                        placeholder="🔍 Search folders, files, and tags..." 
+                        class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                        id="searchInput"
+                    >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-2.5 pointer-events-none">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </div>
+
+                <!-- Right Side Actions -->
+                <div class="flex items-center gap-3">
+                    <!-- Dark Mode Toggle (CSS Only) -->
+                    <button onclick="toggleDarkMode()" class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                        <span id="themeIcon" class="text-yellow-500"><i class="bi bi-moon-stars-fill"></i></span>
+                    </button>
+
+                    <!-- Upload Button -->
+                    <button onclick="router.navigate('upload')" class="group relative p-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl shadow-lg transform hover:scale-105 transition-all duration-200">
+                        <i class="bi bi-cloud-upload-simple text-xl group-hover:text-blue-100"></i>
+                        <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center animate-bounce">+</span>
+                    </button>
+
+                    <!-- Notifications Bell -->
+                    <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors relative">
+                        <i class="bi bi-bell text-xl"></i>
+                        <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content Container -->
+        <div class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+            
+            <!-- Loading State -->
+            <div id="loadingState" class="hidden fade-in-up">
+                <div class="max-w-7xl mx-auto">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                        <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+                            <h3 class="text-sm font-medium text-gray-500 mb-2">Total Folders</h3>
+                            <p class="text-3xl font-bold text-primary">1,247</p>
+                        </div>
+                        <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+                            <h3 class="text-sm font-medium text-gray-500 mb-2">Total Files</h3>
+                            <p class="text-3xl font-bold text-green-600">94,521</p>
+                        </div>
+                        <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+                            <h3 class="text-sm font-medium text-gray-500 mb-2">Storage Used</h3>
+                            <p class="text-3xl font-bold text-orange-500">1.2 GB</p>
+                        </div>
+                        <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+                            <h3 class="text-sm font-medium text-gray-500 mb-2">Uploads Today</h3>
+                            <p class="text-3xl font-bold text-blue-600">128</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                        <!-- Recent Uploads -->
+                        <div class="bg-gradient-to-br from-indigo-50 to-purple-50 border border-indigo-100 rounded-xl p-6">
+                            <h3 class="font-semibold text-lg mb-4 flex items-center gap-2">
+                                <i class="bi bi-cloud-arrow-up text-indigo-600"></i>
+                                Recent Uploads
+                            </h3>
+                            <ul class="space-y-3">
+                                <li class="flex items-start justify-between bg-white p-3 rounded-lg shadow-sm">
+                                    <span class="text-xs text-gray-500">Just now</span>
+                                    <img src="https://images.unsplash.com/photo-1544716278-ca5e3b419a98?w=100" alt="Thumbnail" class="w-10 h-10 object-cover rounded-md">
+                                </li>
+                                <li class="flex items-start justify-between bg-white p-3 rounded-lg shadow-sm">
+                                    <span class="text-xs text-gray-500">2 minutes ago</span>
+                                    <img src="https://images.unsplash.com/photo-1516339489767-bf4c1d624da1?w=100" alt="Thumbnail" class="w-10 h-10 object-cover rounded-md">
+                                </li>
+                                <li class="flex items-start justify-between bg-white p-3 rounded-lg shadow-sm">
+                                    <span class="text-xs text-gray-500">1 hour ago</span>
+                                    <img src="https://images.unsplash.com/photo-1506744038136-46297d34e8ec?w=100" alt="Thumbnail" class="w-10 h-10 object-cover rounded-md">
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Quick Stats Cards -->
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-white border border-gray-200 rounded-xl p-5 shadow-sm hover:border-blue-300 transition-colors cursor-pointer group">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-sm font-medium text-gray-600 group-hover:text-blue-600"><i class="bi bi-folder me-1"></i>Folders</span>
+                                    <span class="px-2 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">+12%</span>
+                                </div>
+                                <p class="text-2xl font-bold text-primary">1,247</p>
+                            </div>
+                            <div class="bg-white border border-gray-200 rounded-xl p-5 shadow-sm hover:border-indigo-300 transition-colors cursor-pointer group">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-sm font-medium text-gray-600 group-hover:text-indigo-600"><i class="bi bi-file-text me-1"></i>Files</span>
+                                    <span class="px-2 py-1 bg-orange-100 text-orange-700 text-xs font-bold rounded-full">+8%</span>
+                                </div>
+                                <p class="text-2xl font-bold text-secondary">94,521</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Area (Hidden until loading complete) -->
+            <div id="mainContent" class="fade-in-up min-h-[calc(100vh-140px)]">
+                
+                <!-- Dashboard View - Folders List -->
+                <section id="view-folders" class="space-y-6">
+                    <!-- Filters & Actions Bar -->
+                    <div class="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
+                        <div class="flex gap-2 overflow-x-auto pb-2 sm:pb-0">
+                            <button onclick="router.navigate('folders')" class="filter-btn active px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg text-sm font-medium whitespace-nowrap">All</button>
+                            <button onclick="router.navigate('folders', 'documents')" class="filter-btn px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg text-sm font-medium whitespace-nowrap hover:bg-gray-50">Documents</button>
+                            <button onclick="router.navigate('folders', 'images')" class="filter-btn px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg text-sm font-medium whitespace-nowrap hover:bg-gray-50">Images</button>
+                            <button onclick="router.navigate('folders', 'videos')" class="filter-btn px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg text-sm font-medium whitespace-nowrap hover:bg-gray-50">Videos</button>
+                            <button onclick="router.navigate('folders', 'trash')" class="filter-btn px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg text-sm font-medium whitespace-nowrap hover:bg-gray-50">Trash</button>
+                            
+                            <select onchange="router.navigate('folders', this.value)" class="bg-transparent border-none outline-none text-sm cursor-pointer focus:ring-2 focus:ring-blue-500">
+                                <option value="">Sort by Name A-Z</option>
+                                <option value="date_desc">Newest First</option>
+                                <option value="size_asc">Smallest First</option>
+                                <option value="size_desc">Largest First</option>
+                            </select>
+                        </div>
+
+                        <button onclick="router.navigate('upload')" class="sm:hidden p-3 bg-blue-600 text-white rounded-xl shadow-md hover:bg-blue-700 transition-colors">
+                            <i class="bi bi-cloud-upload-simple"></i>
+                        </button>
+                    </div>
+
+                    <!-- Empty State -->
+                    <div id="emptyState" class="hidden fade-in-up text-center py-16">
+                        <div class="inline-flex items-center justify-center w-24 h-24 bg-gray-100 rounded-full mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2zm0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2v10a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                        </div>
+                        <p class="text-gray-500 text-lg font-medium">No folders found</p>
+                        <p class="text-gray-400 mt-2">Upload your first file to get started!</p>
+                        <button onclick="router.navigate('upload')" class="mt-6 px-6 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                            Upload Files Now
+                        </button>
+                    </div>
+
+                    <!-- Folders Grid/List -->
+                    <ul id="foldersList" class="space-y-3">
+                        <!-- Folder Items will be dynamically rendered here -->
+                    </ul>
+                </section>
+
+                <!-- File Management View (Hidden by default) -->
+                <section id="view-files" class="hidden space-y-6">
+                    <div class="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
+                        <input type="file" multiple accept=".pdf,.docx,.txt,.jpg,.png,.mp4,.avi" onchange="handleFileSelect(event)" class="border border-dashed border-gray-300 p-4 rounded-xl cursor-pointer hover:border-blue-500 transition-colors">
+                        
+                        <select onchange="filterFilesByType(this.value)" class="bg-white border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none">
+                            <option value="">All Types</option>
+                            <option value="image">Images (.jpg, .png)</option>
+                            <option value="video">Videos (.mp4, .avi)</option>
+                            <option value="document">Documents (.pdf, .docx)</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <!-- Filtered Results Header -->
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium"><i class="bi bi-folder me-1"></i>Folders:</span>
+                        <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium"><i class="bi bi-file-text me-1"></i>Files:</span>
+                        <span class="text-xs text-gray-500">Showing <span id="resultCount">0</span> results</span>
+                    </div>
+
+                    <!-- Empty State for Files -->
+                    <div id="emptyStateFiles" class="hidden fade-in-up text-center py-16">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mb-4"><path d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2zm0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2v10a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                        <p class="text-gray-500 text-lg font-medium">No files found matching your criteria.</p>
+                        <button onclick="router.navigate('folders')" class="mt-6 px-6 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">Back to Folders</button>
+                    </div>
+
+                    <!-- File Grid/List -->
+                    <ul id="filesList" class="space-y-3">
+                        <!-- File Items will be dynamically rendered here -->
+                    </ul>
+                </section>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="fixed bottom-4 right-4 z-[60] flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- JavaScript Application Logic (Vanilla JS) -->
+    <script type="module">
+        // Import Bootstrap Icons as ES Module
+        import * as bootstrapIcons from 'bootstrap-icons';
+
+        // ============================================
+        // STATE MANAGEMENT (LocalStorage + Pinia-like)
+        // ============================================
+        
+        const state = {
+            folders: [],
+            files: [],
+            currentUser: null,
+            
+            init() {
+                this.loadState();
+                
+                // Auto-load demo data if empty
+                if (this.folders.length === 0 && !localStorage.getItem('demoData')) {
+                    this.seedDemoData();
+                } else if (!localStorage.getItem('demoData') && this.files.length === 0) {
+                    localStorage.setItem('demoData', JSON.stringify({
+                        email: 'admin@cloudmanager.com',
+                        password: 'password123!'
+                    }));
+                }
+            },
+
+            loadState() {
+                try {
+                    const savedFolders = localStorage.getItem('cloud_manager_folders');
+                    const savedFiles = localStorage.getItem('cloud_manager_files');
+                    
+                    if (savedFolders) this.folders = JSON.parse(savedFolders);
+                    if (savedFiles) this.files = JSON.parse(savedFiles);
+                } catch (e) {
+                    console.error("Failed to load state:", e);
+                }
+            },
+
+            saveState() {
+                localStorage.setItem('cloud_manager_folders', JSON.stringify(this.folders));
+                localStorage.setItem('cloud_manager_files', JSON.stringify(this.files));
+            },
+
+            seedDemoData() {
+                // Demo Data - Realistic Cloud Storage Scenario
+                
+                const demoFamilies = [
+                    { name: "Family Photos", path: "/photos/family", iconColor: "#f97316", description: "All family photos and memories" },
+                    { name: "Work Documents", path: "/work/documents", iconColor: "#3b82f6", description: "Professional documents and reports" },
+                    { name: "Travel Memories", path: "/travel/photos", iconColor: "#10b981", description: "Vacation snapshots and souvenirs" },
+                    { name: "Personal Notes", path: "/notes/ideas", iconColor: "#ef4444", description: "Brainstorming notes and ideas" },
+                    { name: "Music Collection", path: "/music/songs", iconColor: "#ec4899", description: "Favorite songs and albums" },
+                    { name: "Project Files", path: "/projects/code", iconColor: "#8b5cf6", description: "Development code repositories" },
+                    { name: "Shopping List", path: "/shopping/basket", iconColor: "#f59e0b", description: "Weekly grocery items" },
+                    { name: "Bible Study", path: "/religion/study", iconColor: "#d97706", description: "Scripture readings and study materials" },
+                ];
+
+                demoFamilies.forEach(f => {
+                    for(let i=0; i<Math.floor(Math.random() * 5) + 3; i++) {
+                        let file = {
+                            id: crypto.randomUUID(),
+                            folderId: f.path,
+                            name: `${i+1}.pdf`,
+                            sizeBytes: Math.floor(Math.random() * 5000000) + 100000,
+                            mimeType: 'application/pdf',
+                            lastModified: new Date(Date.now() - Math.random() * 10000000).toISOString().split('T')[0],
+                            tags: ['document'],
+                            isFavorite: true
+                        };
+                        
+                        if (file.name.endsWith('.jpg') || file.name.endsWith('.png')) {
+                            file.thumbnailUrl = `/thumbnails/${Date.now()}`;
+                        } else {
+                            file.thumbnailUrl = null;
+                        }
+                        
+                        this.files.push(file);
+                    }
+                    
+                    // Create parent folders structure
+                    const parentId = `folders_${crypto.randomUUID().slice(0, 8)}`;
+                    this.folders.push({
+                        id: crypto.randomUUID(),
+                        parentId: parentId,
+                        name: f.name,
+                        type: 'folder',
+                        iconColor: f.iconColor,
+                        createdDate: new Date(Date.now() - Math.random() * 10000000000).toISOString(),
+                        updatedAt: new Date(Date.now()).toISOString(),
+                        isPublic: false
+                    });
+                });
+
+                localStorage.setItem('cloud_manager_folders', JSON.stringify(this.folders));
+            }
+        };
+
+
+        // ============================================
+        // ROUTER & NAVIGATION SYSTEM
+        // ============================================
+
+        class Router {
+            constructor() {
+                this.navigate('dashboard');
+            }
+
+            navigate(viewName, params = {}) {
+                console.log(`Navigating to: ${viewName}`, params);
+                
+                // Hide all views
+                document.querySelectorAll('[id^="view-"]').forEach(el => el.classList.add('hidden'));
+                
+                // Show target view
+                const targetView = document.getElementById(`view-${viewName}`);
+                if (!targetView) return;
+                
+                targetView.classList.remove('hidden');
+                
+                // Update active state in nav
+                document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                event?.target.closest('.filter-btn')?.classList.add('active');
+
+                // Load data for specific views
+                if (['files'].includes(viewName)) {
+                    this.loadFiles(params.type || '');
+                }
+            }
+
+            async loadDashboardData() {
+                await Promise.all([this.loadData(), this.renderFoldersList()]);
+            }
+
+            loadData() {
+                return fetch('/api/folders')
+                    .then(res => res.json())
+                    .then(data => state.folders = data.data);
+            }
+
+            async loadFiles(typeFilter = '') {
+                try {
+                    let response;
+                    if (typeFilter === 'image' || typeFilter === 'video') {
+                        response = await fetch(`/api/files?search=${encodeURIComponent(typeFilter)}&type=media`);
+                    } else {
+                        response = await fetch(`/api/files?search=${encodeURIComponent(typeFilter)}`);
+                    }
+                    const files = await response.json();
+                    state.files = files.map(f => ({...f}));
+                    this.renderFilesList(state.files.filter(f => !f.isDeleted));
+                } catch (error) {
+                    console.error("Failed to load files:", error);
+                }
+            }
+
+            renderFoldersList() {
+                const list = document.getElementById('foldersList');
+                list.innerHTML = '';
+
+                const filtered = state.folders.filter(folder => 
+                    folder.name.toLowerCase().includes(document.getElementById('searchInput').value.toLowerCase())
+                );
+
+                if (filtered.length === 0 && !document.getElementById('emptyState').classList.contains('hidden')) {
+                    document.getElementById('emptyState').classList.remove('hidden');
+                    return;
+                }
+
+                filtered.forEach(folder => {
+                    const li = document.createElement('li');
+                    
+                    // Determine icon based on type
+                    let IconComponent = bootstrapIcons.folder;
+                    if (folder.type === 'root') IconComponent = bootstrapIcons.home;
+                    if (folder.path.includes('photos')) IconComponent = bootstrapIcons.image;
+                    if (folder.path.includes('music')) IconComponent = bootstrapIcons.music_note;
+                    if (folder.path.includes('documents')) IconComponent = bootstrapIcons.file-text;
+                    if (folder.path.includes('notes')) IconComponent = bootstrapIcons.notebook;
+
+                    li.className = `group flex items-center gap-3 p-4 border-b last:border-0 hover:bg-gray-50 transition-colors cursor-pointer ${state.currentUser?.permissions?.admin ? 'bg-blue-50/50' : ''}`;
+                    li.onclick = () => router.navigate('folders', { id: folder.id });
+                    
+                    li.innerHTML = `
+                        <div class="flex items-center gap-2">
+                            <span class="${folder.iconColor || '#9ca3af'}"><${IconComponent}></span>
+                            <h3 class="font-medium text-sm truncate max-w-[180px]">${folder.name}</h3>
+                            <span class="text-xs px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 font-medium">${folder.path.split('/').pop()}</span>
+                        </div>
+                        <button onclick="router.navigate('files')" title="View Files" class="opacity-0 group-hover:opacity-100 p-1.5 hover:bg-gray-200 rounded-md transition-all">
+                            <i class="bi bi-file-earmark"></i>
+                        </button>
+                        <button onclick="deleteFolder('${folder.id}')" title="Delete Folder" class="opacity-0 group-hover:opacity-100 p-1.5 hover:bg-red-100 rounded-md transition-all">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    `;
+                    list.appendChild(li);
+                });
+            }
+
+            renderFilesList(files) {
+                const list = document.getElementById('filesList');
+                
+                if (files.length === 0 && !document.getElementById('emptyStateFiles').classList.contains('hidden')) {
+                    document.getElementById('emptyStateFiles').classList.remove('hidden');
+                    return;
+                }
+
+                files.forEach(file => {
+                    // Determine icon based on type
+                    let IconComponent = bootstrapIcons.fileText;
+                    if (file.type.startsWith('image/')) IconComponent = bootstrapIcons.image;
+                    else if (file.type.startsWith('video/')) IconComponent = bootstrapIcons.video;
+                    else if (file.tags?.includes('music') || file.tags?.includes('song')) IconComponent = bootstrapIcons.music_note;
+                    else if (file.tags?.includes('note') || file.tags?.includes('idea')) IconComponent = bootstrapIcons.notebook;
+
+                    const li = document.createElement('li');
+                    
+                    li.className = "group flex items-start justify-between p-4 border-b last:border-0 hover:bg-gray-50 transition-colors cursor-pointer";
+                    li.onclick = () => router.navigate('files', { id: file.id, type: file.type });
+                    
+                    li.innerHTML = `
+                        <div class="flex items-center gap-3 mt-1">
+                            <span class="${file.iconColor || '#9ca3af'}"><${IconComponent}></span>
+                            <a href="/download/${file.id}" download class="font-medium truncate max-w-[180px] ${state.currentUser?.permissions?.admin ? 'text-blue-700' : ''}">${file.name}</a>
+                        </div>
+                        <div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 ml-auto">
+                            <button onclick="toggleFavorite(${file.id})" title="${file.isFavorite ? 'Remove from favorites' : 'Add to favorites'}" class="p-1.5 hover:bg-yellow-100 rounded-md text-yellow-600">
+                                ${file.isFavorite ? '<i class="bi bi-star-fill"></i>' : '<i class="bi bi-star"></i>'}
+                            </button>
+                            <button onclick="deleteFile('${file.id}')" title="Delete File" class="p-1.5 hover:bg-red-100 rounded-md text-red-600">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                    list.appendChild(li);
+                });
+            }
+
+            async loadData() {
+                await Promise.all([this.loadData(), this.loadDashboardData()]);
+            }
+
+
+        }
+
+        // ============================================
+        // UI COMPONENTS & UTILITIES
+        // ============================================
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            
+            const toast = document.createElement('div');
+            toast.className = `pointer-events-auto transform transition-all duration-300 translate-y-0 mb-3 px-4 py-3 rounded-lg shadow-lg text-white min-w-[300px]`;
+            
+            let iconClass = '';
+            if (type === 'error') iconClass = 'bg-red-500';
+            else if (type === 'warning') iconClass = 'bg-orange-500';
+            else if (type === 'info') iconClass = 'bg-blue-500';
+            else iconClass = 'bg-green-500';
+            
+            iconClass += ' flex items-center justify-center w-6 h-6 mr-2';
+            
+            toast.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v3m0 4v3m9-7h-3m-9 0H3m18 0h-3m-9 0H3"/></svg>
+                ${message}
+            `;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('translate-y-full', 'opacity-0');
+            }, 3000);
+        }
+
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            const themeIcon = document.getElementById('themeIcon');
+            if (newTheme === 'dark') {
+                themeIcon.innerHTML = '<i class="bi bi-sun-fill"></i>';
+            } else {
+                themeIcon.innerHTML = '<i class="bi bi-moon-stars-fill"></i>';
+            }
+        }
+
+
+        // ============================================
+        // FEATURE COMPONENTS
+        // ============================================
+
+        // --- Folder Card Component ---
+        function createFolderCard(folder) {
+            return `
+                <li onclick="router.navigate('folders', { id: folder.id })">
+                    <div class="flex items-start gap-3 p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer group">
+                        <span class="${folder.iconColor || '#9ca3af'} font-bold text-xl">${folder.type === 'root' ? '@' : '/'}</span>
+                        <div class="flex-1 min-w-0">
+                            <p class="font-medium truncate pr-4">${folder.name}</p>
+                            <p class="text-xs text-gray-500 truncate max-w-[180px]">${folder.path.split('/').pop()}</p>
+                        </div>
+                        <button onclick="deleteFolder('${folder.id}')" title="Delete" class="opacity-0 group-hover:opacity-100 p-1.5 hover:bg-red-100 rounded-md text-red-600">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+                </li>
+            `;
+        }
+
+
+        // --- File Item Component ---
+        function createFileItem(file, typeFilter = '') {
+            let IconComponent = bootstrapIcons.fileText;
+            if (file.type.startsWith('image/')) IconComponent = bootstrapIcons.image;
+            else if (file.type.startsWith('video/')) IconComponent = bootstrapIcons.video;
+            else if (typeFilter && file.tags?.includes(typeFilter)) IconComponent = bootstrapIcons.folder;
+            else if (file.tags?.includes('music') || file.tags?.includes('song')) IconComponent = bootstrapIcons.music_note;
+            else if (file.tags?.includes('note') || file.tags?.includes('idea')) IconComponent = bootstrapIcons.notebook;
+
+            return `
+                <li onclick="router.navigate('files', { id: file.id, type: file.type })">
+                    <a href="/download/${file.id}" download class="block w-full">
+                        <div class="flex items-center justify-between px-2 py-1.5 hover:bg-blue-50 rounded-md transition-colors cursor-pointer border-b last:border-0 pb-1">
+                            <div class="flex items-center gap-2 flex-1">
+                                <span class="${file.iconColor || '#9ca3af'}"><${IconComponent}></span>
+                                <span class="truncate">${file.name}</span>
+                            </div>
+                            ${!state.currentUser?.permissions?.admin 
+                                ? `<button onclick="toggleFavorite(${file.id})" class="ml-auto opacity-0 hover:opacity-100"><i class="bi bi-star-fill ${file.isFavorite ? 'text-yellow-500' : ''}"></i></button>` 
+                                : '<span class="text-green-600 font-bold">$ ${(file.sizeBytes / 1024).toFixed(1)} KB</span>'}
+                        </div>
+                    </a>
+                </li>
+            `;
+        }
+
+
+        // --- Upload Modal Component ---
+        function createUploadModal(isEditing) {
+            const modalId = isEditing ? 'upload-modal-edit' : 'upload-modal-new';
+            
+            return `
+                <div id="${modalId}" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[60] flex items-center justify-center p-4 fade-in-up">
+                    <!-- Backdrop -->
+                    <button onclick="$event.target.closest('#${modalId}') || document.getElementById('${modalId}').remove()" class="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors">✕</button>
+                    
+                    <!-- Modal Content -->
+                    <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full overflow-hidden animate-scale-in">
+                        
+                        <!-- Header -->
+                        <header class="px-6 py-4 border-b flex items-center justify-between bg-gradient-to-r from-blue-600 to-indigo-600">
+                            <h3 class="text-xl font-bold text-white">{isEditing ? 'Edit File' : 'Upload New File'}</h3>
+                            <button onclick="$event.target.closest('#${modalId}') || document.getElementById('${modalId}').remove()" class="text-white/80 hover:text-white transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                            </button>
+                        </header>
+
+                        <!-- Progress Bar (Simulated for Demo) -->
+                        <div class="px-6 py-4 bg-gray-50">
+                            <p class="text-xs text-gray-500 mb-2">${isEditing ? 'Updating...' : 'Uploading...'} Please wait.</p>
+                            <div class="flex justify-between text-xs mb-1">
+                                <span class="text-green-600 font-medium">Progress: ${Math.round(Math.random() * 95)}%</span>
+                                <span>${isEditing ? 'Saving changes' : 'Processing file'}</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-gradient-to-r from-blue-600 to-indigo-600 h-2.5 rounded-full transition-all duration-300" style="width: ${Math.min(75, Math.floor(Math.random() * 30 + 40))}%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Form Fields -->
+                        <form onsubmit="handleFileSubmit(event)">
+                            
+                            <!-- Name Input -->
+                            <input type="hidden" id="file-name-input" value="${isEditing ? file.name : ''}" />
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Filename</label>
+                            <input 
+                                type="text" 
+                                name="name" 
+                                placeholder="document.pdf"
+                                required
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-shadow"
+                            >
+
+                            <!-- Type Selection -->
+                            <select name="type" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                                <option value="image">Image (.jpg, .png)</option>
+                                <option value="video">Video (.mp4, .avi)</option>
+                                <option value="document">Document (.pdf, .docx)</option>
+                                <option value="other">Other</option>
+                            </select>
+
+                            <!-- File Upload - Drag & Drop Zone -->
+                            <div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:bg-gray-50 transition-colors cursor-pointer relative group">
+                                <input type="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.webp,.svg,.mp4,.wav,.mov" hidden onchange="$event.target.files[0] && handleFileSelect($event)" />
+                                
+                                <i class="bi bi-cloud-upload-simple text-4xl text-blue-500 mb-2 group-hover:text-blue-600 transition-colors"></i>
+                                <p class="text-sm font-medium text-gray-700">${isEditing ? 'Drag and drop file here' : 'Click to upload or drag files'} (Max 10MB)</p>
+                                <span class="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                            </div>
+
+                            <!-- Preview Display -->
+                            ${!isEditing || !state.currentUser?.permissions?.admin ? `
+                                <div v-if="previewUrl && previewType === 'image'" class="mt-4">
+                                    <img src="${previewUrl}" alt="Preview" class="w-full h-auto rounded-lg shadow-md mb-4 object-cover" loading="lazy">
+                                </div>` : ''}
+
+                            <!-- Actions -->
+                            <div class="flex gap-3 pt-4 mt-4 border-t">
+                                <button 
+                                    type="button" 
+                                    onclick="$event.target.closest('#${modalId}') || document.getElementById('${modalId}').remove()"
+                                    class="px-6 py-2.5 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 transition-colors whitespace-nowrap"
+                                >
+                                    Cancel
+                                </button>
+                                <button 
+                                    type="submit" 
+                                    disabled:disabled="true"
+                                    class="px-8 py-2.5 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg hover:from-green-700 hover:to-emerald-700 transition-all font-semibold flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    {isEditing ? 'Update File' : 'Upload File'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+        }
+
+
+        // ============================================
+        // MAIN APPLICATION LOGIC
+        // ============================================
+
+        const router = new Router();
+
+        async function loadData() {
+            await Promise.all([router.loadData(), state.init().then(s => s.seedDemoData())]);
+        }
+
+        function handleFileSelect(event) {
+            if (!state.currentUser) return showToast('Please login first', 'error');
+            
+            const file = event.target.files[0];
+            if (file) {
+                const formData = new FormData();
+                formData.append('name', file.name);
+                
+                // Simulate upload progress for demo purposes
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += Math.floor(Math.random() * 15);
+                    if (progress >= 100) progress = 100;
+                    
+                    localStorage.setItem(`upload_progress_${Date.now()}`, progress);
+                    
+                    if (progress === 100) clearInterval(interval);
+                }, 50);
+
+                setTimeout(async () => {
+                    try {
+                        const response = await fetch('/api/upload', {
+                            method: 'POST',
+                            body: formData,
+                        });
+                        
+                        const result = await response.json();
+                        
+                        if (result.success) {
+                            const fileId = crypto.randomUUID();
+                            
+                            // Create file object with metadata
+                            const fileInfo = {
+                                id: fileId,
+                                folderId: state.folders[0].id || '', // Default root folder
+                                name: file.name,
+                                sizeBytes: file.size,
+                                mimeType: file.type,
+                                lastModified: new Date().toISOString(),
+                                tags: [],
+                                isFavorite: false,
+                                type: file.type.startsWith('image/') ? 'image' : 'document',
+                                thumbnailUrl: `/thumbnails/${Date.now()}`
+                            };
+
+                            // Add to files array
+                            state.files.unshift(fileInfo);
+                            state.saveState();
+                            
+                            // Update UI immediately
+                            document.getElementById('filesList').innerHTML = '';
+                            document.getElementById('emptyStateFiles').classList.add('hidden');
+                            document.getElementById('resultCount').textContent = `${state.files.length} results`;
+                            
+                            router.navigate('files', { id: fileId, type: fileInfo.type });
+                            showToast(`${file.name} uploaded successfully!`, 'success');
+                        } else {
+                            throw new Error(result.error || 'Upload failed');
+                        }
+                    } catch (error) {
+                        console.error("Upload error:", error);
+                        showToast(error.message || 'An unexpected error occurred', 'error');
+                    } finally {
+                        // Reset progress simulation
+                        localStorage.removeItem(`upload_progress_${Date.now()}`);
+                    }
+                }, 300);
+            }
+        }
+
+
+        function handleFileSubmit(event) {
+            event.preventDefault();
+            
+            const modal = event.target.closest('#${event.currentTarget.id}');
+            const fileNameInput = modal.querySelector('[name="name"]')?.value;
+            const previewUrl = modal.querySelector('.preview-url')?.src;
+            const previewType = modal.querySelector('.preview-type')?.value;
+            
+            let currentProgress = parseInt(localStorage.getItem(`upload_progress_${Date.now()}`) || '0');
+            if (!currentProgress && !fileNameInput) return;
+            
+            // Simulate upload completion for demo
+            setTimeout(() => {
+                const success = Math.random() > 0.1; // 90% success rate
+                
+                if (success) {
+                    const fileId = crypto.randomUUID();
+                    
+                    const fileInfo = {
+                        id: fileId,
+                        folderId: state.folders[0].id || '',
+                        name: fileNameInput || `uploaded_file.${previewType}`,
+                        sizeBytes: Math.floor(Math.random() * 5000000),
+                        mimeType: previewType === 'video/' ? 'video/mp4' : 'application/pdf',
+                        lastModified: new Date().toISOString(),
+                        tags: ['new'],
+                        isFavorite: true,
+                        type: previewType.includes('mp4') ? 'video' : 'document',
+                        thumbnailUrl: `/thumbnails/${Date.now()}`
+                    };
+
+                    state.files.push(fileInfo);
+                    state.saveState();
+                    
+                    document.getElementById('filesList').innerHTML = '';
+                    document.getElementById('emptyStateFiles').classList.add('hidden');
+                    document.getElementById('resultCount').textContent = `${state.files.length} results`;
+                    
+                    router.navigate('files', { id: fileId, type: fileInfo.type });
+                    showToast(`${fileInfo.name} uploaded and saved!`, 'success');
+                } else {
+                    showToast('Upload cancelled by user.', 'warning');
+                }
+                
+                localStorage.removeItem(`upload_progress_${Date.now()}`);
+            }, 800);
+        }
+
+
+        async function deleteFolder(folderId) {
+            if (!confirm("Are you sure you want to delete this folder? This action cannot be undone.")) return;
+            
+            try {
+                await fetch(`/api/folders/${folderId}/delete`, { method: 'DELETE' });
+                state.folders = state.folders.filter(f => f.id !== folderId);
+                state.saveState();
+                router.navigate('folders');
+                showToast('Folder deleted successfully!', 'info');
+            } catch (error) {
+                console.error("Delete error:", error);
+                showToast('Failed to delete folder', 'error');
+            }
+        }
+
+
+        async function deleteFile(fileId) {
+            if (!confirm("Are you sure you want to delete this file?")) return;
+            
+            try {
+                await fetch(`/api/files/${fileId}/delete`, { method: 'DELETE' });
+                state.files = state.files.filter(f => f.id !== fileId);
+                state.saveState();
+                router.navigate('files');
+                showToast('File deleted successfully!', 'info');
+            } catch (error) {
+                console.error("Delete error:", error);
+                showToast('Failed to delete file', 'error');
+            }
+        }
+
+
+        // ============================================
+        // FEATURE FUNCTIONS
+        // ============================================
+
+        function filterFilesByType(typeFilter) {
+            const filtered = state.files.filter(f => 
+                typeFilter === '' || 
+                (typeFilter.startsWith('image/') && f.type.startsWith('image/')) ||
+                (typeFilter.startsWith('video/') && f.type.startsWith('video/')) ||
+                (typeFilter.includes('doc') && f.type.startsWith('application/pdf'))
+            );
+            router.navigate('files', { type: typeFilter });
+        }
+
+
+        function toggleFavorite(fileId) {
+            const file = state.files.find(f => f.id === fileId);
+            if (file) {
+                file.isFavorite = !file.isFavorite;
+                state.saveState();
+                router.navigate('files', { id: fileId, type: file.type });
+            }
+        }
+
+
+        // ============================================
+        // INITIALIZATION & EVENT LISTENERS
+        // ============================================
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadData().then(() => {
+                window.scrollTo(0, 0);
+                
+                // Initial render of folders list
+                router.renderFoldersList();
+                
+                // Setup search input debounce for demo purposes
+                let timeout;
+                document.getElementById('searchInput').addEventListener('input', (e) => {
+                    clearTimeout(timeout);
+                    timeout = setTimeout(() => {
+                        router.navigate('folders', { query: e.target.value });
+                    }, 300);
+                });
+            });
+
+            // Dark mode persistence
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                html.setAttribute('data-theme', savedTheme);
+                updateThemeIcon(savedTheme);
+            } else {
+                updateThemeIcon('light');
+            }
+        });
+
+        function updateThemeIcon(theme) {
+            const iconElement = document.getElementById('themeIcon');
+            if (theme === 'dark') {
+                iconElement.innerHTML = '<i class="bi bi-sun-fill"></i>';
+            } else {
+                iconElement.innerHTML = '<i class="bi bi-moon-stars-fill"></i>';
+            }
+        }
+
+        // Close modal when clicking outside
+        // document.querySelectorAll('#${'upload-modal-new'} .close-btn').forEach(btn => {
+        //     btn.onclick = () => {
+        //         const modal = btn.closest('.modal-content');
+        //         if (!modal.contains(document.activeElement)) {
+        //             modal.style.display = 'none';
+        //         }
+        //     };
+        // });
+
+    </script>
+</body>
+</html>

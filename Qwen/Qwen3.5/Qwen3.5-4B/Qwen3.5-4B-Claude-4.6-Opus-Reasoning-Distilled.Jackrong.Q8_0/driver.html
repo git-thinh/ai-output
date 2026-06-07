@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudDrive Pro - Your Personal File Manager</title>
+    
+    <!-- Tailwind CSS v4 CDN -->
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    
+    <!-- Bootstrap Icons CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <!-- Custom Configuration for Tailwind v4 -->
+    <style type="text/tailwindcss">
+        @theme {
+            --color-primary: #4f46e5;
+            --color-secondary: #ec4899;
+            --color-success: #10b981;
+            --color-warning: #f59e0b;
+            --color-danger: #ef4444;
+            
+            --font-sans: 'Inter', system-ui, sans-serif;
+            --font-mono: 'Fira Code', monospace;
+            
+            --radius-lg: 1rem;
+            --radius-xl: 1.5rem;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        
+        /* Smooth Scrolling */
+        html { scroll-behavior: smooth; }
+        
+        /* Hide Scrollbar but allow scrolling */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Checkbox Hack for Dropdowns */
+        .dropdown-toggle:checked + div { opacity: 1; visibility: visible; transform: translateY(0); }
+        .dropdown-menu { max-height: 0; overflow: hidden; transition: all 0.2s ease-in-out; }
+        .dropdown-menu.open { max-height: 400px; }
+        
+        /* File Type Icons Colors */
+        .icon-image:hover { color: #3b82f6; cursor: pointer; }
+        .icon-document:hover { color: #d97706; cursor: pointer; }
+        .icon-video:hover { color: #dc2626; cursor: pointer; }
+        .icon-folder:hover { color: #ea580c; cursor: pointer; }
+        .icon-audio:hover { color: #a855f7; cursor: pointer; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased h-screen flex overflow-hidden">
+
+    <!-- SIDEBAR NAVIGATION -->
+    <aside class="w-64 bg-white border-r border-gray-200 flex-shrink-0 flex flex-col transition-all duration-300" id="sidebar">
+        <!-- Logo Area -->
+        <div class="p-6 flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center shadow-lg">
+                <i class="bi bi-cloud-check-fill text-white text-xl"></i>
+            </div>
+            <span class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">CloudDrive</span>
+        </div>
+
+        <!-- Navigation Menu -->
+        <nav class="flex-1 px-4 py-4 space-y-1 overflow-y-auto no-scrollbar">
+            
+            <!-- Main Nav Items -->
+            <label class="cursor-pointer group">
+                <input type="checkbox" class="peer sr-only dropdown-toggle" checked>
+                <div class="dropdown-menu peer-checked:block absolute left-full top-0 z-50 w-64 p-2 bg-white rounded-xl shadow-xl border border-gray-100 ml-2 origin-top-left transition-all duration-200 opacity-0 invisible translate-x-[-10px]">
+                    <a href="#" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition-colors">My Drive</a>
+                    <a href="#" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition-colors">Starred</a>
+                    <a href="#" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition-colors">Recent</a>
+                    <hr class="my-2 border-gray-100">
+                    <a href="#" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition-colors">Shared with me</a>
+                    <a href="#" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition-colors">Trash</a>
+                </div>
+                <div class="flex items-center gap-3 px-3 py-3 rounded-xl cursor-pointer hover:bg-gray-50 transition-colors group-hover:bg-indigo-50/50">
+                    <i class="bi bi-house-door-fill text-indigo-600 text-lg"></i>
+                    <span class="font-semibold text-gray-900">Home</span>
+                </div>
+            </label>
+
+            <label class="cursor-pointer group">
+                <input type="checkbox" class="peer sr-only dropdown-toggle">
+                <div class="dropdown-menu peer-checked:block absolute left-full top-0 z-50 w-64 p-2 bg-white rounded-xl shadow-xl border border-gray-100 ml-2 origin-top-left transition-all duration-200 opacity-0 invisible translate-x-[-10px]">
+                    <a href="#" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-purple-50 hover:text-purple-600 rounded-lg transition-colors">Projects</a>
+                    <a href="#" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-purple-50 hover:text-purple-600 rounded-lg transition-colors">Documents</a>
+                    <a href="#" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-purple-50 hover:text-purple-600 rounded-lg transition-colors">Images</a>
+                    <a href="#" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-purple-50 hover:text-purple-600 rounded-lg transition-colors">Videos</a>
+                </div>
+                <div class="flex items-center gap-3 px-3 py-3 rounded-xl cursor-pointer hover:bg-gray-50 transition-colors group-hover:bg-purple-50/50">
+                    <i class="bi bi-folder2-open text-purple-600 text-lg"></i>
+                    <span class="font-semibold text-gray-900">Folders</span>
+                </div>
+            </label>
+
+            <!-- More Navigation -->
+            <label class="cursor-pointer group mt-8">
+                <input type="checkbox" class="peer sr-only dropdown-toggle">
+                <div class="dropdown-menu peer-checked:block absolute left-full top-0 z-50 w-64 p-2 bg-white rounded-xl shadow-xl border border-gray-100 ml-2 origin-top-left transition-all duration-200 opacity-0 invisible translate-x-[-10px]">
+                    <a href="#" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">Shared with you</a>
+                    <a href="#" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">Drive for Business</a>
+                    <hr class="my-2 border-gray-100">
+                    <a href="#" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors">Trash</a>
+                </div>
+                <div class="flex items-center gap-3 px-3 py-3 rounded-xl cursor-pointer hover:bg-gray-50 transition-colors group-hover:bg-blue-50/50">
+                    <i class="bi bi-share-fill text-blue-600 text-lg"></i>
+                    <span class="font-semibold text-gray-900">Share</span>
+                </div>
+            </label>
+
+            <label class="cursor-pointer group">
+                <input type="checkbox" class="peer sr-only dropdown-toggle">
+                <div class="dropdown-menu peer-checked:block absolute left-full top-0 z-50 w-64 p-2 bg-white rounded-xl shadow-xl border border-gray-100 ml-2 origin-top-left transition-all duration-200 opacity-0 invisible translate-x-[-10px]">
+                    <a href="#" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600 rounded-lg transition-colors">Settings</a>
+                    <a href="#" class="block px-3 py-2 text-sm font-medium text-gray-700 hover:bg-orange-50 hover:text-orange-600 rounded-lg transition-colors">Help Center</a>
+                </div>
+                <div class="flex items-center gap-3 px-3 py-3 rounded-xl cursor-pointer hover:bg-gray-50 transition-colors group-hover:bg-orange-50/50">
+                    <i class="bi bi-gear fill-current text-orange-600 text-lg"></i>
+                    <span class="font-semibold text-gray-900">Settings</span>
+                </div>
+            </label>
+        </nav>
+
+        <!-- User Profile Section -->
+        <div class="p-4 border-t border-gray-200">
+            <button class="w-full flex items-center gap-3 p-2 rounded-xl hover:bg-gray-50 transition-colors">
+                <img src="https://ui-avatars.com/api/?name=Alex+Morgan&background=random" alt="User Avatar" class="w-10 h-10 rounded-full object-cover">
+                <div class="text-left flex-1 min-w-0">
+                    <p class="text-sm font-semibold text-gray-900 truncate">Alex Morgan</p>
+                    <p class="text-xs text-gray-500 truncate">alex@example.com</p>
+                </div>
+                <i class="bi bi-chevron-right text-gray-400"></i>
+            </button>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-1 flex flex-col overflow-hidden relative">
+        
+        <!-- TOP HEADER / NAVBAR -->
+        <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 flex-shrink-0 z-20">
+            
+            <!-- Left: Search & Actions -->
+            <div class="flex items-center gap-4 w-1/3">
+                <!-- File Upload Button -->
+                <button class="hidden md:flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5">
+                    <i class="bi bi-cloud-upload-fill"></i>
+                    <span class="font-medium">Upload</span>
+                </button>
+
+                <!-- New Folder Button -->
+                <button class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 hidden sm:block">
+                    <i class="bi bi-folder-plus mr-2"></i>New Folder
+                </button>
+
+                <!-- Search Bar -->
+                <div class="relative ml-auto max-w-xl w-full">
+                    <input type="text" placeholder="Search files, folders..." 
+                           class="w-full pl-10 pr-4 py-2.5 bg-gray-100 border-none rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all outline-none placeholder:text-gray-400 text-sm">
+                    <i class="bi bi-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    
+                    <!-- Search Filters (CSS Only) -->
+                    <div class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
+                        <label class="cursor-pointer select-none">
+                            <input type="checkbox" class="peer sr-only">
+                            <i class="bi bi-film peer-checked:hidden text-gray-400"></i>
+                            <i class="bi bi-image peer-checked:block text-blue-500"></i>
+                        </label>
+                        <label class="cursor-pointer select-none">
+                            <input type="checkbox" class="peer sr-only">
+                            <i class="bi bi-file-text peer-checked:hidden text-gray-400"></i>
+                            <i class="bi bi-palette peer-checked:block text-green-500"></i>
+                        </label>
+                        <label class="cursor-pointer select-none">
+                            <input type="checkbox" class="peer sr-only">
+                            <i class="bi bi-star-fill peer-checked:hidden text-yellow-500"></i>
+                            <i class="bi bi-star peer-checked:block text-orange-500"></i>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: User Actions -->
+            <div class="flex items-center justify-end gap-3">
+                <button class="p-2 text-gray-500 hover:bg-gray-100 rounded-lg relative">
+                    <i class="bi bi-bell fill-current"></i>
+                    <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                </button>
+                <button class="px-3 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-100 rounded-md hidden sm:block">
+                    Premium Plan
+                </button>
+            </div>
+        </header>
+
+        <!-- DASHBOARD CONTENT SCROLLABLE AREA -->
+        <div class="flex-1 overflow-y-auto p-6 scroll-smooth">
+            
+            <!-- Welcome Section -->
+            <section class="mb-8">
+                <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Welcome back, Alex! 👋</h1>
+                <p class="text-gray-500">Here's what's happening with your files today.</p>
+                
+                <!-- Quick Stats Row -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                    
+                    <!-- Total Storage Card -->
+                    <div class="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-2xl p-6 shadow-xl text-white relative overflow-hidden group cursor-default">
+                        <div class="relative z-10">
+                            <div class="flex justify-between items-start mb-4">
+                                <div>
+                                    <p class="text-indigo-100 text-sm font-medium mb-1">Total Storage Used</p>
+                                    <h3 class="text-3xl font-bold">76<span class="text-lg opacity-80">GB</span></h3>
+                                </div>
+                                <div class="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
+                                    <i class="bi bi-hdd-network text-xl"></i>
+                                </div>
+                            </div>
+                            
+                            <!-- Progress Bar (CSS Only) -->
+                            <div class="mt-4">
+                                <div class="flex justify-between text-xs text-indigo-100 mb-1">
+                                    <span>Storage Usage</span>
+                                    <span>76%</span>
+                                </div>
+                                <div class="w-full bg-black/20 rounded-full h-2">
+                                    <div class="bg-white rounded-full h-2 transition-all duration-1000 ease-out" style="width: 76%"></div>
+                                </div>
+                                <p class="text-right text-xs text-indigo-200 mt-2">14 GB remaining</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Decorative Circles -->
+                        <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-2xl"></div>
+                        <div class="absolute top-10 right-10 w-20 h-20 bg-pink-500/20 rounded-full blur-xl"></div>
+                    </div>
+
+                    <!-- Recent Activity Card -->
+                    <div class="bg-white rounded-2xl p-6 shadow-md border border-gray-100 hover:border-indigo-200 transition-colors cursor-pointer">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="font-semibold text-gray-900">Recent Uploads</h3>
+                            <button class="text-indigo-600 hover:text-indigo-700 text-sm font-medium">View All →</button>
+                        </div>
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-3 group">
+                                <img src="https://images.unsplash.com/photo-1616401784845-180882ba9ba8?auto=format&fit=crop&w=100&q=80" alt="Project" class="w-10 h-10 rounded-lg object-cover">
+                                <div class="min-w-0 flex-1">
+                                    <p class="text-sm font-medium text-gray-900 truncate group-hover:text-indigo-600 transition-colors">Q4 Financial Report.pdf</p>
+                                    <p class="text-xs text-gray-500">Just now • Project Alpha</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3 group">
+                                <i class="bi bi-image text-blue-500 w-10 h-10 flex items-center justify-center rounded-lg bg-blue-50"></i>
+                                <div class="min-w-0 flex-1">
+                                    <p class="text-sm font-medium text-gray-900 truncate">Marketing Assets.zip</p>
+                                    <p class="text-xs text-gray-500">2 minutes ago • Marketing</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3 group">
+                                <i class="bi bi-file-word text-green-600 w-10 h-10 flex items-center justify-center rounded-lg bg-green-50"></i>
+                                <div class="min-w-0 flex-1">
+                                    <p class="text-sm font-medium text-gray-900 truncate">Meeting Notes.docx</p>
+                                    <p class="text-xs text-gray-500">1 hour ago • Work</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Storage Breakdown Card -->
+                    <div class="bg-white rounded-2xl p-6 shadow-md border border-gray-100 hover:border-purple-200 transition-colors cursor-pointer">
+                        <h3 class="font-semibold text-gray-900 mb-4">Storage by Type</h3>
+                        
+                        <!-- CSS Only Pie Chart Simulation -->
+                        <div class="relative w-32 h-32 mx-auto mb-4">
+                            <svg viewBox="0 0 36 36" class="transform -rotate-90 w-full h-full">
+                                <!-- Background Circle -->
+                                <circle cx="18" cy="18" r="15.915" fill="none" stroke="#f3f4f6" stroke-width="3"/>
+                                
+                                <!-- Purple Segment (Images) - ~40% -->
+                                <path d="M18 18 a 15.915 15.915 0 0 1 0 -31.83 a 15.915 15.915 0 0 1 0 31.83" 
+                                      fill="none" stroke="#a855f7" stroke-width="3" stroke-linecap="round"/>
+                                  
+                                <!-- Blue Segment (Videos) - ~25% -->
+                                <path d="M18 18 a 15.915 15.915 0 0 1 0 -31.83 a 15.915 15.915 0 0 1 0 31.83" 
+                                      fill="none" stroke="#3b82f6" stroke-width="3" stroke-linecap="round"/>
+                                  
+                                <!-- Green Segment (Docs) - ~35% -->
+                                <path d="M18 18 a 15.915 15.915 0 0 1 0 -31.83 a 15.915 15.915 0 0 1 0 31.83" 
+                                      fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round"/>
+                            </svg>
+                            
+                            <!-- Legend Overlay -->
+                            <div class="absolute inset-0 flex items-center justify-center gap-4 pointer-events-none">
+                                <span class="flex items-center gap-1"><i class="bi bi-image text-blue-500"></i><span class="text-xs font-medium">40%</span></span>
+                                <span class="flex items-center gap-1"><i class="bi bi-film text-red-500"></i><span class="text-xs font-medium">25%</span></span>
+                                <span class="flex items-center gap-1"><i class="bi bi-file-text text-green-500"></i><span class="text-xs font-medium">35%</span></span>
+                            </div>
+                        </div>
+
+                        <ul class="space-y-2 text-sm">
+                            <li class="flex justify-between p-2 hover:bg-gray-50 rounded-lg transition-colors cursor-pointer">
+                                <span class="flex items-center gap-2"><i class="bi bi-images text-blue-500"></i> Images</span>
+                                <span class="font-semibold">28 GB</span>
+                            </li>
+                            <li class="flex justify-between p-2 hover:bg-gray-50 rounded-lg transition-colors cursor-pointer">
+                                <span class="flex items-center gap-2"><i class="bi bi-film text-red-500"></i> Videos</span>
+                                <span class="font-semibold">12 GB</span>
+                            </li>
+                            <li class="flex justify-between p-2 hover:bg-gray-50 rounded-lg transition-colors cursor-pointer">
+                                <span class="flex items-center gap-2"><i class="bi bi-file-word text-green-500"></i> Documents</span>
+                                <span class="font-semibold">36 GB</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MAIN DASHBOARD GRID -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                
+                <!-- Recent Files Section (Takes 2/3 width) -->
+                <section class="lg:col-span-2 bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden">
+                    <div class="p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <h2 class="text-xl font-bold text-gray-900">Recent Files</h2>
+                        
+                        <!-- View Toggle (CSS Only Tabs) -->
+                        <div class="bg-gray-100 p-1 rounded-lg inline-flex w-fit self-end">
+                            <button class="px-3 py-1.5 text-xs font-medium rounded-md bg-white shadow-sm text-indigo-600">List</button>
+                            <button class="px-3 py-1.5 text-xs font-medium rounded-md text-gray-500 hover:text-gray-700">Grid</button>
+                        </div>
+                    </div>
+
+                    <!-- File List Header -->
+                    <div class="grid grid-cols-12 px-6 py-3 bg-gray-50 border-b border-gray-100 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        <div class="col-span-4 md:col-span-3 pl-2">Name</div>
+                        <div class="hidden md:block col-span-2 text-center">Type</div>
+                        <div class="hidden md:block col-span-2 text-right pr-2">Size</div>
+                        <div class="hidden md:block col-span-2 text-center">Modified</div>
+                        <div class="md:hidden col-span-4"></div>
+                    </div>
+
+                    <!-- Scrollable Content Area for Files -->
+                    <div class="overflow-x-auto no-scrollbar">
+                        <table class="w-full text-left border-collapse">
+                            <tbody class="divide-y divide-gray-100">
+                                
+                                <!-- Item 1 -->
+                                <tr class="hover:bg-gray-50 transition-colors group cursor-pointer" onclick="alert('Opening file...')">
+                                    <td class="px-6 py-4 align-middle whitespace-nowrap">
+                                        <div class="flex items-center gap-3">
+                                            <i class="bi bi-file-pdf-fill text-red-500 text-xl opacity-80 group-hover:opacity-100"></i>
+                                            <span class="font-medium text-gray-900">Contract_2024.pdf</span>
+                                        </div>
+                                    </td>
+                                    <td class="hidden md:block px-6 py-4 align-middle text-center"><i class="bi bi-file-text text-green-500"></i></td>
+                                    <td class="hidden md:block px-6 py-4 align-middle text-right text-sm text-gray-500">2.4 MB</td>
+                                    <td class="hidden md:block px-6 py-4 align-middle text-center text-sm text-gray-500">Oct 24, 2024</td>
+                                    <td class="md:hidden px-6 py-4 align-middle flex justify-end w-full">
+                                        <button class="p-2 rounded-lg hover:bg-white shadow-sm text-gray-400 hover:text-indigo-600 transition-all">
+                                            <i class="bi bi-three-dots-vertical"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <!-- Item 2 -->
+                                <tr class="hover:bg-gray-50 transition-colors group cursor-pointer">
+                                    <td class="px-6 py-4 align-middle whitespace-nowrap">
+                                        <div class="flex items-center gap-3">
+                                            <img src="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&w=100&q=80" alt="Logo" class="w-10 h-10 rounded-lg object-cover bg-gray-100">
+                                            <span class="font-medium text-gray-900">Company Logo.png</span>
+                                        </div>
+                                    </td>
+                                    <td class="hidden md:block px-6 py-4 align-middle text-center"><i class="bi bi-image text-blue-500"></i></td>
+                                    <td class="hidden md:block px-6 py-4 align-middle text-right text-sm text-gray-500">1.2 MB</td>
+                                    <td class="hidden md:block px-6 py-4 align-middle text-center text-sm text-gray-500">Oct 22, 2024</td>
+                                    <td class="md:hidden px-6 py-4 align-middle flex justify-end w-full">
+                                        <button class="p-2 rounded-lg hover:bg-white shadow-sm text-gray-400 hover:text-indigo-600 transition-all">
+                                            <i class="bi bi-three-dots-vertical"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <!-- Item 3 (Folder) -->
+                                <tr class="bg-purple-50/50 hover:bg-purple-50 transition-colors group cursor-pointer">
+                                    <td class="px-6 py-4 align-middle whitespace-nowrap">
+                                        <div class="flex items-center gap-3">
+                                            <i class="bi bi-folder-fill text-orange-500 text-xl opacity-80 group-hover:opacity-100"></i>
+                                            <span class="font-medium text-gray-900">Project Alpha Files</span>
+                                            <span class="ml-auto hidden sm:inline-block px-2 py-0.5 bg-purple-100 text-purple-700 text-xs font-bold rounded-md">12 Items</span>
+                                        </div>
+                                    </td>
+                                    <td class="hidden md:block px-6 py-4 align-middle text-center"><i class="bi bi-folder text-orange-500"></i></td>
+                                    <td class="hidden md:block px-6 py-4 align-middle text-right text-sm text-gray-500">-</td>
+                                    <td class="hidden md:block px-6 py-4 align-middle text-center text-sm text-gray-500">Oct 20, 2024</td>
+                                    <td class="md:hidden px-6 py-4 align-middle flex justify-end w-full">
+                                        <button class="p-2 rounded-lg hover:bg-white shadow-sm text-gray-400 hover:text-indigo-600 transition-all">
+                                            <i class="bi bi-three-dots-vertical"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <!-- Item 4 -->
+                                <tr class="hover:bg-gray-50 transition-colors group cursor-pointer">
+                                    <td class="px-6 py-4 align-middle whitespace-nowrap">
+                                        <div class="flex items-center gap-3">
+                                            <i class="bi bi-file-excel-fill text-green-600 text-xl opacity-80 group-hover:opacity-100"></i>
+                                            <span class="font-medium text-gray-900">Budget_2024.xlsx</span>
+                                        </div>
+                                    </td>
+                                    <td class="hidden md:block px-6 py-4 align-middle text-center"><i class="bi bi-table text-green-600"></i></td>
+                                    <td class="hidden md:block px-6 py-4 align-middle text-right text-sm text-gray-500">45 KB</td>
+                                    <td class="hidden md:block px-6 py-4 align-middle text-center text-sm text-gray-500">Oct 18, 2024</td>
+                                    <td class="md:hidden px-6 py-4 align-middle flex justify-end w-full">
+                                        <button class="p-2 rounded-lg hover:bg-white shadow-sm text-gray-400 hover:text-indigo-600 transition-all">
+                                            <i class="bi bi-three-dots-vertical"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination (CSS Only) -->
+                    <div class="bg-gray-50 p-4 border-t border-gray-100 flex items-center justify-between">
+                        <span class="text-xs text-gray-500">Showing 1 to 4 of 12 entries</span>
+                        
+                        <nav class="inline-flex -space-x-px rtl:-space-x-reverse" aria-label="Pagination">
+                            <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md bg-white border border-r-0 border-gray-300 hover:bg-gray-50 text-sm font-semibold text-gray-700 ring-offset-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled!opacity-50">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                                Previous
+                            </a>
+                            
+                            <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-semibold text-gray-700 hover:bg-gray-50 ring-offset-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                1
+                            </a>
+                            <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-indigo-50 border-indigo-50 text-sm font-semibold text-indigo-600 z-10">
+                                2
+                            </a>
+                            <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-semibold text-gray-700 hover:bg-gray-50 ring-offset-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                3
+                            </a>
+                            <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-semibold text-gray-700 hover:bg-gray-50 ring-offset-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">...</span>
+                            <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-semibold text-gray-700 hover:bg-gray-50 ring-offset-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                8
+                            </a>
+                            
+                            <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md bg-white border border-l-0 border-gray-300 hover:bg-gray-50 text-sm font-semibold text-gray-700 ring-offset-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled!opacity-50">
+                                Next
+                                <svg class="w-5 h-5 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                            </a>
+                        </nav>
+                    </div>
+                </section>
+
+                <!-- Popular Folders Section (Takes 1/3 width) -->
+                <aside class="bg-white rounded-2xl shadow-md border border-gray-100 p-6 flex flex-col">
+                    <h2 class="text-xl font-bold text-gray-900 mb-6">Popular Folders</h2>
+                    
+                    <!-- Folder Item Component -->
+                    <template x-for="folder in [1,2,3,4]" :key="folder">
+                        <div class="flex items-start gap-3 group cursor-pointer pb-4 last:border-b-0 last:pb-0 border-b border-gray-50">
+                            <i class="bi bi-folder-fill text-orange-500 mt-1 transition-transform duration-200 group-hover:-translate-y-1"></i>
+                            <div class="min-w-0 flex-1">
+                                <p class="font-medium text-gray-900 truncate pr-4" title="Folder Name Here">Work Documents <span class="ml-auto opacity-0 group-hover:opacity-100 transition-opacity">#<x-text:x-ref="'1' + folder"></span></span></p>
+                                <p class="text-xs text-gray-500 truncate" title="Last modified date here">Modified Oct 24, 2024 • 12 files</p>
+                            </div>
+                            <button class="hidden md:block p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-indigo-600 transition-colors">
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </button>
+                        </div>
+                    </template>
+
+                    <!-- Add New Folder Button -->
+                    <button class="mt-2 w-full py-2 px-4 bg-gray-50 hover:bg-gray-100 text-sm font-semibold text-gray-700 rounded-xl border border-gray-200 transition-all flex items-center justify-center gap-2">
+                        <i class="bi bi-plus-circle"></i> Create Folder
+                    </button>
+                </aside>
+            </div>
+
+            <!-- Quick Access Grid -->
+            <section>
+                <h2 class="text-xl font-bold text-gray-900 mb-6">Quick Access</h2>
+                
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+                    
+                    <!-- Quick Icon Card -->
+                    <a href="#" class="group flex flex-col items-center p-4 rounded-2xl bg-white border border-gray-200 shadow-sm hover:shadow-md hover:border-indigo-300 transition-all duration-200 transform hover:-translate-y-1">
+                        <div class="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center mb-3 group-hover:bg-blue-100 transition-colors">
+                            <i class="bi bi-cloud-download text-blue-600 text-xl"></i>
+                        </div>
+                        <span class="text-sm font-medium text-gray-700 group-hover:text-blue-700">Downloads</span>
+                    </a>
+
+                    <a href="#" class="group flex flex-col items-center p-4 rounded-2xl bg-white border border-gray-200 shadow-sm hover:shadow-md hover:border-purple-300 transition-all duration-200 transform hover:-translate-y-1">
+                        <div class="w-12 h-12 rounded-full bg-orange-50 flex items-center justify-center mb-3 group-hover:bg-orange-100 transition-colors">
+                            <i class="bi bi-folder2-open text-orange-600 text-xl"></i>
+                        </div>
+                        <span class="text-sm font-medium text-gray-700 group-hover:text-orange-700">Favorites</span>
+                    </a>
+
+                    <a href="#" class="group flex flex-col items-center p-4 rounded-2xl bg-white border border-gray-200 shadow-sm hover:shadow-md hover:border-green-300 transition-all duration-200 transform hover:-translate-y-1">
+                        <div class="w-12 h-12 rounded-full bg-green-50 flex items-center justify-center mb-3 group-hover:bg-green-100 transition-colors">
+                            <i class="bi bi-star-fill text-yellow-500 text-xl"></i>
+                        </div>
+                        <span class="text-sm font-medium text-gray-700 group-hover:text-yellow-700">Starred</span>
+                    </a>
+
+                    <a href="#" class="group flex flex-col items-center p-4 rounded-2xl bg-white border border-gray-200 shadow-sm hover:shadow-md hover:border-red-300 transition-all duration-200 transform hover:-translate-y-1">
+                        <div class="w-12 h-12 rounded-full bg-red-50 flex items-center justify-center mb-3 group-hover:bg-red-100 transition-colors">
+                            <i class="bi bi-trash text-red-600 text-xl"></i>
+                        </div>
+                        <span class="text-sm font-medium text-gray-700 group-hover:text-red-700">Trash</span>
+                    </a>
+
+                    <!-- Spacer for Grid Balance -->
+                    <div class="hidden lg:flex items-center justify-center opacity-20 pointer-events-none select-none">
+                        <svg width="80" height="80" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/>
+                        </svg>
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Floating Action Button (Mobile Only) -->
+    <button class="md:hidden fixed bottom-6 right-6 w-14 h-14 bg-indigo-600 text-white rounded-full shadow-lg flex items-center justify-center z-50 active:scale-95 transition-transform">
+        <i class="bi bi-plus-lg"></i>
+    </button>
+
+</body>
+</html>

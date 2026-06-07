@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Drive - Dashboard</title>
+    
+    <!-- Bootstrap Icons CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <!-- Tailwind CSS v4 -->
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    
+    <style>
+        /* Custom styles for enhanced functionality */
+        .sidebar-item {
+            transition: all 0.2s ease;
+        }
+        
+        .sidebar-item:hover {
+            transform: translateX(4px);
+        }
+        
+        .stat-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .stat-card:hover {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 
+                        0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .file-icon {
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        }
+        
+        .folder-icon {
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        }
+        
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        
+        /* Animation utilities */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-fade-in-up {
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    
+    <!-- Main Container -->
+    <div class="flex h-screen overflow-hidden">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="w-64 bg-white shadow-xl flex-shrink-0 flex flex-col z-10">
+            
+            <!-- Logo Section -->
+            <div class="p-6 border-b border-gray-100">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-md">
+                        C
+                    </div>
+                    <span class="text-xl font-bold text-gray-800 tracking-tight">Cloud<span class="text-blue-600">Drive</span></span>
+                </div>
+                
+                <!-- User Profile Mini -->
+                <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors">
+                    <img src="https://ui-avatars.com/api/?name=John+Doe&background=3b82f6&color=fff" 
+                         alt="User avatar" 
+                         class="w-10 h-10 rounded-full object-cover ring-2 ring-white shadow-sm">
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-semibold text-gray-900 truncate">John Doe</p>
+                        <p class="text-xs text-gray-500 truncate">john@example.com</p>
+                    </div>
+                    <button class="text-gray-400 hover:text-red-500 transition-colors">
+                        <i class="bi bi-x-circle-fill"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Navigation Menu -->
+            <nav class="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+                
+                <!-- Primary Navigation -->
+                <div class="space-y-1">
+                    <a href="#" class="sidebar-item flex items-center gap-3 px-3 py-2.5 bg-blue-50 text-blue-700 rounded-lg font-medium">
+                        <i class="bi bi-house-fill text-lg"></i>
+                        Dashboard
+                    </a>
+                    
+                    <a href="#" class="sidebar-item flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-lg font-medium transition-all">
+                        <i class="bi bi-folder-fill text-lg"></i>
+                        My Files
+                    </a>
+                    
+                    <a href="#" class="sidebar-item flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-lg font-medium transition-all">
+                        <i class="bi bi-share-network-fill text-lg"></i>
+                        Shared with Me
+                    </a>
+                    
+                    <a href="#" class="sidebar-item flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-lg font-medium transition-all">
+                        <i class="bi bi-clock-history text-lg"></i>
+                        Recent Activity
+                    </a>
+                </div>
+
+                <!-- Divider -->
+                <div class="my-4 mx-2">
+                    <hr class="border-gray-200">
+                </div>
+
+                <!-- Secondary Navigation (Folders) -->
+                <div class="space-y-1">
+                    <h3 class="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">My Folders</h3>
+                    
+                    <a href="#" class="sidebar-item flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-lg font-medium transition-all group">
+                        <span class="w-8 h-8 bg-orange-100 text-orange-600 rounded-md flex items-center justify-center flex-shrink-0">
+                            <i class="bi bi-folder text-sm"></i>
+                        </span>
+                        Documents
+                        <span class="ml-auto text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full hidden group-hover:block">12</span>
+                    </a>
+                    
+                    <a href="#" class="sidebar-item flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-lg font-medium transition-all group">
+                        <span class="w-8 h-8 bg-green-100 text-green-600 rounded-md flex items-center justify-center flex-shrink-0">
+                            <i class="bi bi-image text-sm"></i>
+                        </span>
+                        Photos & Videos
+                        <span class="ml-auto text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full hidden group-hover:block">45</span>
+                    </a>
+                    
+                    <a href="#" class="sidebar-item flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-lg font-medium transition-all group">
+                        <span class="w-8 h-8 bg-purple-100 text-purple-600 rounded-md flex items-center justify-center flex-shrink-0">
+                            <i class="bi bi-file-pdf text-sm"></i>
+                        </span>
+                        Downloads
+                        <span class="ml-auto text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full hidden group-hover:block">28</span>
+                    </a>
+                </div>
+
+                <!-- Divider -->
+                <div class="my-4 mx-2">
+                    <hr class="border-gray-200">
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="space-y-1">
+                    <h3 class="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Quick Access</h3>
+                    
+                    <button class="sidebar-item w-full flex items-center gap-3 px-3 py-2 text-blue-600 hover:bg-blue-50 rounded-lg font-medium transition-colors border border-transparent hover:border-blue-200">
+                        <i class="bi bi-plus-circle-fill text-xl"></i>
+                        Create New Folder
+                    </button>
+                    
+                    <button class="sidebar-item w-full flex items-center gap-3 px-3 py-2 text-blue-600 hover:bg-blue-50 rounded-lg font-medium transition-colors border border-transparent hover:border-blue-200">
+                        <i class="bi bi-cloud-upload text-xl"></i>
+                        Upload Files
+                    </button>
+                </div>
+
+            </nav>
+
+            <!-- Sidebar Footer -->
+            <div class="p-4 border-t border-gray-100 space-y-2">
+                
+                <!-- Storage Indicator -->
+                <div class="flex items-center gap-3 p-3 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl cursor-pointer hover:shadow-lg transition-shadow">
+                    <div class="relative w-12 h-12 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="2" y="4" width="20" height="16" rx="2" stroke="white" stroke-width="2"/>
+                            <path d="M9 8H15M9 12H15M9 16H15" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        <div class="absolute -bottom-1 right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-semibold text-white truncate">Cloud Storage</p>
+                        <div class="w-full mt-1">
+                            <div class="flex items-center justify-between text-xs mb-1">
+                                <span class="text-white/80">7.5 GB of 10 GB used</span>
+                                <span class="text-white/60">75%</span>
+                            </div>
+                            <div class="h-1.5 bg-black/20 rounded-full overflow-hidden">
+                                <div class="h-full bg-white rounded-full" style="width: 75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Button -->
+                <a href="#" class="sidebar-item w-full flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-lg font-medium transition-all">
+                    <i class="bi bi-gear-fill text-lg"></i>
+                    Settings
+                </a>
+                
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 flex flex-col overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50">
+            
+            <!-- Header Section -->
+            <header class="bg-white shadow-sm border-b border-gray-100 z-10">
+                <div class="px-6 py-4">
+                    
+                    <!-- Top Bar Left - Breadcrumb & Title -->
+                    <div class="flex items-center justify-between mb-4">
+                        
+                        <!-- Breadcrumb Navigation (Visual Only) -->
+                        <nav class="flex items-center gap-2 text-sm text-gray-500">
+                            <button class="hover:text-blue-600 transition-colors">
+                                <i class="bi bi-house"></i>
+                            </button>
+                            <span>/</span>
+                            <button class="hover:text-blue-600 transition-colors">My Files</button>
+                            <span>/</span>
+                            <span class="font-medium text-gray-900">Dashboard Overview</span>
+                        </nav>
+                        
+                        <!-- Right Actions -->
+                        <div class="flex items-center gap-3">
+                            
+                            <!-- Search Bar -->
+                            <div class="relative hidden md:block">
+                                <input type="text" 
+                                       placeholder="Search files, folders..." 
+                                       class="w-64 pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                                <i class="bi bi-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            </div>
+                            
+                            <!-- Quick Stats Mini -->
+                            <div class="hidden lg:flex items-center gap-2 mr-2">
+                                <div class="text-right">
+                                    <p class="text-xs text-gray-500">Files Today</p>
+                                    <p class="text-sm font-semibold text-green-600">+128</p>
+                                </div>
+                                <div class="h-8 w-[1px] bg-gray-200"></div>
+                                <div class="text-right">
+                                    <p class="text-xs text-gray-500">Storage</p>
+                                    <p class="text-sm font-semibold text-orange-600">7.5 GB</p>
+                                </div>
+                            </div>
+
+                            <!-- Upload Button -->
+                            <button class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-4 py-2.5 rounded-xl font-medium shadow-lg shadow-blue-500/30 flex items-center gap-2 transition-all active:scale-95">
+                                <i class="bi bi-cloud-upload-fill"></i>
+                                <span class="hidden sm:inline">Upload</span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="flex-1 overflow-y-auto p-6">
+                
+                <!-- Welcome Section -->
+                <div class="mb-8 animate-fade-in-up delay-100">
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full text-sm font-medium mb-3">
+                        <i class="bi bi-info-circle"></i>
+                        <span>Welcome back, John! 👋</span>
+                    </div>
+                    
+                    <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+                        Your Files Overview
+                    </h1>
+                    <p class="text-gray-500 max-w-md">
+                        You've uploaded 128 files today and used 7.5GB out of your 10GB storage plan. Keep up the great work!
+                    </p>
+                </div>
+
+                <!-- Stats Cards Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 animate-fade-in-up delay-200">
+                    
+                    <!-- Total Storage Card -->
+                    <div class="stat-card bg-white rounded-2xl p-6 border border-gray-100 shadow-sm relative overflow-hidden group cursor-pointer">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-purple-500 to-pink-500 opacity-10 rounded-bl-[3rem] -mr-4 -mt-4 transition-transform group-hover:translate-x-2 group-hover:translate-y-2"></div>
+                        
+                        <div class="relative z-10">
+                            <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center text-white mb-4 shadow-lg">
+                                <i class="bi bi-hdd-network text-xl"></i>
+                            </div>
+                            
+                            <p class="text-sm text-gray-500 mb-1">Total Storage Used</p>
+                            <h3 class="text-3xl font-bold text-gray-900 mb-2">7.5 GB</h3>
+                            <div class="flex items-end gap-1 mt-2">
+                                <span class="text-green-600 font-semibold text-sm">+12%</span>
+                                <span class="text-xs text-gray-400 mb-1.5">vs last month</span>
+                            </div>
+                            <button class="mt-auto text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center gap-1">
+                                View Details 
+                                <i class="bi bi-arrow-right"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Progress Bar -->
+                        <div class="mt-6">
+                            <div class="flex justify-between text-xs text-gray-500 mb-1">
+                                <span>Storage Limit</span>
+                                <span>10 GB</span>
+                            </div>
+                            <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full" style="width: 75%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Files Count Card -->
+                    <div class="stat-card bg-white rounded-2xl p-6 border border-gray-100 shadow-sm relative overflow-hidden cursor-pointer group">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-orange-500 to-red-500 opacity-10 rounded-bl-[3rem] -mr-4 -mt-4 transition-transform group-hover:translate-x-2 group-hover:translate-y-2"></div>
+                        
+                        <div class="relative z-10">
+                            <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl flex items-center justify-center text-white mb-4 shadow-lg">
+                                <i class="bi bi-file-earmark-text text-xl"></i>
+                            </div>
+                            
+                            <p class="text-sm text-gray-500 mb-1">Total Files</p>
+                            <h3 class="text-3xl font-bold text-gray-900 mb-2">8,542</h3>
+                            <div class="flex items-end gap-1 mt-2">
+                                <span class="text-green-600 font-semibold text-sm">+8%</span>
+                                <span class="text-xs text-gray-400 mb-1.5">vs last month</span>
+                            </div>
+                            <button class="mt-auto text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center gap-1">
+                                View All 
+                                <i class="bi bi-arrow-right"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Breakdown Bar -->
+                        <div class="mt-6 space-y-2">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                                <span class="text-xs text-gray-500">Documents</span>
+                                <span class="ml-auto text-xs font-medium text-gray-700">4,231 files</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-purple-500"></span>
+                                <span class="text-xs text-gray-500">Images</span>
+                                <span class="ml-auto text-xs font-medium text-gray-700">2,845 files</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-green-500"></span>
+                                <span class="text-xs text-gray-500">Videos</span>
+                                <span class="ml-auto text-xs font-medium text-gray-700">1,466 files</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity Card -->
+                    <div class="stat-card bg-white rounded-2xl p-6 border border-gray-100 shadow-sm relative overflow-hidden cursor-pointer group">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-cyan-500 to-teal-500 opacity-10 rounded-bl-[3rem] -mr-4 -mt-4 transition-transform group-hover:translate-x-2 group-hover:translate-y-2"></div>
+                        
+                        <div class="relative z-10">
+                            <div class="w-12 h-12 bg-gradient-to-br from-cyan-500 to-teal-500 rounded-xl flex items-center justify-center text-white mb-4 shadow-lg">
+                                <i class="bi bi-clock-history text-xl"></i>
+                            </div>
+                            
+                            <p class="text-sm text-gray-500 mb-1">Recent Activity</p>
+                            <h3 class="text-3xl font-bold text-gray-900 mb-2">Today</h3>
+                            <button class="mt-auto text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center gap-1">
+                                View History 
+                                <i class="bi bi-arrow-right"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Mini Timeline -->
+                        <div class="mt-6 pt-6 border-t border-gray-100 space-y-4">
+                            <div class="flex items-start gap-3">
+                                <div class="w-2 h-2 mt-1.5 rounded-full bg-orange-500 animate-pulse"></div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-medium text-gray-800 truncate">Uploading presentation.pptx</p>
+                                    <p class="text-xs text-gray-500">Just now • 2.4 MB</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-2 h-2 mt-1.5 rounded-full bg-green-500"></div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-medium text-gray-800 truncate">Created "Q4 Reports" folder</p>
+                                    <p class="text-xs text-gray-500">10 minutes ago</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-2 h-2 mt-1.5 rounded-full bg-purple-500"></div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-medium text-gray-800 truncate">Downloaded budget.xlsx</p>
+                                    <p class="text-xs text-gray-500">1 hour ago</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions Card -->
+                    <div class="stat-card bg-white rounded-2xl p-6 border border-gray-100 shadow-sm relative overflow-hidden cursor-pointer group">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-emerald-500 to-lime-500 opacity-10 rounded-bl-[3rem] -mr-4 -mt-4 transition-transform group-hover:translate-x-2 group-hover:translate-y-2"></div>
+                        
+                        <div class="relative z-10">
+                            <div class="w-12 h-12 bg-gradient-to-br from-emerald-500 to-lime-500 rounded-xl flex items-center justify-center text-white mb-4 shadow-lg">
+                                <i class="bi bi-lightning-fill text-xl"></i>
+                            </div>
+                            
+                            <p class="text-sm text-gray-500 mb-1">Quick Access</p>
+                            <h3 class="text-3xl font-bold text-gray-900 mb-2">Get Started</h3>
+                            <button class="mt-auto text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center gap-1">
+                                Explore Features 
+                                <i class="bi bi-arrow-right"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Action Grid -->
+                        <div class="mt-6 pt-6 border-t border-gray-100 grid grid-cols-2 gap-3">
+                            <a href="#" class="group/p action-btn flex flex-col items-center gap-2 p-3 bg-gray-50 rounded-xl hover:bg-orange-50 hover:border-orange-200 transition-all border border-transparent hover:border-orange-200">
+                                <span class="w-10 h-10 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center group-hover/p:scale-110 transition-transform">
+                                    <i class="bi bi-folder-plus"></i>
+                                </span>
+                                <span class="text-xs font-medium text-gray-700 group-hover/p:text-orange-700">New Folder</span>
+                            </a>
+                            <a href="#" class="group/p action-btn flex flex-col items-center gap-2 p-3 bg-gray-50 rounded-xl hover:bg-purple-50 hover:border-purple-200 transition-all border border-transparent hover:border-purple-200">
+                                <span class="w-10 h-10 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center group-hover/p:scale-110 transition-transform">
+                                    <i class="bi bi-cloud-upload"></i>
+                                </span>
+                                <span class="text-xs font-medium text-gray-700 group-hover/p:text-purple-700">Upload</span>
+                            </a>
+                            <a href="#" class="group/p action-btn flex flex-col items-center gap-2 p-3 bg-gray-50 rounded-xl hover:bg-pink-50 hover:border-pink-200 transition-all border border-transparent hover:border-pink-200">
+                                <span class="w-10 h-10 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center group-hover/p:scale-110 transition-transform">
+                                    <i class="bi bi-share-fill"></i>
+                                </span>
+                                <span class="text-xs font-medium text-gray-700 group-hover/p:text-pink-700">Share</span>
+                            </a>
+                            <a href="#" class="group/p action-btn flex flex-col items-center gap-2 p-3 bg-gray-50 rounded-xl hover:bg-blue-50 hover:border-blue-200 transition-all border border-transparent hover:border-blue-200">
+                                <span class="w-10 h-10 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center group-hover/p:scale-110 transition-transform">
+                                    <i class="bi bi-search"></i>
+                                </span>
+                                <span class="text-xs font-medium text-gray-700 group-hover/p:text-blue-700">Search</span>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Main Content Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fade-in-up delay-300">
+                    
+                    <!-- Left Column - Recent Files & Folders (Takes 2/3 width) -->
+                    <div class="lg:col-span-2 space-y-6">
+                        
+                        <!-- Search Filter Bar -->
+                        <div class="flex flex-wrap items-center gap-3 mb-4">
+                            <input type="text" 
+                                   placeholder="Filter files..." 
+                                   class="flex-1 min-w-[200px] px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                            
+                            <button class="px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+                                <i class="bi bi-filter"></i>
+                                Filters
+                            </button>
+                            <select class="px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
+                                <option value="" disabled selected>Type</option>
+                                <option value="all">All Types</option>
+                                <option value="folder">Folders</option>
+                                <option value="file">Files</option>
+                            </select>
+                        </div>
+
+                        <!-- Recent Files Section -->
+                        <section>
+                            <div class="flex items-center justify-between mb-4">
+                                <h2 class="text-lg font-semibold text-gray-900">Recent Files</h2>
+                                <a href="#" class="text-sm text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1">
+                                    View All 
+                                    <i class="bi bi-arrow-right"></i>
+                                </a>
+                            </div>
+                            
+                            <!-- File List -->
+                            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                                <table class="w-full">
+                                    <thead class="bg-gray-50 border-b border-gray-100">
+                                        <tr>
+                                            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-8">
+                                                <i class="bi bi-checkbox-square"></i>
+                                            </th>
+                                            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Name</th>
+                                            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider hidden md:block">Type</th>
+                                            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider hidden lg:block">Size</th>
+                                            <th class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider hidden sm:block">Modified</th>
+                                            <th class="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-100">
+                                        
+                                        <!-- File Row 1 - PDF Document -->
+                                        <tr class="hover:bg-gray-50 transition-colors cursor-pointer group/item">
+                                            <td class="px-4 py-3">
+                                                <input type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                            </td>
+                                            <td class="px-4 py-3">
+                                                <div class="flex items-start gap-3">
+                                                    <span class="file-icon mt-0.5 bg-red-100 text-red-600 p-2 rounded-lg h-fit">
+                                                        <i class="bi bi-file-pdf-fill text-lg"></i>
+                                                    </span>
+                                                    <div class="min-w-0">
+                                                        <p class="text-sm font-medium text-gray-900 truncate max-w-[200px] md:max-w-[250px]" title="Q4 Financial Report.pdf">
+                                                            Q4 Financial Report.pdf
+                                                        </p>
+                                                        <p class="text-xs text-gray-500 mt-0.5">PDF • 2.4 MB</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="px-4 py-3 hidden md:block">
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-700">
+                                                    <i class="bi bi-file-text mr-1"></i>
+                                                    Document
+                                                </span>
+                                            </td>
+                                            <td class="px-4 py-3 hidden lg:block">
+                                                <span class="text-sm text-gray-700">2.4 MB</span>
+                                            </td>
+                                            <td class="px-4 py-3 hidden sm:block">
+                                                <span class="text-sm text-gray-600">Oct 15, 2024</span>
+                                            </td>
+                                            <td class="px-4 py-3 text-right">
+                                                <button class="opacity-0 group-hover/item:opacity-100 transition-opacity flex items-center justify-end gap-1 hover:text-blue-600">
+                                                    <i class="bi bi-three-dots-vertical text-gray-400"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                        <!-- File Row 2 - Image -->
+                                        <tr class="hover:bg-gray-50 transition-colors cursor-pointer group/item">
+                                            <td class="px-4 py-3">
+                                                <input type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                            </td>
+                                            <td class="px-4 py-3">
+                                                <div class="flex items-start gap-3">
+                                                    <span class="file-icon mt-0.5 bg-green-100 text-green-600 p-2 rounded-lg h-fit">
+                                                        <i class="bi bi-image-fill text-lg"></i>
+                                                    </span>
+                                                    <div class="min-w-0">
+                                                        <p class="text-sm font-medium text-gray-900 truncate max-w-[200px] md:max-w-[250px]" title="Office Meeting.jpg">
+                                                            Office Meeting.jpg
+                                                        </p>
+                                                        <p class="text-xs text-gray-500 mt-0.5">Image • 4.8 MB</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="px-4 py-3 hidden md:block">
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-cyan-100 text-cyan-700">
+                                                    <i class="bi bi-photo-video mr-1"></i>
+                                                    Photo
+                                                </span>
+                                            </td>
+                                            <td class="px-4 py-3 hidden lg:block">
+                                                <span class="text-sm text-gray-700">4.8 MB</span>
+                                            </td>
+                                            <td class="px-4 py-3 hidden sm:block">
+                                                <span class="text-sm text-gray-600">Oct 14, 2024</span>
+                                            </td>
+                                            <td class="px-4 py-3 text-right">
+                                                <button class="opacity-0 group-hover/item:opacity-100 transition-opacity flex items-center justify-end gap-1 hover:text-blue-600">
+                                                    <i class="bi bi-three-dots-vertical text-gray-400"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                        <!-- File Row 3 - Excel Sheet -->
+                                        <tr class="hover:bg-gray-50 transition-colors cursor-pointer group/item">
+                                            <td class="px-4 py-3">
+                                                <input type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                            </td>
+                                            <td class="px-4 py-3">
+                                                <div class="flex items-start gap-3">
+                                                    <span class="file-icon mt-0.5 bg-green-100 text-green-600 p-2 rounded-lg h-fit">
+                                                        <i class="bi bi-file-xls-fill text-lg"></i>
+                                                    </span>
+                                                    <div class="min-w-0">
+                                                        <p class="text-sm font-medium text-gray-900 truncate max-w-[200px] md:max-w-[250px]" title="Budget Planning.xlsx">
+                                                            Budget Planning.xlsx
+                                                        </p>
+                                                        <p class="text-xs text-gray-500 mt-0.5">Excel • 156 KB</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="px-4 py-3 hidden md:block">
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-700">
+                                                    <i class="bi bi-spreadsheet mr-1"></i>
+                                                    Spreadsheet
+                                                </span>
+                                            </td>
+                                            <td class="px-4 py-3 hidden lg:block">
+                                                <span class="text-sm text-gray-700">156 KB</span>
+                                            </td>
+                                            <td class="px-4 py-3 hidden sm:block">
+                                                <span class="text-sm text-gray-600">Oct 13, 2024</span>
+                                            </td>
+                                            <td class="px-4 py-3 text-right">
+                                                <button class="opacity-0 group-hover/item:opacity-100 transition-opacity flex items-center justify-end gap-1 hover:text-blue-600">
+                                                    <i class="bi bi-three-dots-vertical text-gray-400"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                        <!-- File Row 4 - Presentation -->
+                                        <tr class="hover:bg-gray-50 transition-colors cursor-pointer group/item">
+                                            <td class="px-4 py-3">
+                                                <input type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                            </td>
+                                            <td class="px-4 py-3">
+                                                <div class="flex items-start gap-3">
+                                                    <span class="file-icon mt-0.5 bg-red-100 text-red-600 p-2 rounded-lg h-fit">
+                                                        <i class="bi bi-file-word-fill text-lg"></i>
+                                                    </span>
+                                                    <div class="min-w-0">
+                                                        <p class="text-sm font-medium text-gray-900 truncate max-w-[200px] md:max-w-[250px]" title="Project Proposal.docx">
+                                                            Project Proposal.docx
+                                                        </p>
+                                                        <p class="text-xs text-gray-500 mt-0.5">Word • 892 KB</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="px-4 py-3 hidden md:block">
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-700">
+                                                    <i class="bi bi-file-text mr-1"></i>
+                                                    Document
+                                                </span>
+                                            </td>
+                                            <td class="px-4 py-3 hidden lg:block">
+                                                <span class="text-sm text-gray-700">892 KB</span>
+                                            </td>
+                                            <td class="px-4 py-3 hidden sm:block">
+                                                <span class="text-sm text-gray-600">Oct 12, 2024</span>
+                                            </td>
+                                            <td class="px-4 py-3 text-right">
+                                                <button class="opacity-0 group-hover/item:opacity-100 transition-opacity flex items-center justify-end gap-1 hover:text-blue-600">
+                                                    <i class="bi bi-three-dots-vertical text-gray-400"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+
+                    </div>
+
+                    <!-- Right Column - Folders & Storage (Takes 1/3 width) -->
+                    <div class="space-y-6">
+                        
+                        <!-- Quick Stats Summary -->
+                        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 animate-fade-in-up delay-400">
+                            <h3 class="font-semibold text-gray-900 mb-4">Storage Breakdown</h3>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex items-center justify-between mb-1">
+                                        <span class="text-sm text-gray-600">Documents</span>
+                                        <span class="text-xs font-medium text-gray-500">4.2 GB / 5 GB</span>
+                                    </div>
+                                    <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
+                                        <div class="h-full bg-orange-500 rounded-full" style="width: 84%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex items-center justify-between mb-1">
+                                        <span class="text-sm text-gray-600">Images</span>
+                                        <span class="text-xs font-medium text-gray-500">1.8 GB / 2 GB</span>
+                                    </div>
+                                    <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
+                                        <div class="h-full bg-purple-500 rounded-full" style="width: 90%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex items-center justify-between mb-1">
+                                        <span class="text-sm text-gray-600">Videos</span>
+                                        <span class="text-xs font-medium text-gray-500">1.5 GB / 3 GB</span>
+                                    </div>
+                                    <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
+                                        <div class="h-full bg-blue-500 rounded-full" style="width: 50%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex items-center justify-between mb-1">
+                                        <span class="text-sm text-gray-600">Other</span>
+                                        <span class="text-xs font-medium text-gray-500">0.5 GB / 0.5 GB</span>
+                                    </div>
+                                    <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
+                                        <div class="h-full bg-green-500 rounded-full" style="width: 100%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button class="w-full mt-5 py-2 border-2 border-dashed border-gray-200 rounded-xl text-gray-600 hover:border-blue-500 hover:text-blue-600 transition-all flex items-center justify-center gap-2">
+                                <i class="bi bi-plus-circle"></i>
+                                Add Storage Plan
+                            </button>
+                        </div>
+
+                        <!-- Folders List -->
+                        <section>
+                            <div class="flex items-center justify-between mb-4">
+                                <h2 class="text-lg font-semibold text-gray-900">My Folders</h2>
+                                <a href="#" class="text-sm text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1">
+                                    View All 
+                                    <i class="bi bi-arrow-right"></i>
+                                </a>
+                            </div>
+                            
+                            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 space-y-2 max-h-[400px] overflow-y-auto custom-scrollbar">
+                                
+                                <!-- Folder Item 1 - Documents -->
+                                <a href="#" class="folder-item group flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-orange-50 hover:border-orange-200 transition-all border border-transparent cursor-pointer">
+                                    <span class="w-8 h-8 bg-gradient-to-br from-orange-400 to-red-500 rounded-lg flex items-center justify-center flex-shrink-0 text-white">
+                                        <i class="bi bi-folder-fill text-sm"></i>
+                                    </span>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="font-medium text-gray-900 truncate group-hover:text-orange-700 transition-colors">Documents</p>
+                                        <p class="text-xs text-gray-500 truncate">1,234 files • 4.2 GB</p>
+                                    </div>
+                                    <button class="opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 hover:text-blue-600">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </button>
+                                </a>
+
+                                <!-- Folder Item 2 - Photos & Videos -->
+                                <a href="#" class="folder-item group flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-cyan-50 hover:border-cyan-200 transition-all border border-transparent cursor-pointer">
+                                    <span class="w-8 h-8 bg-gradient-to-br from-cyan-400 to-teal-500 rounded-lg flex items-center justify-center flex-shrink-0 text-white">
+                                        <i class="bi bi-image text-sm"></i>
+                                    </span>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="font-medium text-gray-900 truncate group-hover:text-cyan-700 transition-colors">Photos & Videos</p>
+                                        <p class="text-xs text-gray-500 truncate">2,567 files • 1.8 GB</p>
+                                    </div>
+                                    <button class="opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 hover:text-blue-600">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </button>
+                                </a>
+
+                                <!-- Folder Item 3 - Downloads -->
+                                <a href="#" class="folder-item group flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-purple-50 hover:border-purple-200 transition-all border border-transparent cursor-pointer">
+                                    <span class="w-8 h-8 bg-gradient-to-br from-purple-400 to-indigo-500 rounded-lg flex items-center justify-center flex-shrink-0 text-white">
+                                        <i class="bi bi-download text-sm"></i>
+                                    </span>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="font-medium text-gray-900 truncate group-hover:text-purple-700 transition-colors">Downloads</p>
+                                        <p class="text-xs text-gray-500 truncate">892 files • 1.5 GB</p>
+                                    </div>
+                                    <button class="opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 hover:text-blue-600">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </button>
+                                </a>
+
+                                <!-- Folder Item 4 - Work Projects -->
+                                <a href="#" class="folder-item group flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-green-50 hover:border-green-200 transition-all border border-transparent cursor-pointer">
+                                    <span class="w-8 h-8 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-lg flex items-center justify-center flex-shrink-0 text-white">
+                                        <i class="bi bi-briefcase-fill text-sm"></i>
+                                    </span>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="font-medium text-gray-900 truncate group-hover:text-green-700 transition-colors">Work Projects</p>
+                                        <p class="text-xs text-gray-500 truncate">456 files • 0.8 GB</p>
+                                    </div>
+                                    <button class="opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 hover:text-blue-600">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </button>
+                                </a>
+
+                            </div>
+                        </section>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+    </div>
+
+</body>
+</html>

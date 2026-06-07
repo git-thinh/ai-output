@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Drive - Main Dashboard</title>
+    
+    <!-- Tailwind CSS v4 (CDN for static usage) -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <!-- Custom Config for Tailwind (Optional) -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 h-screen flex flex-col overflow-hidden font-sans text-gray-700">
+
+    <!-- Main Layout Container -->
+    <div class="flex h-full w-full">
+
+        <!-- 1. SIDEBar (Navigation) -->
+        <aside class="w-64 bg-white border-r border-gray-200 flex flex-col flex-shrink-0 z-20">
+            <!-- Sidebar Header -->
+            <div class="h-16 flex items-center px-4 border-b border-gray-200 bg-white">
+                <div class="flex items-center gap-2 text-brand-600 font-bold text-xl">
+                    <i class="bi bi-cloud"></i>
+                    <span>CloudDrive</span>
+                </div>
+            </div>
+
+            <!-- Sidebar Navigation -->
+            <nav class="flex-1 overflow-y-auto py-4">
+                <div class="px-4 mb-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">Main</div>
+                
+                <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-brand-600 rounded-lg transition-colors">
+                    <i class="bi bi-hdd text-lg"></i>
+                    <span class="font-medium">My Drive</span>
+                </a>
+                
+                <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-brand-600 rounded-lg transition-colors">
+                    <i class="bi bi-clock-history text-lg"></i>
+                    <span class="font-medium">Recent</span>
+                </a>
+
+                <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-brand-600 rounded-lg transition-colors">
+                    <i class="bi bi-star text-lg"></i>
+                    <span class="font-medium">Starred</span>
+                </a>
+
+                <div class="px-4 mt-6 mb-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">System</div>
+
+                <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-brand-600 rounded-lg transition-colors">
+                    <i class="bi bi-trash text-lg"></i>
+                    <span class="font-medium">Trash</span>
+                </a>
+            </nav>
+
+            <!-- Sidebar Footer (User) -->
+            <div class="p-4 border-t border-gray-200">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-brand-100 text-brand-600 flex items-center justify-center font-bold">
+                        JD
+                    </div>
+                    <div class="flex-1">
+                        <div class="text-sm font-medium text-gray-900">John Doe</div>
+                        <div class="text-xs text-gray-500">john@example.com</div>
+                    </div>
+                    <button class="text-gray-400 hover:text-gray-600">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 2. MAIN CONTENT AREA -->
+        <main class="flex-1 flex flex-col min-w-0">
+            
+            <!-- Header Bar -->
+            <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 flex-shrink-0">
+                <!-- Search -->
+                <div class="flex-1 max-w-xl relative">
+                    <i class="bi bi-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" placeholder="Search in Drive" class="w-full bg-gray-100 border-none rounded-lg py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all">
+                </div>
+
+                <!-- Actions -->
+                <div class="flex items-center gap-2">
+                    <button class="flex items-center gap-2 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm font-medium transition-colors">
+                        <i class="bi bi-grid-3x3-gap"></i>
+                        <span>Grid</span>
+                    </button>
+                    <button class="flex items-center gap-2 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm font-medium transition-colors">
+                        <i class="bi bi-list-ul"></i>
+                        <span>List</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Workspace (Scrollable Area) -->
+            <div class="flex-1 flex flex-col overflow-hidden">
+                
+                <!-- Breadcrumbs -->
+                <div class="h-12 bg-white border-b border-gray-200 flex items-center px-4 text-sm text-gray-600 flex-shrink-0">
+                    <div class="flex items-center gap-2">
+                        <span class="text-brand-600 font-medium">Root</span>
+                        <i class="bi bi-chevron-right text-gray-400 text-xs"></i>
+                        <span class="text-brand-600 font-medium">Projects</span>
+                        <i class="bi bi-chevron-right text-gray-400 text-xs"></i>
+                        <span class="text-gray-900 font-medium">Marketing</span>
+                    </div>
+                </div>
+
+                <!-- Toolbar -->
+                <div class="h-12 bg-white border-b border-gray-200 flex items-center justify-between px-4 flex-shrink-0">
+                    <div class="flex items-center gap-2">
+                        <button class="flex items-center gap-2 px-3 py-1.5 bg-brand-50 hover:bg-brand-100 text-brand-700 rounded-lg text-sm font-medium transition-colors">
+                            <i class="bi bi-folder-plus"></i>
+                            <span>New Folder</span>
+                        </button>
+                        <button class="flex items-center gap-2 px-3 py-1.5 bg-brand-50 hover:bg-brand-100 text-brand-700 rounded-lg text-sm font-medium transition-colors">
+                            <i class="bi bi-cloud-arrow-up"></i>
+                            <span>Upload</span>
+                        </button>
+                    </div>
+                    <div class="text-xs text-gray-500">
+                        12 items · 1.2 GB
+                    </div>
+                </div>
+
+                <!-- File Grid -->
+                <div class="flex-1 overflow-y-auto p-4">
+                    <div class="grid grid-cols-4 gap-4">
+                        
+                        <!-- Folder Item 1 -->
+                        <div class="group bg-white rounded-lg border border-gray-200 hover:border-brand-300 hover:shadow-md transition-all cursor-pointer flex flex-col items-center justify-center p-4 aspect-square">
+                            <div class="w-16 h-16 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center mb-2 group-hover:bg-blue-100 transition-colors">
+                                <i class="bi bi-folder text-4xl"></i>
+                            </div>
+                            <span class="text-sm font-medium text-gray-900 truncate w-full text-center">Q1 Reports</span>
+                            <span class="text-xs text-gray-500">Oct 24</span>
+                        </div>
+
+                        <!-- Folder Item 2 -->
+                        <div class="group bg-white rounded-lg border border-gray-200 hover:border-brand-300 hover:shadow-md transition-all cursor-pointer flex flex-col items-center justify-center p-4 aspect-square">
+                            <div class="w-16 h-16 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center mb-2 group-hover:bg-blue-100 transition-colors">
+                                <i class="bi bi-folder text-4xl"></i>
+                            </div>
+                            <span class="text-sm font-medium text-gray-900 truncate w-full text-center">Assets</span>
+                            <span class="text-xs text-gray-500">Sep 12</span>
+                        </div>
+
+                        <!-- File Item 1 -->
+                        <div class="group bg-white rounded-lg border border-gray-200 hover:border-brand-300 hover:shadow-md transition-all cursor-pointer flex flex-col items-center justify-center p-4 aspect-square">
+                            <div class="w-16 h-16 rounded-full bg-red-50 text-red-500 flex items-center justify-center mb-2 group-hover:bg-red-100 transition-colors">
+                                <i class="bi bi-file-earmark-pdf text-4xl"></i>
+                            </div>
+                            <span class="text-sm font-medium text-gray-900 truncate w-full text-center">Contract.pdf</span>
+                            <span class="text-xs text-gray-500">2.4 MB</span>
+                        </div>
+
+                        <!-- File Item 2 -->
+                        <div class="group bg-white rounded-lg border border-gray-200 hover:border-brand-300 hover:shadow-md transition-all cursor-pointer flex flex-col items-center justify-center p-4 aspect-square">
+                            <div class="w-16 h-16 rounded-full bg-green-50 text-green-500 flex items-center justify-center mb-2 group-hover:bg-green-100 transition-colors">
+                                <i class="bi bi-file-earmark-text text-4xl"></i>
+                            </div>
+                            <span class="text-sm font-medium text-gray-900 truncate w-full text-center">Notes.txt</span>
+                            <span class="text-xs text-gray-500">12 KB</span>
+                        </div>
+
+                        <!-- File Item 3 -->
+                        <div class="group bg-white rounded-lg border border-gray-200 hover:border-brand-300 hover:shadow-md transition-all cursor-pointer flex flex-col items-center justify-center p-4 aspect-square">
+                            <div class="w-16 h-16 rounded-full bg-orange-50 text-orange-500 flex items-center justify-center mb-2 group-hover:bg-orange-100 transition-colors">
+                                <i class="bi bi-file-earmark-image text-4xl"></i>
+                            </div>
+                            <span class="text-sm font-medium text-gray-900 truncate w-full text-center">Banner.png</span>
+                            <span class="text-xs text-gray-500">1.8 MB</span>
+                        </div>
+
+                         <!-- File Item 4 -->
+                         <div class="group bg-white rounded-lg border border-gray-200 hover:border-brand-300 hover:shadow-md transition-all cursor-pointer flex flex-col items-center justify-center p-4 aspect-square">
+                            <div class="w-16 h-16 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center mb-2 group-hover:bg-blue-100 transition-colors">
+                                <i class="bi bi-folder text-4xl"></i>
+                            </div>
+                            <span class="text-sm font-medium text-gray-900 truncate w-full text-center">Backup</span>
+                            <span class="text-xs text-gray-500">Oct 01</span>
+                        </div>
+
+                        <!-- Placeholder Items for Grid Effect -->
+                        <div class="bg-white rounded-lg border border-gray-200 hover:border-brand-300 hover:shadow-md transition-all cursor-pointer flex flex-col items-center justify-center p-4 aspect-square opacity-50">
+                            <div class="w-16 h-16 rounded-full bg-gray-100 text-gray-400 flex items-center justify-center mb-2">
+                                <i class="bi bi-file-earmark-play text-4xl"></i>
+                            </div>
+                            <span class="text-sm font-medium text-gray-900 truncate w-full text-center">Video.mp4</span>
+                            <span class="text-xs text-gray-500">45 MB</span>
+                        </div>
+
+                        <div class="bg-white rounded-lg border border-gray-200 hover:border-brand-300 hover:shadow-md transition-all cursor-pointer flex flex-col items-center justify-center p-4 aspect-square opacity-50">
+                            <div class="w-16 h-16 rounded-full bg-gray-100 text-gray-400 flex items-center justify-center mb-2">
+                                <i class="bi bi-file-earmark-code text-4xl"></i>
+                            </div>
+                            <span class="text-sm font-medium text-gray-900 truncate w-full text-center">script.js</span>
+                            <span class="text-xs text-gray-500">4 KB</span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>

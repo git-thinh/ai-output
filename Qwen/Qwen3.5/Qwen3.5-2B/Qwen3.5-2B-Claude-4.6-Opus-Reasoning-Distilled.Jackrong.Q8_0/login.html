@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Secure Access</title>
+    
+    <!-- Tailwind CSS v4 -->
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a1a1a1; }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900 p-4">
+
+    <!-- Main Container -->
+    <div class="w-full max-w-md mx-auto relative z-10">
+        
+        <!-- Logo Section -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-white tracking-tight mb-2">
+                Welcome Back
+            </h1>
+            <p class="text-gray-300 text-sm">Please enter your details to sign in.</p>
+            
+            <!-- Decorative Elements -->
+            <div class="flex justify-between mt-6 px-4">
+                <span class="inline-flex items-center gap-1 text-xs text-blue-300">
+                    <i data-lucide="shield-check" class="w-3 h-3"></i>
+                    Secure Connection
+                </span>
+                <span class="inline-flex items-center gap-1 text-xs text-green-300">
+                    <i data-lucide="zap" class="w-3 h-3 animate-pulse"></i>
+                    Processing...
+                </span>
+            </div>
+        </div>
+
+        <!-- Login Card -->
+        <form id="loginForm" class="bg-white/10 backdrop-blur-lg rounded-2xl shadow-xl p-8 border border-white/20">
+            
+            <!-- Form Header -->
+            <div class="mb-8">
+                <button type="submit" class="group w-fit inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-full transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-transparent focus:ring-blue-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v0m0 0H9m0 0l-3 3m3-3l3 3"/><rect x="1" y="5" width="15" height="14"/></svg>
+                    Sign In
+                </button>
+                
+                <div class="mt-4 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <a href="#" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">Forgot password?</a>
+                    <span class="text-gray-400">|</span>
+                    <a href="#" class="text-sm font-medium text-gray-300 hover:text-white transition-colors">Create account</a>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="relative mb-8">
+                <div class="absolute inset-0 flex items-center">
+                    <div class="w-full border-t border-gray-700"></div>
+                </div>
+                <div class="relative flex justify-center text-xs uppercase">
+                    <span class="px-4 bg-black/30 text-gray-300">Or continue with</span>
+                </div>
+            </div>
+
+            <!-- Social Login Buttons -->
+            <div class="grid grid-cols-2 gap-4">
+                <button type="button" onclick="loginWithGoogle()" class="flex items-center justify-center gap-2 p-3 border border-gray-700 rounded-xl hover:bg-gray-800/50 transition-all duration-300 group">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google" width="20" height="20">
+                    <i data-lucide="google" class="w-5 h-5 text-blue-400 group-hover:text-green-600 transition-colors"></i>
+                </button>
+                <button type="button" onclick="loginWithGitHub()" class="flex items-center justify-center gap-2 p-3 border border-gray-700 rounded-xl hover:bg-gray-800/50 transition-all duration-300 group">
+                    <i data-lucide="github" class="w-5 h-5 text-purple-400 group-hover:text-yellow-400 transition-colors"></i>
+                </button>
+            </div>
+
+            <!-- Email & Password Input Section -->
+            <div class="space-y-5 mt-8">
+                
+                <!-- Email Field -->
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-300 mb-1.5 ml-1">Email Address</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        placeholder="name@company.com"
+                        autocomplete="email"
+                        required
+                        class="w-full px-4 py-3 bg-white/5 border border-transparent focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none rounded-lg text-white placeholder-gray-500 transition-all duration-300"
+                    >
+                </div>
+
+                <!-- Password Field -->
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-300 mb-1.5 ml-1">Password</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        placeholder="••••••••"
+                        autocomplete="current-password"
+                        required
+                        minlength="8"
+                        class="w-full px-4 py-3 bg-white/5 border border-transparent focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 outline-none rounded-lg text-white placeholder-gray-500 transition-all duration-300"
+                    >
+                    
+                    <!-- Remember Me Checkbox -->
+                    <div class="mt-2 flex items-start gap-2 cursor-pointer">
+                        <input type="checkbox" id="rememberMe" class="form-checkbox w-4 h-4 text-blue-400 bg-gray-800 border-gray-700 rounded focus:ring-offset-0 focus:ring-2 focus:ring-blue-500/20">
+                        <label for="rememberMe" class="text-xs text-gray-400 ml-1 select-none">Remember me</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="w-full mt-6 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg transform hover:-translate-y-0.5 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                Sign In Now
+            </button>
+        </form>
+
+        <!-- Footer Links -->
+        <p class="text-center mt-8 text-sm text-gray-400">
+            Don't have an account? <a href="#" class="font-medium text-blue-300 hover:text-white transition-colors">Sign up free</a>
+        </p>
+    </div>
+
+    <!-- Tailwind Configuration Script (v4 specific) -->
+    <script>
+        // v4 uses @theme directives instead of traditional config
+        const theme = {
+            extend: {
+                colors: {
+                    primary: '#3b82f6',
+                    secondary: '#9333ea',
+                    dark: '#0f172a'
+                },
+                fontFamily: {
+                    sans: ['Inter', 'sans-serif'],
+                }
+            }
+        };
+
+        tailwind.config = {
+            content: [
+                './index.html',
+                './src/**/*.{js,ts,vue}',
+                './app.vue',
+                './components/**/*.vue',
+                './layouts/**/*.vue',
+                './pages/**/*.vue',
+                './elements/*.vue',
+            ],
+            theme: {
+                container: {
+                    centerPadder: true,
+                    padding: '2rem',
+                    screens: {
+                        sm: '640px',
+                        md: '1024px',
+                        lg: '1280px',
+                        xl: '1440px',
+                    },
+                },
+                borderRadius: {
+                    DEFAULT: '0.5rem',
+                    lg: '1rem',
+                    xl: '1.5rem',
+                    full: '9999px',
+                },
+                boxShadow: {
+                    glow: '0 0 40px rgba(59, 130, 246, 0.3)',
+                },
+            },
+            plugins: [],
+        };
+        
+        console.log('Tailwind CSS v4 loaded successfully!');
+    </script>
+    
+    <!-- Bootstrap Icons CDN for icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</body>
+</html>
