@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Admin Dashboard</title>
+    
+    <!-- Tailwind CSS v4 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    
+    <!-- Custom Config for Tailwind v4 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {},
+            },
+        }
+    </script>
+    
+    <style>
+        /* Smooth transitions */
+        .fade-in { animation: fadeIn 0.3s ease-out; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-slate-800 font-sans antialiased">
+
+    <!-- Main Container -->
+    <div id="app" class="flex h-screen bg-white overflow-hidden relative">
+        
+        <!-- ================= HEADER SECTION ================= -->
+        <header class="bg-white border-b shadow-sm z-50 flex items-center justify-between p-6 sticky top-0">
+            
+            <!-- Search Bar -->
+            <div class="relative w-full max-w-md hidden md:block">
+                <input type="text" placeholder="Search files, folders..." 
+                       class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                <i class="bi bi-search absolute left-3 top-2.5 text-gray-400"></i>
+            </div>
+
+            <!-- User Avatar & Menu -->
+            <div class="flex items-center gap-4">
+                <!-- Mobile Menu Button (Hidden on desktop) -->
+                <button onclick="toggleMenu()" class="md:hidden text-gray-600 hover:text-red-500"><i class="bi bi-list text-xl"></i></button>
+
+                <!-- Profile/Avatar -->
+                <img src="" alt="User" class="h-10 w-10 rounded-full object-cover border-2 border-green-500 cursor-pointer">
+                
+                <!-- Dropdown Menu -->
+                <div class="hidden lg:flex ml-3 space-x-2 bg-white px-3 py-1.5 rounded-lg shadow-sm border border-gray-100">
+                    <a href="#" class="flex items-center gap-2 text-sm font-medium text-gray-700">
+                        <i class="bi bi-person-circle"></i> Profile
+                    </a>
+                    <a href="#" class="flex items-center gap-2 text-sm font-medium text-gray-700">
+                        <i class="bi bi-settings"></i> Setting
+                    </a>
+                    <a href="#" class="flex items-center gap-2 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors">
+                        <i class="bi bi-box-arrow-right"></i> Logout
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- ================= SIDEBAR SECTION ================= -->
+        <aside class="w-64 bg-slate-900 text-white flex-shrink-0 hidden md:flex flex-col relative overflow-hidden group">
+            
+            <!-- Logo Area -->
+            <div class="p-8 text-center border-b border-slate-800">
+                <div class="bg-gradient-to-br from-indigo-500 to-purple-600 w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-indigo-500/30">
+                    <i class="bi bi-cloud-texture text-3xl"></i>
+                </div>
+                <h1 class="text-2xl font-bold tracking-wide">Cloud<span class="text-indigo-400">Admin</span></h1>
+            </div>
+
+            <!-- Navigation List Group -->
+            <nav class="flex-1 p-4 space-y-1 overflow-y-auto">
+                <ul class="space-y-1">
+                    
+                    <!-- Create Folder -->
+                    <li class="group flex items-center justify-between p-3 rounded-md hover:bg-slate-800 transition-all cursor-pointer">
+                        <div class="flex items-center gap-3">
+                            <div class="relative">
+                                <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-xs font-bold">C</div>
+                                <span class="absolute top-1 right-1 w-2 h-2 bg-yellow-400 rounded-full opacity-0 group-hover:opacity-100 animate-pulse"></span>
+                            </div>
+                            <span class="font-medium text-sm">Create Folder</span>
+                        </div>
+                        <i class="bi bi-plus-circle text-gray-400 group-hover:text-blue-400 transition-transform rotate-90"></i>
+                    </li>
+
+                    <!-- Upload Files -->
+                    <li class="group flex items-center justify-between p-3 rounded-md hover:bg-slate-800 transition-all cursor-pointer">
+                        <div class="flex items-center gap-3">
+                            <div class="relative">
+                                <div class="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center text-xs font-bold">F</div>
+                                <span class="absolute top-1 right-1 w-2 h-2 bg-red-400 rounded-full opacity-0 group-hover:opacity-100 animate-pulse"></span>
+                            </div>
+                            <span class="font-medium text-sm">Upload Files</span>
+                        </div>
+                        <i class="bi bi-upload text-gray-400 group-hover:text-orange-400 transition-transform -rotate-90"></i>
+                    </li>
+
+                    <!-- Sharing & Progress Bar -->
+                    <li class="group flex items-center justify-between p-3 rounded-md hover:bg-slate-800 transition-all cursor-pointer">
+                        <div class="flex items-center gap-3">
+                            <div class="bg-green-500/20 text-green-400 px-2 py-1 rounded text-[10px] uppercase font-bold border border-green-500/30">
+                                Storage Status
+                            </div>
+                            <span class="font-medium text-sm">Sharing & Compare</span>
+                        </div>
+                        <i class="bi bi-share-nodes text-gray-400 group-hover:text-green-400 transition-transform -rotate-90"></i>
+                    </li>
+
+                </ul>
+            </nav>
+
+            <!-- Footer of Sidebar -->
+            <div class="p-6 border-t border-slate-800 text-center">
+                 <button onclick="logout()" class="text-xs text-red-500 hover:text-red-400 underline decoration-dotted">Logout System</button>
+            </div>
+        </aside>
+
+        <!-- ================= MAIN CONTENT AREA ================= -->
+        <main class="flex-1 flex flex-col relative overflow-hidden">
+            
+            <!-- Header Info (Top Row) -->
+            <header class="h-16 bg-white shadow-md z-40 flex items-center justify-between px-6 lg:justify-start">
+                
+                <!-- Search Icon -->
+                <div class="hidden md:flex items-center gap-2 mr-4">
+                     <i class="bi bi-search text-blue-500"></i>
+                     <input type="text" placeholder="Search..." 
+                           class="bg-transparent border-none outline-none text-sm w-64 ml-auto pl-10 pr-4 focus:w-72 transition-colors">
+                </div>
+
+                <!-- User Avatar -->
+                <img src="" alt="User" class="w-10 h-10 rounded-full object-cover border-2 border-green-500 cursor-pointer">
+                
+                <!-- Stats Badge -->
+                <div class="ml-4 hidden sm:block bg-yellow-50 px-3 py-1 rounded-lg text-xs font-semibold text-yellow-700 border border-yellow-100">
+                   1.2GB Free Space Used
+                </div>
+            </header>
+
+            <!-- Dashboard Content Grid -->
+            <div class="flex-1 overflow-y-auto p-6 lg:p-8">
+                
+                <!-- Left Column: Sidebar + Progress Bar -->
+                <div class="lg:col-span-2 space-y-6">
+                    
+                    <!-- Create Folder Card -->
+                    <div class="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl p-6 text-white shadow-lg transform translate-x-[-10px] hover:translate-x-[10px] transition-all duration-300">
+                        <h3 class="font-bold mb-2"><i class="bi bi-folder-fill text-indigo-200"></i> New Project</h3>
+                        <p class="mb-4 text-sm opacity-90">Create a folder for your next upload.</p>
+                        <form onsubmit="event.preventDefault(); createFolder();" class="space-y-2">
+                            <label class="block text-xs uppercase tracking-wider opacity-70">Name</label>
+                            <input type="text" value="My Cloud Drive" class="w-full px-3 py-2 rounded bg-white/10 backdrop-blur-sm border border-white/20 focus:border-white outline-none transition-all text-sm">
+                            <button type="submit" class="w-full mt-2 bg-white text-indigo-600 py-2 rounded-md text-sm font-medium hover:bg-opacity-90 transition-colors">Create</button>
+                        </form>
+                    </div>
+
+                    <!-- Storage Progress Bar -->
+                    <div class="relative bg-slate-800 rounded-xl p-4 flex items-center justify-between group">
+                         <span class="absolute left-0 top-1 w-1 h-full bg-blue-500 rounded-r-full"></span>
+                         <div class="flex items-baseline gap-3">
+                             <span class="text-gray-400 text-sm">Total Size</span>
+                             <span class="text-white font-bold">${(totalSize / (1024*1024*1024)).toFixed(2)} GB</span>
+                         </div>
+                         <div class="flex items-end gap-1">
+                             <span id="storagePct" class="text-white font-bold text-2xl">0%</span>
+                             <svg class="w-4 h-4 text-yellow-500 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10.003 2a1 1 0 0 1 .884 1.41L14.5 6H6l5.5-4.5zM18 10a1 1 0 0 1-.884 1.41L14.5 14H6l5.5-4.5z"/>
+                             </svg>
+                         </div>
+                    </div>
+
+                </div>
+
+                <!-- Right Column: Home Grid -->
+                <div class="lg:col-span-1 space-y-6">
+                    
+                    <!-- Empty State Message -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center hidden md:block">
+                        <i class="bi bi-folder-fill text-4xl text-gray-300 mb-3"></i>
+                        <p class="font-semibold text-gray-700">No files found yet.</p>
+                        <p class="text-xs text-gray-500 mt-1">This is a demo dashboard.</p>
+                    </div>
+
+                    <!-- File/Folder Cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        
+                        <!-- Card 1 -->
+                        <div class="group relative bg-white rounded-xl overflow-hidden border hover:border-indigo-500 transition-all duration-300 flex flex-col">
+                            <img src="" alt="File Icon" class="w-full aspect-square object-cover opacity-90 group-hover:opacity-100 transition-opacity">
+                            <div class="p-4 flex justify-between items-start">
+                                <div>
+                                    <h3 class="font-bold text-slate-800 truncate w-3/4">${file.name}</h3>
+                                    <p class="text-xs text-green-600 font-medium mt-1"><i class="bi bi-check-circle"></i> Uploaded</p>
+                                </div>
+                                <span class="bg-blue-50 px-2 py-1 rounded text-[10px] uppercase tracking-wide text-blue-700">${size} MB</span>
+                            </div>
+                            
+                            <!-- Pagination Buttons (Visible on small screens) -->
+                            <div class="absolute bottom-4 right-4 flex gap-1">
+                                <button onclick="changePage(-1)" class="p-1.5 bg-white/50 rounded-md text-white hover:bg-white/80 disabled:opacity-50 disabled:hover:bg-transparent transition-colors" title="Prev">&#9663;</button>
+                                <button onclick="changePage(1)" class="p-1.5 bg-white/50 rounded-md text-white hover:bg-white/80 transition-colors" title="Next">&#9664;</button>
+                            </div>
+                        </div>
+
+                         <!-- Card 2 -->
+                         <div class="group relative bg-white rounded-xl overflow-hidden border hover:border-purple-500 transition-all duration-300 flex flex-col">
+                             <img src="" alt="File Icon" class="w-full aspect-square object-cover opacity-90 group-hover:opacity-100 transition-opacity">
+                             <div class="p-4 flex justify-between items-start">
+                                <div>
+                                    <h3 class="font-bold text-slate-800 truncate w-3/4">${folder.name}</h3>
+                                    <p class="text-xs text-gray-500 mt-1">Folder</p>
+                                </div>
+                                <span class="bg-purple-50 px-2 py-1 rounded text-[10px] uppercase tracking-wide text-purple-700">${size} MB</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ================= JAVASCRIPT LOGIC ================= -->
+    
+    <script type="module">
+        // Import Tailwind CSS via CDN for v4 compatibility if needed, 
+        // but standard utility classes work perfectly here.
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- Configuration & State ---
+            const STORAGE_TOTAL_SIZE = 'total_size';
+            let totalSize = 0;
+            let currentYear = new Date().getFullYear();
+            
+            // Mock Data Source URLs
+            // These are the exact paths you requested in your prompt
+            const HEADER_URL = '/admin/header.json';
+            const SIDEBAR_URL = '/admin/sidebar.json';
+            const HOME_DATA_URL = '/admin/home.json';
+
+            // --- DOM Elements ---
+            const headerEl = document.querySelector('.header');
+            const sidebarEl = document.querySelector('.sidebar');
+            const homeGrid = document.querySelectorAll('.home-card');
+            const searchInput = document.getElementById('search-input');
+            const prevBtn = document.querySelector('#prev-btn');
+            const nextBtn = document.querySelector('#next-btn');
+            const storagePctSpan = document.getElementById('storagePct');
+            const fileIcon = document.getElementById('fileIcon');
+            const fileName = document.getElementById('fileName');
+            const emptyState = document.querySelector('.empty-state');
+
+            // --- Initialization Logic ---
+            
+            function initDashboard() {
+                fetch(HEADER_URL)
+                    .then(response => response.json())
+                    .then(data => {
+                        renderHeader(data);
+                    })
+                    .catch(error => console.error("Failed to load Header data:", error));
+
+                fetch(SIDEBAR_URL)
+                    .then(response => response.json())
+                    .then(data => {
+                        renderSidebar(data);
+                    })
+                    .catch(error => console.error("Failed to load Sidebar data:", error));
+
+                fetch(HOME_DATA_URL)
+                    .then(response => response.json())
+                    .then(data => {
+                        renderHome(data);
+                    })
+                    .catch(error => console.error("Failed to load Home data:", error));
+            }
+
+            // Helper: Render Header
+            function renderHeader(data) {
+                // Update Avatar Image
+                const userImg = document.querySelector('img[src]');
+                if(userImg && data.name) {
+                     userImg.src = `https://via.placeholder.com/150/${data.name.length}/FFF?text=${data.name}`;
+                } else {
+                   userImg.src = "https://ui-avatars.com/api/?background=random";
+                }
+
+                // Search Input Visibility (Hidden on mobile, visible on desktop per logic above)
+                if(window.innerWidth < 768) {
+                    searchInput.classList.add('hidden', 'bg-gray-100');
+                } else {
+                    searchInput.classList.remove('hidden', 'bg-gray-100');
+                }
+
+                // Stats Badge
+                totalSize = parseInt(localStorage.getItem(STORAGE_TOTAL_SIZE)) || 0;
+                
+                // Calculate Percentage
+                let percentage = ((totalSize / (1024 * 1024 * 1024)).toFixed(1)) + '%';
+                if(percentage === '0') percentage = '0%';
+                storagePctSpan.innerText = percentage;
+            }
+
+            // Helper: Render Sidebar
+            function renderSidebar(data) {
+                sidebarEl.innerHTML = ''; // Clear current content
+                
+                // Create Folder Card
+                createFolderCard(data.folderName, data.size, false);
+                
+                // Upload Button
+                uploadButton();
+
+                // Sharing & Progress Bar
+                sharingBar(data);
+            }
+
+            // Helper: Create Folder Card
+            function createFolderCard(name, size, isUpload) {
+                const card = document.createElement('div');
+                card.className = "group bg-white rounded-xl border p-3 shadow-sm hover:border-blue-200 transition-all flex items-center justify-between mb-2";
+                
+                // Icon
+                const icon = isUpload ? '<i class="bi bi-upload text-orange-500"></i>' : 
+                               name.includes('folder') ? '<i class="bi bi-folder-fill text-indigo-500"></i>' : 
+                               '<i class="bi bi-cloud-texture text-green-500"></i>';
+                
+                // Content
+                card.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        ${icon}
+                        <span class="font-medium">${name}</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">${size} MB</p>
+                `;
+                
+                // Hover effect for folder
+                if(isUpload && !isUpload) {
+                     card.style.borderColor = "rgba(239, 68, 68, 0.3)";
+                }
+
+                // Action Buttons
+                const actions = isUpload 
+                  ? [
+                      `<button onclick="openCreateFolder('${name}')" class="w-full py-2 bg-red-50 text-red-700 font-semibold rounded-md hover:bg-red-100 transition-colors">📁 Create</button>`
+                   ] 
+                  : [
+                      `<a href="#" onclick="shareFile('${name}', '${data.name}'?timestamp=${Date.now()})" class="w-full py-2 bg-yellow-50 text-yellow-700 font-semibold rounded-md hover:bg-yellow-100 transition-colors">💬 Share</a>`
+                   ];
+
+                card.appendChild(icon);
+                card.appendChild(actions[0]);
+                card.appendChild(card.querySelector('.mt-1')); // Spacer to align nicely with previous item logic (though here we just push)
+                
+                // Add to sidebar list
+                sidebarEl.appendChild(card);
+            }
+
+            // Helper: Open/Create Folder Modal/View
+            function openCreateFolder(folderName) {
+                 alert(`Opening new folder view for "${folderName}"`);
+            }
+
+            // Helper: Upload Button Logic
+            function uploadButton() {
+               // In a real app, this would call an API endpoint like /api/upload/files.json
+               console.log("Uploading files...");
+            }
+
+            // Helper: Sharing Bar Logic
+            function sharingBar(data) {
+                let pct = 0;
+                totalSize += data.size;
+                
+                // Update percentage dynamically without re-fetching header/sidebar every time
+                storagePctSpan.innerText = `${Math.round((totalSize / (1024*1024*1024)).toFixed(1))}%`;
+                
+                // Visual indicator on sidebar progress bar
+                document.getElementById('storagePct').style.backgroundColor = 'rgb(239, 68, 68)';
+            }
+
+            // --- Home Grid Rendering ---
+            
+            function renderHome(data) {
+                homeGrid.forEach(card => {
+                    // Get Icon Name from Data Object or Default
+                    const iconType = data.icon || 'unknown';
+                    
+                    // Format Size
+                    const sizeStr = Math.floor(Math.random() * 100).toString().padStart(3, '0') + " MB";
+                    
+                    // Generate Random Filename
+                    const randomSuffix = Math.random().toString(36).substring(2, 8);
+                    const filename = `file_${randomSuffix}_${currentYear}.txt`;
+
+                    card.innerHTML = `
+                        <div class="group relative bg-white border rounded-lg overflow-hidden shadow-sm hover:border-blue-300 transition-all duration-300 flex items-center justify-between p-4">
+                            <!-- Image -->
+                            <img src="" alt="${filename}" class="w-full h-48 object-cover">
+                            
+                            <!-- Content -->
+                            <div class="flex-1 min-w-0">
+                                <h3 class="font-bold text-slate-800 truncate mb-1">${filename}</h3>
+                                <p class="text-xs text-gray-500">${sizeStr} • ${iconType.toUpperCase()}</p>
+                            </div>
+
+                            <!-- Pagination Controls -->
+                            <div class="absolute bottom-4 right-4 flex gap-1 opacity-70 grayscale group-hover:grayscale-0 transition-opacity">
+                                <button onclick="changePage(-1)" class="px-2 py-1 rounded bg-black/50 text-white"><i class="bi bi-arrow-left"></i></button>
+                                <button onclick="changePage(1)" class="px-2 py-1 rounded bg-black/50 text-white"><i class="bi bi-arrow-right"></i></button>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                if(homeGrid.length === 0 && !emptyState.classList.contains('hidden')) {
+                     emptyState.classList.remove('hidden');
+                } else {
+                     emptyState.classList.add('hidden');
+                }
+            }
+
+            // Helper: Change Page
+            function changePage(direction) {
+                 let page = parseInt(window.location.pathname.split('/').pop());
+                 
+                 // Simple pagination logic based on current view (e.g., show first N files)
+                 // For this demo, we just update the count and buttons
+                
+                 window.history.pushState({}, '', `${window.location.pathname}${page}`);
+            }
+
+            // --- Event Listeners ---
+            
+            searchInput.addEventListener("input", () => {
+               headerEl.querySelector('.search-input').classList.toggle('bg-gray-100', searchInput.value.trim() !== "");
+            });
+
+            prevBtn.addEventListener("click", () => changePage(-1));
+            nextBtn.addEventListener("click", () => changePage(1));
+
+            // Initialize when DOM is ready
+            initDashboard();
+
+        </script>
+</body>
+</html>

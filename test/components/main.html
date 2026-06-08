@@ -1,0 +1,51 @@
+<!-- components/main.html -->
+<main class="flex-1 flex flex-col overflow-hidden">
+    
+    <!-- Main Content Area -->
+    <section class="p-6 bg-gray-800 rounded-xl shadow-lg border border-gray-700">
+        <h2 class="text-xl font-semibold text-white mb-4 flex items-center">
+            <i class="bi bi-folder-open text-indigo-400 mr-3"></i> My Folders
+        </h2>
+        
+        <!-- Folder Item 1 -->
+        <div class="flex items-center justify-between py-3 border-b border-gray-700 hover:bg-gray-700/50 transition duration-150 px-2 -mx-2 rounded-md cursor-pointer">
+            <div class="flex items-center space-x-3">
+                <div class="w-5 h-5 bg-blue-500 rounded-full"></div>
+                <div class="truncate">
+                    <span class="font-medium text-white">Work Projects</span>
+                    <span class="text-xs text-gray-500 block mt-1">15 files, 3 subfolders</span>
+                </div>
+            </div>
+            <button class="text-red-400 hover:text-red-500 p-1 rounded-full transition duration-150">
+                <i class="bi bi-trash w-5 h-5"></i> Delete
+            </button>
+        </div>
+
+         <!-- Folder Item 2 (Recent Activity Highlight) -->
+        <div class="flex items-center justify-between py-3 bg-gray-700/50 rounded-md hover:bg-gray-700 transition duration-150 px-2 -mx-2">
+            <div class="flex items-center space-x-3">
+                <div class="w-5 h-5 bg-green-500 rounded-full animate-pulse"></div>
+                <span class="font-medium text-white">Q3 Financials</span>
+                <span class="text-xs text-green-400 block mt-1">Modified by John Doe 5 min ago</span>
+            </div>
+            <button class="text-yellow-400 hover:text-yellow-500 p-1 rounded-full transition duration-150">
+                <i class="bi bi-share w-5 h-5"></i> Share
+            </button>
+        </div>
+
+        <!-- Folder Item 3 -->
+        <div class="flex items-center justify-between py-3 border-b border-gray-700 hover:bg-gray-700/50 transition duration-150 px-2 -mx-2 rounded-md cursor-pointer">
+            <div class="flex items-center space-x-3">
+                <div class="w-5 h-5 bg-purple-500 rounded-full"></div>
+                <div class="truncate">
+                    <span class="font-medium text-white">Personal Photos</span>
+                    <span class="text-xs text-gray-500 block mt-1">8 photos, 1 folder</span>
+                </div>
+            </div>
+            <button class="text-red-400 hover:text-red-500 p-1 rounded-full transition duration-150">
+                <i class="bi bi-trash w-5 h-5"></i> Delete
+            </button>
+        </div>
+
+    </section>
+</main>
