@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Manager - Home Dashboard</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Bootstrap Icons CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <style>
+        /* Custom Scrollbar for better UI */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        
+        .active-folder {
+            background-color: #dbeafe; /* blue-100 */
+            color: #1e40af; /* blue-800 */
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased h-screen flex overflow-hidden">
+
+    <!-- ========================================== -->
+    <!-- SIDEBAR (Left Panel)                       -->
+    <!-- ========================================== -->
+    <aside class="w-64 bg-white border-r border-slate-200 flex flex-col flex-shrink-0">
+        <!-- Header Logo -->
+        <div class="px-4 py-4 flex items-center gap-2">
+            <div class="bg-blue-600 p-2 rounded-lg text-white">
+                <i class="bi bi-cloud-fill text-2xl"></i>
+            </div>
+            <span class="font-bold text-xl tracking-tight text-slate-800">CloudManager</span>
+        </div>
+
+        <!-- Navigation Items -->
+        <div class="flex-1 overflow-y-auto px-2 py-2 space-y-1">
+            
+            <!-- Section: Main -->
+            <div class="px-3 mb-1 text-xs font-semibold text-slate-400 uppercase">Trên máy của tôi</div>
+            
+            <a href="#" class="group flex items-center gap-x-3 px-3 py-2 text-sm font-medium rounded-md bg-blue-50 text-blue-700">
+                <i class="bi bi-grid-fill text-lg"></i>
+                <span>Tất cả</span>
+            </a>
+            
+            <a href="#" class="group flex items-center gap-x-3 px-3 py-2 text-sm font-medium rounded-md text-slate-600 hover:bg-slate-50">
+                <i class="bi bi-star text-lg text-yellow-400"></i>
+                <span>Yêu thích</span>
+            </a>
+            
+            <a href="#" class="group flex items-center gap-x-3 px-3 py-2 text-sm font-medium rounded-md text-slate-600 hover:bg-slate-50">
+                <i class="bi bi-clock-history text-lg"></i>
+                <span>Gần đây</span>
+            </a>
+
+            <a href="#" class="group flex items-center gap-x-3 px-3 py-2 text-sm font-medium rounded-md text-slate-600 hover:bg-slate-50">
+                <i class="bi bi-file-earmark-zip text-lg text-orange-400"></i>
+                <span>Phong bì</span>
+            </a>
+
+            <!-- Section: Shared -->
+            <div class="px-3 mt-6 mb-1 text-xs font-semibold text-slate-400 uppercase">Đã chia sẻ</div>
+            
+            <a href="#" class="group flex items-center gap-x-3 px-3 py-2 text-sm font-medium rounded-md text-slate-600 hover:bg-slate-50">
+                <i class="bi bi-people text-lg"></i>
+                <span>Người dùng khác</span>
+            </a>
+
+             <!-- Section: Storage -->
+             <div class="px-3 mt-6 mb-1 text-xs font-semibold text-slate-400 uppercase">Quản lý</div>
+             
+             <div class="px-3 mt-4 mb-1">
+                <div class="flex justify-between text-xs text-slate-500 mb-1">
+                    <span>Dung lượng</span>
+                    <span>75%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2">
+                    <div class="bg-blue-600 h-2 rounded-full" style="width: 75%"></div>
+                </div>
+                <a href="#" class="text-xs text-blue-600 hover:text-blue-500 block mt-2">Mua dung lượng</a>
+             </div>
+        </div>
+
+        <!-- Bottom User Profile -->
+        <div class="border-t border-slate-200">
+            <button class="w-full flex items-center gap-x-3 px-3 py-3 hover:bg-slate-50">
+                <img src="https://picsum.photos/seed/user1/100/100.jpg" alt="User" class="w-10 h-10 rounded-full object-cover border border-slate-200">
+                <div class="text-left flex-1 overflow-hidden">
+                    <p class="text-sm font-medium text-slate-900">User Name</p>
+                    <p class="text-xs text-slate-500 truncate">user@example.com</p>
+                </div>
+                <i class="bi bi-chevron-right text-slate-400 text-sm"></i>
+            </button>
+        </div>
+    </aside>
+
+    <!-- ========================================== -->
+    <!-- MAIN CONTENT (Right Panel)                  -->
+    <!-- ========================================== -->
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden bg-slate-50">
+        
+        <!-- Top Header -->
+        <header class="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between flex-shrink-0">
+            <!-- Left: Search & Title -->
+            <div class="flex items-center gap-4 flex-1">
+                <!-- Search Bar -->
+                <div class="relative w-full max-w-md">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="bi bi-search text-slate-400"></i>
+                    </div>
+                    <input type="text" class="block w-full pl-10 pr-3 py-2 border border-slate-300 rounded-full leading-5 bg-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out sm:text-sm" placeholder="Tìm kiếm trong 'Trên máy của tôi'">
+                </div>
+            </div>
+
+            <!-- Right: Quick Actions -->
+            <div class="flex items-center gap-3">
+                <button class="text-slate-500 hover:text-slate-700 px-3 py-2 text-sm font-medium">Trợ giúp</button>
+                <div class="h-6 w-px bg-slate-300"></div>
+                <button class="text-slate-500 hover:text-slate-700">
+                    <i class="bi bi-grid text-xl"></i>
+                </button>
+                <button class="text-slate-500 hover:text-slate-700">
+                    <i class="bi bi-list text-xl"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- File Browser Main Area -->
+        <main class="flex-1 overflow-y-auto px-6 py-6">
+            
+            <!-- 1. Breadcrumbs & Toolbar -->
+            <div class="flex items-center justify-between mb-6">
+                <!-- Breadcrumbs -->
+                <nav class="flex items-center text-sm text-slate-600">
+                    <a href="#" class="text-slate-500 hover:text-slate-800"><i class="bi bi-house-door"></i></a>
+                    <i class="bi bi-chevron-right mx-2 text-xs"></i>
+                    <a href="#" class="text-slate-500 hover:text-slate-800">Ví dụ</a>
+                    <i class="bi bi-chevron-right mx-2 text-xs"></i>
+                    <a href="#" class="text-slate-900 font-medium">Học tập</a>
+                </nav>
+
+                <!-- Toolbar Buttons -->
+                <div class="flex items-center gap-2">
+                    <button class="text-slate-700 hover:bg-slate-100 p-2 rounded-lg" title="Chọn">
+                        <i class="bi bi-check-all text-lg"></i>
+                    </button>
+                    <button class="text-slate-700 hover:bg-slate-100 p-2 rounded-lg" title="Nhắc lại">
+                        <i class="bi bi-repeat text-lg"></i>
+                    </button>
+                    <button class="text-slate-700 hover:bg-slate-100 p-2 rounded-lg" title="Chia sẻ">
+                        <i class="bi bi-share-nodes text-lg"></i>
+                    </button>
+                    <div class="w-px h-6 bg-slate-300 mx-2"></div>
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium">
+                        <i class="bi bi-cloud-arrow-up"></i>
+                        Upload
+                    </button>
+                </div>
+            </div>
+
+            <!-- 2. Quick Create Actions -->
+            <div class="flex items-center gap-6 mb-8">
+                <a href="#" class="flex flex-col items-center gap-2 group">
+                    <div class="bg-green-100 text-green-600 p-3 rounded-full group-hover:shadow-md transition">
+                        <i class="bi bi-folder-plus text-3xl"></i>
+                    </div>
+                    <span class="text-xs text-slate-600 group-hover:text-slate-900 font-medium">Thư mục mới</span>
+                </a>
+                <a href="#" class="flex flex-col items-center gap-2 group">
+                    <div class="bg-purple-100 text-purple-600 p-3 rounded-full group-hover:shadow-md transition">
+                        <i class="bi bi-image text-3xl"></i>
+                    </div>
+                    <span class="text-xs text-slate-600 group-hover:text-slate-900 font-medium">Google Photos</span>
+                </a>
+                <a href="#" class="flex flex-col items-center gap-2 group">
+                    <div class="bg-orange-100 text-orange-600 p-3 rounded-full group-hover:shadow-md transition">
+                        <i class="bi bi-star text-3xl"></i>
+                    </div>
+                    <span class="text-xs text-slate-600 group-hover:text-slate-900 font-medium">Ghim nhanh</span>
+                </a>
+                <a href="#" class="flex flex-col items-center gap-2 group">
+                    <div class="bg-pink-100 text-pink-600 p-3 rounded-full group-hover:shadow-md transition">
+                        <i class="bi bi-clock text-3xl"></i>
+                    </div>
+                    <span class="text-xs text-slate-600 group-hover:text-slate-900 font-medium">Lưu lại</span>
+                </a>
+            </div>
+
+            <!-- 3. Upload Zone (Drag & Drop) -->
+            <div class="border-2 border-dashed border-blue-500 rounded-xl bg-blue-50 p-8 flex flex-col items-center justify-center text-center mb-8 hover:bg-blue-100 transition cursor-pointer">
+                <i class="bi bi-cloud-arrow-up text-4xl text-blue-500 mb-2"></i>
+                <h3 class="text-blue-800 font-semibold text-sm">Kéo thả các tệp vào đây hoặc nhấn để tải lên</h3>
+                <div class="flex gap-3 mt-2 text-xs text-blue-600 font-medium">
+                    <span>Định dạng: JPG, PNG, PDF...</span>
+                    <span class="text-blue-400">|</span>
+                    <span>Dung lượng tối đa 20MB</span>
+                </div>
+            </div>
+
+            <!-- 4. File Grid -->
+            <div class="space-y-4">
+                <h2 class="text-slate-700 font-semibold">Ví dụ</h2>
+                
+                <!-- Grid Container -->
+                <div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
+                    
+                    <!-- Folder Item -->
+                    <a href="#" class="group flex flex-col items-center gap-3">
+                        <div class="bg-blue-100 text-blue-600 p-4 rounded-xl group-hover:bg-blue-200 transition shadow-sm">
+                            <i class="bi bi-folder-fill text-5xl"></i>
+                        </div>
+                        <span class="text-sm text-slate-600 group-hover:text-slate-900 font-medium">Đồ án cuối kỳ</span>
+                        <span class="text-xs text-slate-500">Hôm qua</span>
+                    </a>
+
+                    <!-- Image File -->
+                    <a href="#" class="group flex flex-col items-center gap-3">
+                        <div class="bg-gray-100 text-gray-600 p-4 rounded-xl group-hover:bg-gray-200 transition shadow-sm">
+                            <i class="bi bi-file-earmark-image text-5xl"></i>
+                        </div>
+                        <span class="text-sm text-slate-600 group-hover:text-slate-900 font-medium">Hinh_nen.jpg</span>
+                        <span class="text-xs text-slate-500">2.5 MB</span>
+                    </a>
+
+                    <!-- PDF File -->
+                    <a href="#" class="group flex flex-col items-center gap-3">
+                        <div class="bg-red-50 text-red-600 p-4 rounded-xl group-hover:bg-red-100 transition shadow-sm">
+                            <i class="bi bi-file-earmark-pdf text-5xl"></i>
+                        </div>
+                        <span class="text-sm text-slate-600 group-hover:text-slate-900 font-medium">Bao_cao.pdf</span>
+                        <span class="text-xs text-slate-500">1.2 MB</span>
+                    </a>
+
+                    <!-- Doc File -->
+                    <a href="#" class="group flex flex-col items-center gap-3">
+                        <div class="bg-blue-50 text-blue-600 p-4 rounded-xl group-hover:bg-blue-100 transition shadow-sm">
+                            <i class="bi bi-file-earmark-text text-5xl"></i>
+                        </div>
+                        <span class="text-sm text-slate-600 group-hover:text-slate-900 font-medium">Nghi_Thuat.docx</span>
+                        <span class="text-xs text-slate-500">0.5 MB</span>
+                    </a>
+
+                     <!-- Folder Item (Active State Simulation) -->
+                     <a href="#" class="group flex flex-col items-center gap-3 active-folder">
+                        <div class="bg-blue-600 text-white p-4 rounded-xl shadow-md">
+                            <i class="bi bi-folder-fill text-5xl"></i>
+                        </div>
+                        <span class="text-sm font-bold text-blue-900">Bài tập lớn</span>
+                        <span class="text-xs text-blue-600">Hôm qua</span>
+                    </a>
+
+                    <!-- More Folders (Dense Grid) -->
+                    <a href="#" class="group flex flex-col items-center gap-3">
+                        <div class="bg-blue-100 text-blue-600 p-4 rounded-xl group-hover:bg-blue-200 transition shadow-sm">
+                            <i class="bi bi-folder-fill text-5xl"></i>
+                        </div>
+                        <span class="text-sm text-slate-600 group-hover:text-slate-900 font-medium">Thư giấu</span>
+                        <span class="text-xs text-slate-500">3 ngày trước</span>
+                    </a>
+                    
+                    <a href="#" class="group flex flex-col items-center gap-3">
+                        <div class="bg-blue-100 text-blue-600 p-4 rounded-xl group-hover:bg-blue-200 transition shadow-sm">
+                            <i class="bi bi-folder-fill text-5xl"></i>
+                        </div>
+                        <span class="text-sm text-slate-600 group-hover:text-slate-900 font-medium">Tham khảo</span>
+                        <span class="text-xs text-slate-500">1 tuần trước</span>
+                    </a>
+
+                    <a href="#" class="group flex flex-col items-center gap-3">
+                        <div class="bg-blue-100 text-blue-600 p-4 rounded-xl group-hover:bg-blue-200 transition shadow-sm">
+                            <i class="bi bi-folder-fill text-5xl"></i>
+                        </div>
+                        <span class="text-sm text-slate-600 group-hover:text-slate-900 font-medium">Linh kiện</span>
+                        <span class="text-xs text-slate-500">2 tuần trước</span>
+                    </a>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>
