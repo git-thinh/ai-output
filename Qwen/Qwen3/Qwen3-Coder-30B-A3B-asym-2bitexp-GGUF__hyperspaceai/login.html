@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#1e40af'
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .form-input {
+                @apply w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary focus:outline-none transition;
+            }
+            
+            .btn-login {
+                @apply w-full bg-primary hover:bg-secondary text-white font-semibold py-3 px-4 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-0.5 shadow-md hover:shadow-lg;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-md">
+        <!-- Login Card -->
+        <div class="bg-white rounded-xl shadow-xl overflow-hidden">
+            <!-- Header with Logo -->
+            <div class="bg-gradient-to-r from-primary to-secondary py-8 px-6 text-center">
+                <div class="mx-auto mb-4">
+                    <i class="bi bi-lock-fill text-white text-4xl"></i>
+                </div>
+                <h1 class="text-2xl font-bold text-white">Welcome Back</h1>
+                <p class="text-blue-100 mt-2">Sign in to continue</p>
+            </div>
+
+            <!-- Form Section -->
+            <div class="px-6 pt-8 pb-6">
+                <form action="#" method="POST">
+                    <!-- Email Field -->
+                    <div class="mb-5">
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
+                            Email Address
+                        </label>
+                        <div class="relative">
+                            <input 
+                                id="email"
+                                name="email"
+                                type="email"
+                                required
+                                placeholder="Enter your email"
+                                class="form-input pl-10"
+                            >
+                            <i class="bi bi-envelope-fill absolute left-3 top-3.5 text-gray-400"></i>
+                        </div>
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="mb-5">
+                        <label for="password" class="block text-sm font-medium text-gray-700 mb-2">
+                            Password
+                        </label>
+                        <div class="relative">
+                            <input 
+                                id="password"
+                                name="password"
+                                type="password"
+                                required
+                                placeholder="Enter your password"
+                                class="form-input pl-10"
+                            >
+                            <i class="bi bi-key-fill absolute left-3 top-3.5 text-gray-400"></i>
+                        </div>
+                    </div>
+
+                    <!-- Remember Me & Forgot Password -->
+                    <div class="flex justify-between items-center mb-6">
+                        <div class="flex items-center">
+                            <input 
+                                id="remember-me" 
+                                name="remember-me" 
+                                type="checkbox" 
+                                class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                            >
+                            <label for="remember-me" class="ml-2 block text-sm text-gray-700">
+                                Remember me
+                            </label>
+                        </div>
+                        <a href="#" class="text-sm text-primary hover:text-secondary font-medium">
+                            Forgot password?
+                        </a>
+                    </div>
+
+                    <!-- Login Button -->
+                    <button 
+                        type="submit" 
+                        class="btn-login transition-all duration-300 ease-in-out"
+                    >
+                        Sign In
+                    </button>
+                </form>
+
+                <!-- Divider -->
+                <div class="mt-6 flex items-center">
+                    <div class="flex-grow border-t border-gray-300"></div>
+                    <span class="mx-4 text-gray-500 text-sm">OR</span>
+                    <div class="flex-grow border-t border-gray-300"></div>
+                </div>
+
+                <!-- Social Login -->
+                <div class="mt-6 grid grid-cols-3 gap-3">
+                    <button class="py-2 px-4 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+                        <i class="bi bi-google text-red-500"></i>
+                    </button>
+                    <button class="py-2 px-4 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+                        <i class="bi bi-facebook text-blue-600"></i>
+                    </button>
+                    <button class="py-2 px-4 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+                        <i class="bi bi-twitter text-blue-400"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="bg-gray-50 py-4 px-6 text-center border-t border-gray-200">
+                <p class="text-sm text-gray-600">
+                    Don't have an account? 
+                    <a href="#" class="font-medium text-primary hover:text-secondary">
+                        Sign up here
+                    </a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Additional Info -->
+        <div class="mt-8 text-center text-gray-500 text-sm">
+            <p>© 2023 Company Name. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

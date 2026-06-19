@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudDrive - Manage Your Files Online</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4285F4',
+                        secondary: '#34A853',
+                        accent: '#FBBC05',
+                        dark: '#202124'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .folder-card:hover {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        .file-item:hover {
+            background-color: #f1f3f4;
+        }
+        .sidebar-link.active {
+            background-color: #e8eaed;
+            font-weight: 600;
+        }
+        .upload-area {
+            border: 2px dashed #dadce0;
+            transition: all 0.3s ease;
+        }
+        .upload-area:hover {
+            border-color: #4285F4;
+            background-color: #f1f3f4;
+        }
+        .preview-container {
+            min-height: 400px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <i class="bi bi-cloud-fill text-primary text-2xl"></i>
+                <h1 class="text-xl font-bold">CloudDrive</h1>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-4">
+                <button class="p-2 rounded-full hover:bg-gray-100">
+                    <i class="bi bi-search"></i>
+                </button>
+                <button class="p-2 rounded-full hover:bg-gray-100">
+                    <i class="bi bi-bell"></i>
+                </button>
+                <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold">
+                    U
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 py-6 flex flex-col md:flex-row gap-6">
+        <!-- Sidebar -->
+        <aside class="md:w-64 w-full mb-6 md:mb-0">
+            <nav class="bg-white p-4 rounded-lg shadow-sm">
+                <ul class="space-y-1">
+                    <li><a href="#" class="sidebar-link active flex items-center p-2 rounded-md"><i class="bi bi-house-door me-2"></i> My Drive</a></li>
+                    <li><a href="#" class="sidebar-link flex items-center p-2 rounded-md"><i class="bi bi-star me-2"></i> Starred</a></li>
+                    <li><a href="#" class="sidebar-link flex items-center p-2 rounded-md"><i class="bi bi-clock-history me-2"></i> Recent</a></li>
+                    <li><a href="#" class="sidebar-link flex items-center p-2 rounded-md"><i class="bi bi-download me-2"></i> Shared with me</a></li>
+                    <li><a href="#" class="sidebar-link flex items-center p-2 rounded-md"><i class="bi bi-trash me-2"></i> Deleted files</a></li>
+                </ul>
+                
+                <div class="mt-6 pt-4 border-t border-gray-200">
+                    <h3 class="font-medium mb-2">Storage</h3>
+                    <div class="flex items-center">
+                        <span class="text-xs text-gray-500 mr-2">1.2 GB of 5 GB used</span>
+                    </div>
+                    <div class="mt-2 w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-primary h-2 rounded-full" style="width: 24%"></div>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-grow">
+            <!-- Breadcrumb and Actions -->
+            <div class="flex flex-wrap items-center justify-between mb-6">
+                <div class="flex items-center space-x-4">
+                    <button class="p-2 rounded-full hover:bg-gray-100">
+                        <i class="bi bi-arrow-left"></i>
+                    </button>
+                    <button class="p-2 rounded-full hover:bg-gray-100">
+                        <i class="bi bi-arrow-right"></i>
+                    </button>
+                    <span class="font-semibold">My Drive</span>
+                </div>
+                
+                <div class="flex items-center mt-2 md:mt-0 gap-2">
+                    <button class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 flex items-center">
+                        <i class="bi bi-upload me-2"></i> Upload
+                    </button>
+                    <button class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 flex items-center">
+                        <i class="bi bi-folder-plus me-2"></i> New Folder
+                    </button>
+                </div>
+            </div>
+
+            <!-- File Explorer Header -->
+            <div class="mb-4 flex items-center">
+                <div class="grid grid-cols-12 gap-4 font-medium text-sm px-2 py-3 bg-gray-100 rounded-t-md">
+                    <div class="col-span-5">Name</div>
+                    <div class="col-span-2">Last modified</div>
+                    <div class="col-span-2">Size</div>
+                    <div class="col-span-3">Owner</div>
+                </div>
+            </div>
+
+            <!-- Folders Grid -->
+            <div class="mb-8">
+                <h2 class="text-lg font-semibold mb-3">Folders</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                    <!-- Folder Card Template -->
+                    <div class="folder-card p-4 rounded-lg bg-white shadow transition-all duration-200 cursor-pointer">
+                        <div class="flex flex-col items-center">
+                            <div class="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mb-3">
+                                <i class="bi bi-folder-fill text-primary text-2xl"></i>
+                            </div>
+                            <h3 class="font-medium truncate w-full text-center">Documents</h3>
+                            <p class="text-xs text-gray-500 mt-1">Updated 2 days ago</p>
+                        </div>
+                    </div>
+                    
+                    <div class="folder-card p-4 rounded-lg bg-white shadow transition-all duration-200 cursor-pointer">
+                        <div class="flex flex-col items-center">
+                            <div class="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center mb-3">
+                                <i class="bi bi-image text-secondary text-2xl"></i>
+                            </div>
+                            <h3 class="font-medium truncate w-full text-center">Photos</h3>
+                            <p class="text-xs text-gray-500 mt-1">Updated yesterday</p>
+                        </div>
+                    </div>
+                    
+                    <div class="folder-card p-4 rounded-lg bg-white shadow transition-all duration-200 cursor-pointer">
+                        <div class="flex flex-col items-center">
+                            <div class="w-16 h-16 bg-yellow-100 rounded-lg flex items-center justify-center mb-3">
+                                <i class="bi bi-file-pdf text-accent text-2xl"></i>
+                            </div>
+                            <h3 class="font-medium truncate w-full text-center">Reports</h3>
+                            <p class="text-xs text-gray-500 mt-1">Updated a week ago</p>
+                        </div>
+                    </div>
+                    
+                    <div class="folder-card p-4 rounded-lg bg-white shadow transition-all duration-200 cursor-pointer">
+                        <div class="flex flex-col items-center">
+                            <div class="w-16 h-16 bg-purple-100 rounded-lg flex items-center justify-center mb-3">
+                                <i class="bi bi-music-note text-purple-500 text-2xl"></i>
+                            </div>
+                            <h3 class="font-medium truncate w-full text-center">Music</h3>
+                            <p class="text-xs text-gray-500 mt-1">Updated last month</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Files List -->
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                <h2 class="text-lg font-semibold px-4 py-3 border-b border-gray-200">Files</h2>
+                
+                <table class="min-w-full divide-y divide-gray-200">
+                    <tbody class="divide-y divide-gray-200">
+                        <!-- File Row 1 -->
+                        <tr class="file-item hover:bg-gray-50">
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 mr-3">
+                                        <i class="bi bi-file-word text-blue-500 text-xl"></i>
+                                    </div>
+                                    <span class="truncate max-w-[180px]">Annual Report.docx</span>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm">Oct 15, 2023</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm">2.4 MB</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm">You</td>
+                        </tr>
+                        
+                        <!-- File Row 2 -->
+                        <tr class="file-item hover:bg-gray-50">
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 mr-3">
+                                        <i class="bi bi-image text-green-500 text-xl"></i>
+                                    </div>
+                                    <span class="truncate max-w-[180px]">Vacation Photo.jpg</span>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm">Oct 10, 2023</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm">1.7 MB</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm">You</td>
+                        </tr>
+                        
+                        <!-- File Row 3 -->
+                        <tr class="file-item hover:bg-gray-50">
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 mr-3">
+                                        <i class="bi bi-file-pdf text-red-500 text-xl"></i>
+                                    </div>
+                                    <span class="truncate max-w-[180px]">Research Paper.pdf</span>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm">Sep 28, 2023</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm">8.3 MB</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm">You</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Upload Area -->
+            <div class="mt-8 bg-white rounded-lg shadow-sm p-6">
+                <h2 class="text-lg font-semibold mb-4">Upload Files</h2>
+                <div class="upload-area flex flex-col items-center justify-center py-12 border-2 border-dashed rounded-lg cursor-pointer">
+                    <i class="bi bi-cloud-upload-fill text-4xl text-gray-400 mb-3"></i>
+                    <p class="font-medium mb-2">Drag & drop files here or click to browse</p>
+                    <p class="text-sm text-gray-500 mb-4">Supported formats: PDF, DOCX, JPG, PNG</p>
+                    <button class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+                        Select Files
+                    </button>
+                </div>
+            </div>
+
+            <!-- Preview Section (Hidden on mobile) -->
+            <div class="mt-8 hidden md:block">
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden preview-container">
+                    <div class="border-b border-gray-200 px-4 py-3">
+                        <h2 class="font-semibold">Preview</h2>
+                    </div>
+                    
+                    <div class="p-6">
+                        <div class="mb-4">
+                            <img src="https://placehold.co/600x400" alt="File Preview" class="w-full h-auto rounded-md object-cover">
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                            <div class="border border-gray-200 p-4 rounded-lg">
+                                <div class="flex items-center mb-2">
+                                    <i class="bi bi-file-text me-2 text-primary"></i>
+                                    <span>Annual Report.docx</span>
+                                </div>
+                                <p class="text-xs text-gray-500">Created Oct 15, 2023 by You</p>
+                            </div>
+                            
+                            <div class="border border-gray-200 p-4 rounded-lg">
+                                <div class="flex items-center mb-2">
+                                    <i class="bi bi-image me-2 text-green-500"></i>
+                                    <span>Vacation Photo.jpg</span>
+                                </div>
+                                <p class="text-xs text-gray-500">Created Oct 10, 2023 by You</p>
+                            </div>
+                            
+                            <div class="border border-gray-200 p-4 rounded-lg">
+                                <div class="flex items-center mb-2">
+                                    <i class="bi bi-file-pdf me-2 text-red-500"></i>
+                                    <span>Research Paper.pdf</span>
+                                </div>
+                                <p class="text-xs text-gray-500">Created Sep 28, 2023 by You</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-8 bg-gray-100 py-6">
+        <div class="container mx-auto px-4 text-center text-sm text-gray-600">
+            <p>© 2023 CloudDrive. All rights reserved.</p>
+            <p class="mt-2">Secure cloud storage for all your files and documents</p>
+        </div>
+    </footer>
+</body>
+</html>

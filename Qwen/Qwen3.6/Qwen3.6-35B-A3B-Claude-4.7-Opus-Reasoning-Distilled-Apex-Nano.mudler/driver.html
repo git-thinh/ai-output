@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="vi" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CloudDrive - Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style>
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #4a5568; border-radius: 3px; }
+    .dark ::-webkit-scrollbar-thumb { background: #2d3748; }
+    .scrollbar-thin::-webkit-scrollbar { width: 4px; }
+    .scrollbar-thin::-webkit-scrollbar-thumb { background: #718096; border-radius: 2px; }
+    .dark .scrollbar-thin::-webkit-scrollbar-thumb { background: #4a5568; }
+    .file-item:hover .file-actions { opacity: 1 !important; }
+    .file-actions { opacity: 0; }
+    .file-actions:hover { opacity: 1 !important; }
+    .sidebar-item:hover .sidebar-icon { transform: translateX(2px); }
+    .sidebar-icon { transition: transform 0.2s ease; }
+    .folder-card:hover { transform: translateY(-2px); }
+    .folder-card { transition: transform 0.15s ease, box-shadow 0.15s ease; }
+    .file-card:hover { transform: translateY(-1px); }
+    .file-card { transition: transform 0.15s ease, box-shadow 0.15s ease; }
+    .dropdown-menu { display: none; }
+    .dropdown-menu.show { display: block; }
+    .dropdown-item:hover { background-color: #f7fafc; }
+    .dark .dropdown-item:hover { background-color: #2d3748; }
+  </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 font-sans antialiased">
+
+  <!-- ===== HEADER ===== -->
+  <header class="sticky top-0 z-50 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm">
+    <div class="flex items-center justify-between px-4 py-3">
+      <!-- Left: Logo + Search -->
+      <div class="flex items-center gap-3">
+        <a href="/" class="flex items-center gap-2 text-lg font-bold text-blue-600 dark:text-blue-400 no-underline">
+          <i class="bi bi-cloud-fill text-xl"></i>
+          <span>CloudDrive</span>
+        </a>
+        <div class="relative flex-1 max-w-xl ml-4">
+          <div class="relative">
+            <i class="bi bi-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            <input type="text" placeholder="Tìm kiếm file, thư mục..." class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Actions -->
+      <div class="flex items-center gap-2">
+        <button class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" title="Xem">
+          <i class="bi bi-grid-fill text-gray-600 dark:text-gray-300"></i>
+        </button>
+        <button class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" title="Danh sách">
+          <i class="bi bi-list-ul text-gray-600 dark:text-gray-300"></i>
+        </button>
+        <button class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" title="Sắp xếp">
+          <i class="bi bi-arrow-down-up text-gray-600 dark:text-gray-300"></i>
+        </button>
+        <button class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" title="Cột">
+          <i class="bi bi-three-dots-vertical text-gray-600 dark:text-gray-300"></i>
+        </button>
+
+        <!-- Profile dropdown -->
+        <div class="relative">
+          <button class="flex items-center gap-2 pl-4 py-1 px-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" id="profile-btn">
+            <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-medium">AD</div>
+            <i class="bi bi-chevron-down text-xs text-gray-500"></i>
+          </button>
+          <div class="dropdown-menu absolute right-0 top-full mt-1 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-2 z-50">
+            <a href="#" class="block px-4 py-2 dropdown-item text-sm text-gray-700 dark:text-gray-300 flex items-center gap-2 no-underline">
+              <i class="bi bi-person"></i> Tài khoản
+            </a>
+            <a href="#" class="block px-4 py-2 dropdown-item text-sm text-gray-700 dark:text-gray-300 flex items-center gap-2 no-underline">
+              <i class="bi bi-gear"></i> Cài đặt
+            </a>
+            <a href="#" class="block px-4 py-2 dropdown-item text-sm text-gray-700 dark:text-gray-300 flex items-center gap-2 no-underline">
+              <i class="bi bi-question-circle"></i> Trợ giúp
+            </a>
+            <div class="border-t border-gray-200 dark:border-gray-700 my-1"></div>
+            <a href="#" class="block px-4 py-2 dropdown-item text-sm text-red-600 flex items-center gap-2 no-underline">
+              <i class="bi bi-box-arrow-right"></i> Đăng xuất
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== MAIN LAYOUT ===== -->
+  <div class="flex min-h-screen">
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="w-60 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col">
+      <!-- Storage usage -->
+      <div class="p-4">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-medium text-gray-500 dark:text-gray-400">5 GB đã sử dụng</span>
+          <span class="text-xs text-gray-500 dark:text-gray-400">100 GB</span>
+        </div>
+        <div class="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+          <div class="h-full w-[5%] bg-blue-500 rounded-full"></div>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="flex-1 overflow-y-auto scrollbar-thin py-2">
+        <a href="#" class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 text-sm font-medium text-blue-600 bg-blue-50 dark:bg-gray-700">
+          <i class="bi bi-house-fill text-lg"></i>
+          <span>Trang chủ</span>
+        </a>
+        <a href="#" class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-sm text-gray-700 dark:text-gray-300 no-underline">
+          <i class="bi bi-folder-fill text-lg text-blue-500"></i>
+          <span>My Drive</span>
+        </a>
+        <a href="#" class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-sm text-gray-700 dark:text-gray-300 no-underline">
+          <i class="bi bi-star text-lg text-yellow-500"></i>
+          <span>Được ưu tiên</span>
+        </a>
+        <a href="#" class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-sm text-gray-700 dark:text-gray-300 no-underline">
+          <i class="bi bi-clock history text-lg text-gray-500"></i>
+          <span>Gần đây</span>
+        </a>
+        <a href="#" class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-sm text-gray-700 dark:text-gray-300 no-underline">
+          <i class="bi bi-share text-lg text-gray-500"></i>
+          <span>Đã chia sẻ</span>
+        </a>
+        <a href="#" class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-sm text-gray-700 dark:text-gray-300 no-underline">
+          <i class="bi bi-trash text-lg text-red-500"></i>
+          <span>Thùng rác</span>
+        </a>
+        <a href="#" class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-sm text-gray-700 dark:text-gray-300 no-underline">
+          <i class="bi bi-gear text-lg text-gray-500"></i>
+          <span>Cài đặt</span>
+        </a>
+
+        <!-- Storage info -->
+        <div class="p-4 mt-2">
+          <div class="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 mb-1">
+            <span>Storage</span>
+            <span>50 GB</span>
+          </div>
+          <div class="w-full h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+            <div class="h-full w-[3%] bg-blue-500 rounded-full"></div>
+          </div>
+          <div class="mt-3 text-xs text-gray-500 dark:text-gray-400">
+            <span class="font-medium">50 GB</span> của 100 GB
+            <br />
+            <span class="text-blue-500">Mua thêm</span>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Upload button -->
+      <div class="p-4 border-t border-gray-200 dark:border-gray-700">
+        <button class="w-full flex items-center gap-2 py-2.5 px-4 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium transition-colors no-underline">
+          <i class="bi bi-cloud-arrow-up"></i>
+          <span>Tải lên</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="flex-1 p-6 overflow-y-auto">
+      <!-- Breadcrumb -->
+      <nav class="mb-4">
+        <ol class="flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400">
+          <li><i class="bi bi-house-fill text-gray-500"></i></li>
+          <li><i class="bi bi-chevron-right text-xs"></i></li>
+          <li><span>My Drive</span></li>
+          <li><i class="bi bi-chevron-right text-xs"></i></li>
+          <li><span>Documents</span></li>
+          <li><i class="bi bi-chevron-right text-xs"></i></li>
+          <li><span>Project Files</span></li>
+        </ol>
+      </nav>
+
+      <!-- Toolbar -->
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-2">
+          <button class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300" title="Mới">
+            <i class="bi bi-plus-lg"></i>
+          </button>
+          <button class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300" title="Mới">
+            <i class="bi bi-folder-plus"></i>
+          </button>
+          <button class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300" title="Tải lên">
+            <i class="bi bi-cloud-arrow-up"></i>
+          </button>
+          <button class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300" title="Đã chọn">
+            <i class="bi bi-check2-square"></i>
+          </button>
+          <button class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300" title="Sắp xếp">
+            <i class="bi bi-sort-down"></i>
+          </button>
+        </div>
+        <div class="flex items-center gap-2">
+          <button class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300" title="Xem lưới">
+            <i class="bi bi-grid-fill"></i>
+          </button>
+          <button class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300" title="Xem danh sách">
+            <i class="bi bi-list-ul"></i>
+          </button>
+          <button class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300" title="Cột">
+            <i class="bi bi-three-dots-vertical"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick access -->
+      <section class="mb-6">
+        <h2 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Truy cập nhanh</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3">
+          <a href="#" class="flex items-center gap-3 p-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:shadow-md no-underline">
+            <i class="bi bi-folder-fill text-blue-500 text-xl"></i>
+            <div>
+              <div class="text-sm font-medium text-gray-700 dark:text-gray-300">Documents</div>
+              <div class="text-xs text-gray-500 dark:text-gray-400">12 items</div>
+            </div>
+          </a>
+          <a href="#" class="flex items-center gap-3 p-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:shadow-md no-underline">
+            <i class="bi bi-folder-fill text-blue-500 text-xl"></i>
+            <div>
+              <div class="text-sm font-medium text-gray-700 dark:text-gray-300">Photos</div>
+              <div class="text-xs text-gray-500 dark:text-gray-400">1,247 items</div>
+            </div>
+          </a>
+          <a href="#" class="flex items-center gap-3 p-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:shadow-md no-underline">
+            <i class="bi bi-folder-fill text-blue-500 text-xl"></i>
+            <div>
+              <div class="text-sm font-medium text-gray-700 dark:text-gray-300">Work</div>
+              <div class="text-xs text-gray-500 dark:text-gray-400">8 items</div>
+            </div>
+          </a>
+          <a href="#" class="flex items-center gap-3 p-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:shadow-md no-underline">
+            <i class="bi bi-folder-fill text-blue-500 text-xl"></i>
+            <div>
+              <div class="text-sm font-medium text-gray-700 dark:text-gray-300">Personal</div>
+              <div class="text-xs text-gray-500 dark:text-gray-400">3 items</div>
+            </div>
+          </a>
+          <a href="#" class="flex items-center gap-3 p-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:shadow-md no-underline">
+            <i class="bi bi-folder-fill text-blue-500 text-xl"></i>
+            <div>
+              <div class="text-sm font-medium text-gray-700 dark:text-gray-300">Downloads</div>
+              <div class="text-xs text-gray-500 dark:text-gray-400">45 items</div>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- Recent files -->
+      <section>
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-sm font-medium text-gray-700 dark:text-gray-300">Mới tải lên</h2>
+          <a href="#" class="text-sm text-blue-600 hover:underline no-underline">Xem tất cả</a>
+        </div>
+
+        <!-- File grid view -->
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          <!-- Folder -->
+          <a href="#" class="file-item group relative bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 hover:shadow-lg hover:border-blue-300 dark:hover:border-blue-600 no-underline" title="My Documents">
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2">
+                <i class="bi bi-folder-fill text-blue-500 text-xl"></i>
+                <span class="text-sm font-medium text-gray-700 dark:text-gray-300 truncate">My Documents</span>
+              </div>
+              <div class="file-actions flex items-center gap-1">
+                <button class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded" title="Xem">
+                  <i class="bi bi-three-dots text-gray-500"></i>
+                </button>
+              </div>
+            </div>
+            <div class="text-xs text-gray-500 dark:text-gray-400">12 items</div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">2 giờ trước</div>
+          </a>
+
+          <!-- Image -->
+          <a href="#" class="file-item group relative bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 hover:shadow-lg hover:border-blue-300 dark:hover:border-blue-600 no-underline" title="vacation-photo.jpg">
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2">
+                <i class="bi bi-image text-green-500 text-xl"></i>
+                <span class="text-sm font-medium text-gray-700 dark:text-gray-300 truncate">vacation-photo.jpg</span>
+              </div>
+              <div class="file-actions flex items-center gap-1">
+                <button class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded" title="Xem">
+                  <i class="bi bi-three-dots text-gray-500"></i>
+                </button>
+              </div>
+            </div>
+            <div class="text-xs text-gray-500 dark:text-gray-400">3.2 MB</div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">3 giờ trước</div>
+          </a>
+
+          <!-- Document -->
+          <a href="#" class="file-item group relative bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 hover:shadow-lg hover:border-blue-300 dark:hover:border-blue-600 no-underline" title="report-q4.pdf">
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2">
+                <i class="bi bi-file-earmark-pdf text-red-500 text-xl"></i>
+                <span class="text-sm font-medium text-gray-700 dark:text-gray-300 truncate">report-q4.pdf</span>
+              </div>
+              <div class="file-actions flex items-center gap-1">
+                <button class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded" title="Xem">
+                  <i class="bi bi-three-dots text-gray-500"></i>
+                </button>
+              </div>
+            </div>
+            <div class="text-xs text-gray-500 dark:text-gray-400">1.8 MB</div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">5 giờ trước</div>
+          </a>
+
+          <!-- Spreadsheet -->
+          <a href="#" class="file-item group relative bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 hover:shadow-lg hover:border-blue-300 dark:hover:border-blue-600 no-underline" title="budget-2024.xlsx">
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2">
+                <i class="bi bi-file-earmark-excel text-green-600 text-xl"></i>
+                <span class="text-sm font-medium text-gray-700 dark:text-gray-300 truncate">budget-2024.xlsx</span>
+              </div>
+              <div class="file-actions flex items-center gap-1">
+                <button class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded" title="Xem">
+                  <i class="bi bi-three-dots text-gray-500"></i>
+                </button>
+              </div>
+            </div>
+            <div class="text-xs text-gray-500 dark:text-gray-400">45 KB</div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">1 ngày trước</div>
+          </a>
+
+          <!-- Code file -->
+          <a href="#" class="file-item group relative bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 hover:shadow-lg hover:border-blue-300 dark:hover:border-blue-600 no-underline" title="index.html">
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2">
+                <i class="bi bi-file-earmark-code text-blue-500 text-xl"></i>
+                <span class="text-sm font-medium text-gray-700 dark:text-gray-300 truncate">index.html</span>
+              </div>
+              <div class="file-actions flex items-center gap-1">
+                <button class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded" title="Xem">
+                  <i class="bi bi-three-dots text-gray-500"></i>
+                </button>
+              </div>
+            </div>
+            <div class="text-xs text-gray-500 dark:text-gray-400">12 KB</div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">2 ngày trước</div>
+          </a>
+
+          <!-- Archive -->
+          <a href="#" class="file-item group relative bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 hover:shadow-lg hover:border-blue-300 dark:hover:border-blue-600 no-underline" title="backup.zip">
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2">
+                <i class="bi bi-file-earmark-zip text-orange-500 text-xl"></i>
+                <span class="text-sm font-medium text-gray-700 dark:text-gray-300 truncate">backup.zip</span>
+              </div>
+              <div class="file-actions flex items-center gap-1">
+                <button class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded" title="Xem">
+                  <i class="bi bi-three-dots text-gray-500"></i>
+                </button>
+              </div>
+            </div>
+            <div class="text-xs text-gray-500 dark:text-gray-400">156 MB</div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">3 ngày trước</div>
+          </a>
+
+          <!-- Folder -->
+          <a href="#" class="file-item group relative bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 hover:shadow-lg hover:border-blue-300 dark:hover:border-blue-600 no-underline" title="Project Files">
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2">
+                <i class="bi bi-folder-fill text-blue-500 text-xl"></i>
+                <span class="text-sm font-medium text-gray-700 dark:text-gray-300 truncate">Project Files</span>
+              </div>
+              <div class="file-actions flex items-center gap-1">
+                <button class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded" title="Xem">
+                  <i class="bi bi-three-dots text-gray-500"></i>
+                </button>
+              </div>
+            </div>
+            <div class="text-xs text-gray-500 dark:text-gray-400">8 items</div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">4 ngày trước</div>
+          </a>
+
+          <!-- Text file -->
+          <a href="#" class="file-item group relative bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 hover:shadow-lg hover:border-blue-300 dark:hover:border-blue-600 no-underline" title="notes.txt">
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2">
+                <i class="bi bi-file-earmark-text text-gray-500 text-xl"></i>
+                <span class="text-sm font-medium text-gray-700 dark:text-gray-300 truncate">notes.txt</span>
+              </div>
+              <div class="file-actions flex items-center gap-1">
+                <button class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded" title="Xem">
+                  <i class="bi bi-three-dots text-gray-500"></i>
+                </button>
+              </div>
+            </div>
+            <div class="text-xs text-gray-500 dark:text-gray-400">5 KB</div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">5 ngày trước</div>
+          </a>
+
+          <!-- Video -->
+          <a href="#" class="file-item group relative bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 hover:shadow-lg hover:border-blue-300 dark:hover:border-blue-600 no-underline" title="tutorial.mp4">
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2">
+                <i class="bi bi-file-earmark-play text-red-500 text-xl"></i>
+                <span class="text-sm font-medium text-gray-700 dark:text-gray-300 truncate">tutorial.mp4</span>
+              </div>
+              <div class="file-actions flex items-center gap-1">
+                <button class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded" title="Xem">
+                  <i class="bi bi-three-dots text-gray-500"></i>
+                </button>
+              </div>
+            </div>
+            <div class="text-xs text-gray-500 dark:text-gray-400">245 MB</div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">6 ngày trước</div>
+          </a>
+
+          <!-- Audio -->
+          <a href="#" class="file-item group relative bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 hover:shadow-lg hover:border-blue-300 dark:hover:border-blue-600 no-underline" title="podcast.mp3">
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2">
+                <i class="bi bi-file-earmark-music text-purple-500 text-xl"></i>
+                <span class="text-sm font-medium text-gray-700 dark:text-gray-300 truncate">podcast.mp3</span>
+              </div>
+              <div class="file-actions flex items-center gap-1">
+                <button class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded" title="Xem">
+                  <i class="bi bi-three-dots text-gray-500"></i>
+                </button>
+              </div>
+            </div>
+            <div class="text-xs text-gray-500 dark:text-gray-400">8.5 MB</div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">1 tuần trước</div>
+          </a>
+        </div>
+      </section>
+
+      <!-- Shared with me -->
+      <section class="mt-6">
+        <h2 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Đã chia sẻ với tôi</h2>
+        <div class="space-y-2">
+          <!-- Shared file item -->
+          <a href="#" class="flex items-center gap-3 p-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:shadow-md no-underline">
+            <i class="bi bi-file-earmark-pdf text-red-500 text-lg"></i>
+            <div class="flex-1">
+              <div class="text-sm font-medium text-gray-700 dark:text-gray-300">presentation-final.pdf</div>
+              <div class="text-xs text-gray-500 dark:text-gray-400">2.4 MB • bởi Nguyen Van A</div>
+            </div>
+            <div class="text-xs text-gray-500 dark:text-gray-400">3 giờ trước</div>
+          </a>
+
+          <a href="#" class="flex items-center gap-3 p-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:shadow-md no-underline">
+            <i class="bi bi-folder-fill text-blue-500 text-lg"></i>
+            <div class="flex-1">
+              <div class="text-sm font-medium text-gray-700 dark:text-gray-300">Team Project</div>
+              <div class="text-xs text-gray-500 dark:text-gray-400">5 items • bởi Tran Thi B</div>
+            </div>
+            <div class="text-xs text-gray-500 dark:text-gray-400">1 ngày trước</div>
+          </a>
+
+          <a href="#" class="flex items-center gap-3 p-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:shadow-md no-underline">
+            <i class="bi bi-image text-green-500 text-lg"></i>
+            <div class="flex-1">
+              <div class="text-sm font-medium text-gray-700 dark:text-gray-300">design-mockup.png</div>
+              <div class="text-xs text-gray-500 dark:text-gray-400">1.1 MB • bởi Le Van C</div>
+            </div>
+            <div class="text-xs text-gray-500 dark:text-gray-400">2 ngày trước</div>
+          </a>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="mt-8 pt-4 border-t border-gray-200 dark:border-gray-700">
+        <div class="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
+          <div>
+            <span>© 2024 CloudDrive</span>
+            <span class="ml-2">Phiên bản 1.0.0</span>
+          </div>
+          <div class="flex items-center gap-4">
+            <a href="#" class="hover:underline no-underline">Điều khoản</a>
+            <a href="#" class="hover:underline no-underline">Chính sách bảo mật</a>
+            <a href="#" class="hover:underline no-underline">Hỗ trợ</a>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
+</body>
+</html>
