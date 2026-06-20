@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Drive Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS v4 Import -->
+    <style>
+        @import "tailwindcss";
+    </style>
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    
+    <style>
+        /* Custom Scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8; 
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans antialiased h-screen flex overflow-hidden">
+
+    <!-- SIDEBAR -->
+    <aside class="w-64 bg-white flex-shrink-0 flex flex-col border-r border-gray-200 transition-all duration-300 hidden md:flex">
+        <!-- Logo Area -->
+        <div class="h-16 flex items-center px-6 border-b border-gray-100">
+            <i class="bi bi-cloud-check-fill text-blue-600 text-2xl mr-2"></i>
+            <span class="text-xl font-semibold text-gray-700 tracking-tight">CloudDrive</span>
+        </div>
+
+        <!-- Main Action -->
+        <div class="p-4">
+            <button class="flex items-center justify-center w-full px-4 py-3 shadow-md rounded-xl hover:shadow-lg transition-shadow bg-blue-600 text-white font-medium gap-2 group">
+                <i class="bi bi-plus-lg text-lg group-hover:rotate-90 transition-transform duration-200"></i>
+                <span>New</span>
+            </button>
+        </div>
+
+        <!-- Navigation Menu -->
+        <nav class="flex-1 overflow-y-auto px-2 space-y-1">
+            <div class="px-2 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">Menu</div>
+            
+            <a href="#" class="flex items-center px-4 py-3 text-blue-600 bg-blue-50 rounded-lg font-medium">
+                <i class="bi bi-hdd-stack text-lg mr-3"></i>
+                My Drive
+            </a>
+            <a href="#" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg hover:text-gray-900 font-medium transition-colors">
+                <i class="bi bi-clock-history text-lg mr-3"></i>
+                Recent
+            </a>
+            <a href="#" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg hover:text-gray-900 font-medium transition-colors">
+                <i class="bi bi-star text-lg mr-3"></i>
+                Starred
+            </a>
+            <a href="#" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg hover:text-gray-900 font-medium transition-colors">
+                <i class="bi bi-trash text-lg mr-3"></i>
+                Trash
+            </a>
+
+            <div class="px-2 py-4 mt-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Categories</div>
+            <a href="#" class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg hover:text-gray-900 font-medium transition-colors">
+                <i class="bi bi-file-earmark-image text-lg mr-3 text-purple-500"></i>
+                Images
+            </a>
+            <a href="#" class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg hover:text-gray-900 font-medium transition-colors">
+                <i class="bi bi-file-earmark-text text-lg mr-3 text-blue-500"></i>
+                Documents
+            </a>
+        </nav>
+
+        <!-- Storage Usage -->
+        <div class="p-4 border-t border-gray-100">
+            <div class="flex justify-between items-end mb-1">
+                <span class="text-sm font-medium text-gray-600">Storage</span>
+                <span class="text-sm font-bold text-gray-900">15 GB / 100 GB</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2 mb-3">
+                <div class="bg-blue-600 h-2 rounded-full" style="width: 15%"></div>
+            </div>
+            <button class="text-blue-600 text-sm font-medium hover:text-blue-800 hover:underline">
+                Get more storage
+            </button>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="flex-1 flex flex-col h-screen overflow-hidden">
+        
+        <!-- Top Header -->
+        <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 md:px-8 flex-shrink-0 z-10">
+            
+            <!-- Search Bar -->
+            <div class="flex-1 max-w-3xl">
+                <div class="relative group">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="bi bi-search text-gray-400 text-lg"></i>
+                    </div>
+                    <input type="text" 
+                           class="block w-full pl-10 pr-3 py-2.5 border-none rounded-lg bg-gray-100 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all sm:text-sm" 
+                           placeholder="Search in Drive">
+                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                        <span class="text-gray-400 text-xs border border-gray-300 rounded px-1.5 py-0.5">/</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Actions -->
+            <div class="flex-1 flex justify-end items-center gap-4 pl-4">
+                <!-- Notification -->
+                <button class="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-colors">
+                    <i class="bi bi-bell text-xl"></i>
+                </button>
+
+                <!-- App Grid -->
+                <button class="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-colors">
+                    <i class="bi bi-grid text-xl"></i>
+                </button>
+
+                <!-- User Profile -->
+                <div class="relative group ml-2">
+                    <button class="w-9 h-9 rounded-full bg-purple-600 text-white flex items-center justify-center font-medium text-sm shadow-sm hover:shadow-md transition-shadow">
+                        JD
+                    </button>
+                    <!-- Dropdown (Pure CSS Hover) -->
+                    <div class="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                        <div class="p-4 border-b border-gray-100">
+                            <p class="text-sm font-semibold text-gray-900">John Doe</p>
+                            <p class="text-xs text-gray-500">john.doe@example.com</p>
+                        </div>
+                        <div class="p-2">
+                            <a href="#" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-md">
+                                <i class="bi bi-person-circle mr-2"></i> Manage your account
+                            </a>
+                            <a href="#" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-md">
+                                <i class="bi bi-gear mr-2"></i> Settings
+                            </a>
+                            <a href="#" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-md">
+                                <i class="bi bi-key mr-2"></i> Security
+                            </a>
+                            <div class="border-t border-gray-100 my-1"></div>
+                            <a href="#" class="block px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-md">
+                                <i class="bi bi-box-arrow-right mr-2"></i> Sign out
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Breadcrumbs & Toolbar -->
+        <div class="bg-white px-4 md:px-8 py-4 flex flex-col md:flex-row justify-between items-center border-b border-gray-100">
+            <!-- Breadcrumbs -->
+            <nav class="flex items-center space-x-2 text-sm text-gray-500 overflow-x-auto whitespace-nowrap pb-2 md:pb-0">
+                <a href="#" class="hover:text-gray-900 hover:underline"><i class="bi bi-hdd-network text-gray-400 mr-1"></i> My Drive</a>
+                <i class="bi bi-chevron-right text-xs text-gray-400"></i>
+                <a href="#" class="hover:text-gray-900 hover:underline">Work</a>
+                <i class="bi bi-chevron-right text-xs text-gray-400"></i>
+                <span class="text-gray-800 font-medium">Project Alpha</span>
+            </nav>
+
+            <!-- Toolbar Actions -->
+            <div class="flex items-center gap-2 mt-2 md:mt-0 overflow-x-auto pb-2 md:pb-0">
+                <button class="px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-100 rounded-lg border border-transparent hover:border-gray-200 transition-colors">
+                    <i class="bi bi-sort-down-alt mr-1"></i> Sort
+                </button>
+                <button class="px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-100 rounded-lg border border-transparent hover:border-gray-200 transition-colors">
+                    <i class="bi bi-funnel mr-1"></i> Filter
+                </button>
+                <div class="w-px h-6 bg-gray-200 mx-1"></div>
+                <button class="p-2 text-gray-500 hover:bg-gray-100 rounded-lg transition-colors" title="List View">
+                    <i class="bi bi-list-ul"></i>
+                </button>
+                <button class="p-2 text-gray-900 bg-gray-100 rounded-lg transition-colors" title="Grid View">
+                    <i class="bi bi-grid"></i>
+                </button>
+                <button class="px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-100 rounded-lg border border-transparent hover:border-gray-200 transition-colors">
+                    <i class="bi bi-three-dots"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-y-auto bg-gray-100 p-4 md:p-8">
+            
+            <!-- Section: Folders -->
+            <div class="mb-8">
+                <h3 class="text-sm font-medium text-gray-500 mb-4 px-1">Folders</h3>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+                    
+                    <!-- Folder Item -->
+                    <div class="group bg-white p-3 rounded-xl border border-transparent hover:border-blue-200 hover:shadow-md cursor-pointer transition-all relative">
+                        <div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button class="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full">
+                                <i class="bi bi-three-dots"></i>
+                            </button>
+                        </div>
+                        <div class="mb-3">
+                            <i class="bi bi-folder-fill text-yellow-400 text-3xl drop-shadow-sm"></i>
+                        </div>
+                        <h4 class="text-sm font-medium text-gray-800 truncate">Project Alpha</h4>
+                        <p class="text-xs text-gray-400 mt-1">Modified 2 days ago</p>
+                    </div>
+
+                    <!-- Folder Item -->
+                    <div class="group bg-white p-3 rounded-xl border border-transparent hover:border-blue-200 hover:shadow-md cursor-pointer transition-all relative">
+                        <div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button class="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full">
+                                <i class="bi bi-three-dots"></i>
+                            </button>
+                        </div>
+                        <div class="mb-3">
+                            <i class="bi bi-folder-fill text-yellow-400 text-3xl drop-shadow-sm"></i>
+                        </div>
+                        <h4 class="text-sm font-medium text-gray-800 truncate">Financial Reports</h4>
+                        <p class="text-xs text-gray-400 mt-1">Modified 1 week ago</p>
+                    </div>
+
+                    <!-- Folder Item -->
+                    <div class="group bg-white p-3 rounded-xl border border-transparent hover:border-blue-200 hover:shadow-md cursor-pointer transition-all relative">
+                        <div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button class="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full">
+                                <i class="bi bi-three-dots"></i>
+                            </button>
+                        </div>
+                        <div class="mb-3">
+                            <i class="bi bi-folder-fill text-yellow-400 text-3xl drop-shadow-sm"></i>
+                        </div>
+                        <h4 class="text-sm font-medium text-gray-800 truncate">Team Photos</h4>
+                        <p class="text-xs text-gray-400 mt-1">Modified 3 weeks ago</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section: Files -->
+            <div>
+                <h3 class="text-sm font-medium text-gray-500 mb-4 px-1">Files</h3>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+                    
+                    <!-- File: PDF -->
+                    <div class="group bg-white p-3 rounded-xl border border-transparent hover:border-blue-200 hover:shadow-md cursor-pointer transition-all relative flex flex-col">
+                        <div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button class="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full">
+                                <i class="bi bi-three-dots"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Icon Area -->
+                        <div class="mb-3 relative">
+                            <div class="w-10 h-14 bg-red-100 rounded-sm flex items-center justify-center border border-red-200">
+                                <span class="text-red-600 text-xs font-bold">PDF</span>
+                            </div>
+                            <div class="absolute -bottom-2 -right-2 w-6 h-6 bg-white rounded-full flex items-center justify-center border border-gray-200 shadow-sm">
+                                <i class="bi bi-file-earmark-pdf text-red-500 text-xs"></i>
+                            </div>
+                        </div>
+
+                        <div class="mt-2">
+                            <h4 class="text-sm font-medium text-gray-800 truncate">Q4_Report.pdf</h4>
+                            <p class="text-xs text-gray-400 mt-1">2.4 MB</p>
+                        </div>
+                    </div>
+
+                    <!-- File: Image -->
+                    <div class="group bg-white p-3 rounded-xl border border-transparent hover:border-blue-200 hover:shadow-md cursor-pointer transition-all relative flex flex-col">
+                        <div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button class="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full">
+                                <i class="bi bi-three-dots"></i>
+                            </button>
+                        </div>
+
+                        <!-- Icon Area -->
+                        <div class="mb-3 relative">
+                             <div class="w-10 h-10 bg-blue-100 rounded-md flex items-center justify-center overflow-hidden border border-blue-200">
+                                <i class="bi bi-image text-blue-500 text-lg"></i>
+                             </div>
+                             <div class="absolute -bottom-2 -right-2 w-6 h-6 bg-white rounded-full flex items-center justify-center border border-gray-200 shadow-sm">
+                                <i class="bi bi-file-earmark-image text-blue-500 text-xs"></i>
+                            </div>
+                        </div>
+
+                        <div class="mt-2">
+                            <h4 class="text-sm font-medium text-gray-800 truncate">design_mockup.png</h4>
+                            <p class="text-xs text-gray-400 mt-1">450 KB</p>
+                        </div>
+                    </div>
+
+                    <!-- File: Word -->
+                    <div class="group bg-white p-3 rounded-xl border border-transparent hover:border-blue-200 hover:shadow-md cursor-pointer transition-all relative flex flex-col">
+                        <div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button class="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full">
+                                <i class="bi bi-three-dots"></i>
+                            </button>
+                        </div>
+                        <div class="mb-3 relative">
+                            <div class="w-10 h-14 bg-blue-100 rounded-sm flex items-center justify-center border border-blue-200">
+                                <span class="text-blue-800 text-xs font-bold">DOC</span>
+                            </div>
+                            <div class="absolute -bottom-2 -right-2 w-6 h-6 bg-white rounded-full flex items-center justify-center border border-gray-200 shadow-sm">
+                                <i class="bi bi-file-earmark-word text-blue-600 text-xs"></i>
+                            </div>
+                        </div>
+
+                        <div class="mt-2">
+                            <h4 class="text-sm font-medium text-gray-800 truncate">meeting_notes.docx</h4>
+                            <p class="text-xs text-gray-400 mt-1">12 KB</p>
+                        </div>
+                    </div>
+
+                    <!-- Empty State (Last item) -->
+                    <div class="border-2 border-dashed border-gray-200 rounded-xl p-4 flex flex-col items-center justify-center text-gray-400 hover:bg-gray-50 transition-colors cursor-pointer h-32">
+                        <i class="bi bi-plus text-2xl mb-1"></i>
+                        <span class="text-xs">New File</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Footer Status Bar -->
+        <footer class="bg-white border-t border-gray-200 px-4 py-1 text-xs text-gray-500 flex justify-between items-center">
+            <span>5 items</span>
+            <div class="flex gap-4">
+                <span>English (US)</span>
+                <span>Help</span>
+                <span>Send Feedback</span>
+            </div>
+        </footer>
+    </div>
+
+</body>
+</html>
