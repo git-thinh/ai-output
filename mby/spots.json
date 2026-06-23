@@ -1,0 +1,312 @@
+{
+    "contentType": "spotsModule",
+    "id": "5f943d6d-7551-42cf-863e-7cdc8f9e717f",
+    "properties": {
+        "spotsHeadlineText": "Efficient workwear management",
+        "spotsHeadlineLevel": "H2",
+        "spotsBodyText": {
+            "markup": "<p style=\"text-align: center;\">Get full control of ordering and handling workwear – simple, clear, and reliable with MASCOT.</p>",
+            "blocks": []
+        },
+        "spotsItems": {
+            "items": [
+                {
+                    "content": {
+                        "contentType": "spotsModuleCardItem",
+                        "id": "1988bdbe-f26c-4ca9-aa66-680e5264477a",
+                        "properties": {
+                            "spotsItemTitle": "MASCOT® SmartStore ©",
+                            "spotsItemText": {
+                                "markup": "<p>Eliminates inventory costs, logo logistics, and manual errors</p>",
+                                "blocks": []
+                            },
+                            "spotsItemIcon": "fa-house",
+                            "spotsItemLink": [
+                                {
+                                    "url": null,
+                                    "queryString": null,
+                                    "title": "Services",
+                                    "target": null,
+                                    "destinationId": "938b3cef-1834-4c6b-8d99-1ccc238f644b",
+                                    "destinationType": "contentPage",
+                                    "route": {
+                                        "path": "/services/",
+                                        "queryString": null,
+                                        "startItem": {
+                                            "id": "aed77de5-0e0d-4350-be60-ff0d9b87f141",
+                                            "path": "m-by-mascot-website"
+                                        }
+                                    },
+                                    "linkType": "Content",
+                                    "culture": null
+                                }
+                            ]
+                        }
+                    },
+                    "settings": null
+                },
+                {
+                    "content": {
+                        "contentType": "spotsModuleCardItem",
+                        "id": "1ac6c16a-126a-400c-9a91-6553c8291215",
+                        "properties": {
+                            "spotsItemTitle": "MASCOT® print and embroidery",
+                            "spotsItemText": {
+                                "markup": "<p>Eliminates inventory costs, logo logistics, and manual errors</p>",
+                                "blocks": []
+                            },
+                            "spotsItemIcon": null,
+                            "spotsItemLink": [
+                                {
+                                    "url": null,
+                                    "queryString": null,
+                                    "title": "Discover",
+                                    "target": null,
+                                    "destinationId": "57a9e94e-ca6c-4b54-82db-02ee94df248f",
+                                    "destinationType": "contentPage",
+                                    "route": {
+                                        "path": "/discover/",
+                                        "queryString": null,
+                                        "startItem": {
+                                            "id": "aed77de5-0e0d-4350-be60-ff0d9b87f141",
+                                            "path": "m-by-mascot-website"
+                                        }
+                                    },
+                                    "linkType": "Content",
+                                    "culture": null
+                                }
+                            ]
+                        }
+                    },
+                    "settings": null
+                },
+                {
+                    "content": {
+                        "contentType": "spotsModuleCardItem",
+                        "id": "b865d326-8594-4bab-8ac0-c294f4dd52b2",
+                        "properties": {
+                            "spotsItemTitle": "Logistics",
+                            "spotsItemText": {
+                                "markup": "<p>Eliminates inventory costs, logo logistics, and manual errors</p>",
+                                "blocks": []
+                            },
+                            "spotsItemIcon": "fa-arrow-up-right",
+                            "spotsItemLink": null
+                        }
+                    },
+                    "settings": null
+                },
+                {
+                    "content": {
+                        "contentType": "spotsModuleCardItem",
+                        "id": "6aa21f92-589a-4952-9139-a3df26f99017",
+                        "properties": {
+                            "spotsItemTitle": "Reduce total costs",
+                            "spotsItemText": {
+                                "markup": "<p>Eliminates inventory costs, logo logistics, and manual errors</p>",
+                                "blocks": []
+                            },
+                            "spotsItemIcon": "fa-house",
+                            "spotsItemLink": [
+                                {
+                                    "url": null,
+                                    "queryString": null,
+                                    "title": "Services",
+                                    "target": null,
+                                    "destinationId": "938b3cef-1834-4c6b-8d99-1ccc238f644b",
+                                    "destinationType": "contentPage",
+                                    "route": {
+                                        "path": "/services/",
+                                        "queryString": null,
+                                        "startItem": {
+                                            "id": "aed77de5-0e0d-4350-be60-ff0d9b87f141",
+                                            "path": "m-by-mascot-website"
+                                        }
+                                    },
+                                    "linkType": "Content",
+                                    "culture": null
+                                }
+                            ]
+                        }
+                    },
+                    "settings": null
+                },
+                {
+                    "content": {
+                        "contentType": "spotsModuleCardItem",
+                        "id": "25e0c1cd-e0b3-4694-82f3-90ca21195b0d",
+                        "properties": {
+                            "spotsItemTitle": "Reduce total costs",
+                            "spotsItemText": {
+                                "markup": "<p>Eliminates inventory costs, logo logistics, and manual errors</p>",
+                                "blocks": []
+                            },
+                            "spotsItemIcon": "fa-house",
+                            "spotsItemLink": [
+                                {
+                                    "url": null,
+                                    "queryString": null,
+                                    "title": "Services",
+                                    "target": null,
+                                    "destinationId": "938b3cef-1834-4c6b-8d99-1ccc238f644b",
+                                    "destinationType": "contentPage",
+                                    "route": {
+                                        "path": "/services/",
+                                        "queryString": null,
+                                        "startItem": {
+                                            "id": "aed77de5-0e0d-4350-be60-ff0d9b87f141",
+                                            "path": "m-by-mascot-website"
+                                        }
+                                    },
+                                    "linkType": "Content",
+                                    "culture": null
+                                }
+                            ]
+                        }
+                    },
+                    "settings": null
+                },
+                {
+                    "content": {
+                        "contentType": "spotsModuleCardItem",
+                        "id": "f686c011-d30a-492f-881d-03da19202ec7",
+                        "properties": {
+                            "spotsItemTitle": "Reduce total costs",
+                            "spotsItemText": {
+                                "markup": "<p>Eliminates inventory costs, logo logistics, and manual errors</p>",
+                                "blocks": []
+                            },
+                            "spotsItemIcon": "fa-house",
+                            "spotsItemLink": [
+                                {
+                                    "url": null,
+                                    "queryString": null,
+                                    "title": "Services",
+                                    "target": null,
+                                    "destinationId": "938b3cef-1834-4c6b-8d99-1ccc238f644b",
+                                    "destinationType": "contentPage",
+                                    "route": {
+                                        "path": "/services/",
+                                        "queryString": null,
+                                        "startItem": {
+                                            "id": "aed77de5-0e0d-4350-be60-ff0d9b87f141",
+                                            "path": "m-by-mascot-website"
+                                        }
+                                    },
+                                    "linkType": "Content",
+                                    "culture": null
+                                }
+                            ]
+                        }
+                    },
+                    "settings": null
+                },
+                {
+                    "content": {
+                        "contentType": "spotsModuleCardItem",
+                        "id": "e3deef83-215d-4b30-95e8-11574defb6c9",
+                        "properties": {
+                            "spotsItemTitle": "Reduce total costs",
+                            "spotsItemText": {
+                                "markup": "<p>Eliminates inventory costs, logo logistics, and manual errors</p>",
+                                "blocks": []
+                            },
+                            "spotsItemIcon": "fa-house",
+                            "spotsItemLink": [
+                                {
+                                    "url": null,
+                                    "queryString": null,
+                                    "title": "Services",
+                                    "target": null,
+                                    "destinationId": "938b3cef-1834-4c6b-8d99-1ccc238f644b",
+                                    "destinationType": "contentPage",
+                                    "route": {
+                                        "path": "/services/",
+                                        "queryString": null,
+                                        "startItem": {
+                                            "id": "aed77de5-0e0d-4350-be60-ff0d9b87f141",
+                                            "path": "m-by-mascot-website"
+                                        }
+                                    },
+                                    "linkType": "Content",
+                                    "culture": null
+                                }
+                            ]
+                        }
+                    },
+                    "settings": null
+                },
+                {
+                    "content": {
+                        "contentType": "spotsModuleCardItem",
+                        "id": "a1da7de8-05c6-43d7-92bc-8c7b6c1d7731",
+                        "properties": {
+                            "spotsItemTitle": "Reduce total costs",
+                            "spotsItemText": {
+                                "markup": "<p>Eliminates inventory costs, logo logistics, and manual errors</p>",
+                                "blocks": []
+                            },
+                            "spotsItemIcon": "fa-house",
+                            "spotsItemLink": [
+                                {
+                                    "url": null,
+                                    "queryString": null,
+                                    "title": "Services",
+                                    "target": null,
+                                    "destinationId": "938b3cef-1834-4c6b-8d99-1ccc238f644b",
+                                    "destinationType": "contentPage",
+                                    "route": {
+                                        "path": "/services/",
+                                        "queryString": null,
+                                        "startItem": {
+                                            "id": "aed77de5-0e0d-4350-be60-ff0d9b87f141",
+                                            "path": "m-by-mascot-website"
+                                        }
+                                    },
+                                    "linkType": "Content",
+                                    "culture": null
+                                }
+                            ]
+                        }
+                    },
+                    "settings": null
+                },
+                {
+                    "content": {
+                        "contentType": "spotsModuleCardItem",
+                        "id": "d7aa1344-0ac3-4b5b-8de6-1c845809886f",
+                        "properties": {
+                            "spotsItemTitle": "Reduce total costs",
+                            "spotsItemText": {
+                                "markup": "<p>Eliminates inventory costs, logo logistics, and manual errors</p>",
+                                "blocks": []
+                            },
+                            "spotsItemIcon": "fa-house",
+                            "spotsItemLink": [
+                                {
+                                    "url": null,
+                                    "queryString": null,
+                                    "title": "Services",
+                                    "target": null,
+                                    "destinationId": "938b3cef-1834-4c6b-8d99-1ccc238f644b",
+                                    "destinationType": "contentPage",
+                                    "route": {
+                                        "path": "/services/",
+                                        "queryString": null,
+                                        "startItem": {
+                                            "id": "aed77de5-0e0d-4350-be60-ff0d9b87f141",
+                                            "path": "m-by-mascot-website"
+                                        }
+                                    },
+                                    "linkType": "Content",
+                                    "culture": null
+                                }
+                            ]
+                        }
+                    },
+                    "settings": null
+                }
+            ]
+        }
+    }
+}
