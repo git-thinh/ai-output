@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud File Manager - Dashboard</title>
+    <!-- Include Tailwind CSS v4 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Include Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Custom Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'sidebar-bg': '#f8fafc',
+                        'content-bg': '#ffffff',
+                        'border-color': '#e2e8f0',
+                        'primary-color': '#3b82f6',
+                        'secondary-color': '#6b7280',
+                        'text-color': '#1e293b',
+                    },
+                    spacing: {
+                        '1': '0.25rem',
+                        '2': '0.5rem',
+                        '3': '0.75rem',
+                        '4': '1rem',
+                        '5': '1.25rem',
+                        '6': '1.5rem',
+                        '7': '1.75rem',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen bg-gray-50 antialiased">
+
+    <!-- Main Layout: Sidebar + Main Content -->
+    <div class="flex min-h-screen">
+
+        <!-- Sidebar Navigation -->
+        <aside class="w-64 bg-white border-r border-border-color p-4 shadow-sm flex-shrink-0 hidden md:flex">
+            <div class="flex items-center justify-between mb-8">
+                <h1 class="text-xl font-semibold text-text-color">File Manager</h1>
+                <button class="text-secondary-color hover:text-primary-color transition duration-150 focus:outline-none">
+                    <i class="bi bi-folder-fill text-primary-color"></i>
+                </button>
+            </div>
+            
+            <nav class="space-y-2">
+                <a href="#" class="flex items-center p-3 rounded-lg text-text-color bg-white shadow-sm hover:bg-gray-50 transition duration-150 group">
+                    <i class="bi bi-layout-text text-gray-500 mr-3 group-hover:text-primary-color"></i>
+                    <span class="font-medium">Folders</span>
+                </a>
+                <a href="#" class="flex items-center p-3 rounded-lg text-text-color hover:bg-gray-50 transition duration-150 group">
+                    <i class="bi bi-file-earmark-plus text-gray-500 mr-3 group-hover:text-primary-color"></i>
+                    <span class="font-medium">Files</span>
+                </a>
+                <a href="#" class="flex items-center p-3 rounded-lg text-text-color hover:bg-gray-50 transition duration-150 group">
+                    <i class="bi bi-upload text-gray-500 mr-3 group-hover:text-primary-color"></i>
+                    <span class="font-medium">Settings</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-auto">
+            
+            <!-- Top Bar: Actions and Search -->
+            <header class="sticky top-0 z-10 bg-white border-b border-border-color p-4 flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <button class="p-2 rounded-full text-secondary-color hover:bg-gray-50 transition duration-150">
+                            <i class="bi bi-search text-gray-500"></i>
+                        </button>
+                        <input type="text" placeholder="Search files and folders..." class="w-full py-2 pl-10 pr-4 border border-border-color rounded-lg focus:ring-primary-color focus:border-primary-color bg-white text-text-color transition duration-150">
+                    </div>
+                    <button class="flex items-center px-4 py-2 bg-primary-color text-white rounded-lg shadow-md hover:bg-blue-600 transition duration-150 focus:outline-none focus:ring-4 focus:ring-blue-500">
+                        <i class="bi bi-plus-circle-fill text-white mr-2"></i>
+                        <span class="font-medium">New File</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- File/Folder Tree View -->
+            <div class="p-6">
+                <h2 class="text-2xl font-bold text-text-color mb-6">My Files & Folders</h2>
+                
+                <!-- File/Folder List -->
+                <div class="space-y-4">
+                    <!-- Root Folder -->
+                    <div class="bg-white p-4 rounded-xl shadow-sm border border-border-color transition duration-150 hover:shadow-md">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center space-x-3">
+                                <i class="bi bi-folder-fill text-primary-color text-2xl"></i>
+                                <span class="font-semibold text-text-color">Documents</span>
+                            </div>
+                            <div class="flex space-x-2">
+                                <button class="text-sm text-primary-color hover:text-blue-600"><i class="bi bi-file-earmark-plus"></i> New Folder</button>
+                                <button class="text-sm text-secondary-color hover:text-blue-600"><i class="bi bi-file-earmark-open"></i> View Content</button>
+                                <button class="text-sm text-red-500 hover:text-red-600"><i class="bi bi-trash-fill"></i> Delete</button>
+                            </div>
+                        </div>
+                        <ul class="space-y-2">
+                            <!-- Example Folder -->
+                            <li class="flex items-center space-x-3 text-text-color">
+                                <i class="bi bi-folder-fill text-gray-400 text-xl flex-shrink-0"></i>
+                                <span class="font-medium">Project Alpha</span>
+                            </li>
+                            <!-- Example File -->
+                            <li class="flex items-center space-x-3 text-gray-600 text-sm">
+                                <i class="bi bi-file-earmark-text text-gray-400 text-xl flex-shrink-0"></i>
+                                <span class="font-medium">README.md</span>
+                            </li>
+                            <!-- Example File -->
+                            <li class="flex items-center space-x-3 text-gray-600 text-sm">
+                                <i class="bi bi-file-earmark-image text-gray-400 text-xl flex-shrink-0"></i>
+                                <span class="font-medium">Image_01.jpg</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Example File -->
+                    <div class="bg-white p-4 rounded-xl shadow-sm border border-border-color transition duration-150 hover:shadow-md">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center space-x-3">
+                                <i class="bi bi-file-earmark-image text-gray-400 text-xl flex-shrink-0"></i>
+                                <span class="font-medium text-text-color">Image_01.jpg</span>
+                            </div>
+                            <div class="flex space-x-2">
+                                <button class="text-primary-color hover:text-blue-600"><i class="bi bi-upload"></i> Upload</button>
+                                <button class="text-red-500 hover:text-red-600"><i class="bi bi-trash-fill"></i> Delete</button>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between mt-4 border-t border-border-color pt-3">
+                            <div class="flex items-center space-x-3">
+                                <i class="bi bi-info-circle text-gray-400 text-xl flex-shrink-0"></i>
+                                <span class="font-medium text-gray-600">Last updated: 2 minutes ago</span>
+                            </div>
+                            <button class="text-secondary-color hover:text-blue-600"><i class="bi bi-eye text-gray-400 text-xl"></i> View</button>
+                        </div>
+                    </div>
+
+                    <!-- Example File -->
+                    <div class="bg-white p-4 rounded-xl shadow-sm border border-border-color transition duration-150 hover:shadow-md">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center space-x-3">
+                                <i class="bi bi-file-earmark-code text-gray-400 text-xl flex-shrink-0"></i>
+                                <span class="font-medium text-text-color">config.yaml</span>
+                            </div>
+                            <div class="flex space-x-2">
+                                <button class="text-primary-color hover:text-blue-600"><i class="bi bi-upload"></i> Upload</button>
+                                <button class="text-red-500 hover:text-red-600"><i class="bi bi-trash-fill"></i> Delete</button>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between mt-4 border-t border-border-color pt-3">
+                            <div class="flex items-center justify-between">
+                                <span class="font-medium text-gray-600">Size: 1.2MB</span>
+                                <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-md">type: yaml</span>
+                            </div>
+                            <button class="text-secondary-color hover:text-blue-600"><i class="bi bi-download text-gray-400 text-xl"></i> Download</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+</body>
+</html>

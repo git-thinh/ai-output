@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudDrive - Dashboard</title>
+    <!-- Tailwind CSS v4 Setup (Simulated) -->
+    <!-- Trong thực tế, bạn sẽ import Tailwind v4 CDN hoặc build process -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Bootstrap Icons CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        /* Custom utility for better visual separation */
+        .sidebar {
+            width: 280px;
+            min-width: 280px;
+            transition: transform 0.3s ease-in-out;
+        }
+        .main-content {
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+        .drop-zone {
+            border-2 border-dashed border-gray-300 bg-white p-10 rounded-xl text-center transition-all duration-300 cursor-pointer hover:border-indigo-400 hover:bg-indigo-50 text-gray-500;
+        }
+        .drop-zone.drag-over {
+            border-2 border-indigo-500 bg-indigo-50 text-indigo-600 shadow-lg scale-[1.01];
+        }
+        .file-item:hover {
+            background-white border border-gray-100 shadow-sm hover:shadow-md transition duration-200;
+        }
+        .folder-icon {
+            width: 24px;
+            height: 24px;
+            color: #4f46e5; /* Indigo 600 */
+        }
+        .file-icon {
+            width: 24px;
+            height: 24px;
+            color: #10b981; /* Emerald 500 */
+        }
+        .btn-primary {
+            @apply bg-indigo-600 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:bg-indigo-700 transition duration-300 flex items-center justify-center gap-2;
+        }
+        .btn-secondary {
+            @apply bg-white text-gray-600 border border-gray-200 font-semibold py-3 px-6 rounded-xl hover:bg-gray-50 transition duration-300 flex items-center justify-center gap-2;
+        }
+        .stat-card {
+            @apply bg-white p-6 rounded-xl shadow-md border border-gray-100;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 antialiased h-screen overflow-hidden flex">
+
+    <!-- 1. SIDEBAR NAVIGATION -->
+    <aside class="sidebar bg-white shadow-lg flex flex-col fixed top-0 left-0 z-20 h-full border-r">
+        <div class="p-6 border-b border-gray-100">
+            <h1 class="text-xl font-bold text-indigo-600">
+                <i class="bi bi-cloud-fill mr-2"></i> CloudDrive
+            </h1>
+            <div class="mt-4 text-sm text-gray-500">
+                <div class="flex items-center mb-4 p-2 bg-indigo-50 rounded-lg">
+                    <img src="https://via.placeholder.com/30" alt="User Avatar" class="w-8 h-8 rounded-full mr-3">
+                    <span>admin.email@example.com</span>
+                </div>
+                <button class="w-full text-left text-sm text-red-500 hover:text-red-600 mt-4 flex items-center gap-2">
+                        <i class="bi bi-box-arrow-right"></i> <span>Logout</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Folder List -->
+        <nav class="flex-grow overflow-y-auto p-4 space-y-2">
+            <h3 class="text-xs font-semibold uppercase text-gray-400 mb-3 tracking-wider">My Folders</h3>
+            
+            <!-- Folder Item (FolderTree Component Simulation) -->
+            <a href="#" class="flex items-center p-3 rounded-xl text-sm text-gray-700 hover:bg-gray-100 transition duration-200 group">
+                <i class="bi bi-folder-fill mr-3 folder-icon"></i>
+                <span class="truncate">My Documents</span>
+            </a>
+            
+            <!-- Folder Item -->
+            <a href="#" class="flex items-center p-3 rounded-xl text-sm text-gray-700 hover:bg-gray-100 transition duration-200 group">
+                <i class="bi bi-folder-fill mr-3 folder-icon"></i>
+                <span class="truncate font-medium text-gray-800">Project Alpha</span>
+            </a>
+
+            <!-- File Item (File Item Component Simulation) -->
+            <a href="#" class="flex items-center p-3 rounded-xl text-sm text-gray-700 hover:bg-gray-100 transition duration-200 group">
+                <i class="bi bi-file-earmark-text mr-3 file-icon"></i>
+                <span class="truncate">report_Q3_2024.pdf</span>
+            </a>
+
+            <!-- Folder Item -->
+            <a href="#" class="flex items-center p-3 rounded-xl text-sm text-gray-700 hover:bg-gray-100 transition duration-200 group">
+                <i class="bi bi-folder-fill mr-3 folder-icon"></i>
+                <span class="truncate font-medium text-gray-800">Images</span>
+            </a>
+
+            <!-- File Item -->
+            <a href="#" class="flex items-center p-3 rounded-xl text-sm text-gray-700 hover:bg-gray-100 transition duration-200 group">
+                <i class="bi bi-file-earmark-image mr-3 file-icon"></i>
+                <span class="truncate">screenshot_meeting.png</span>
+            </a>
+        </nav>
+
+        <!-- Action Buttons -->
+        <div class="p-4 border-t border-gray-100 space-y-3">
+            <button class="btn-primary">
+                <i class="bi bi-plus-circle"></i> <span>New Folder</span>
+            </button>
+            <button class="btn-secondary">
+                <i class="bi bi-cloud-upload"></i> <span>Upload File</span>
+            </button>
+            <button class="btn-secondary">
+                <i class="bi bi-search"></i> <span>Search Files</span>
+            </button>
+            <button class="btn-secondary">
+                <i class="bi bi-gear"></i> <span>Settings</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- 2. MAIN CONTENT AREA -->
+    <main class="main-content flex flex-col ml-64">
+        <!-- TOP HEADER / SEARCH BAR -->
+        <header class="sticky top-0 z-10 bg-white border-b border-gray-200 p-4 shadow-sm">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <button class="p-2 rounded-full text-gray-500 hover:bg-gray-100 transition duration-200">
+                        <i class="bi bi-bell text-xl"></i>
+                    </button>
+                    <div class="relative w-64">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <i class="bi bi-search text-gray-400 text-lg"></i>
+                        </div>
+                        <input type="text" placeholder="Search files or folders..." class="w-full py-2 pl-10 pr-4 bg-gray-100 border border-gray-200 rounded-xl focus:ring-indigo-500 focus:border-indigo-500 text-sm text-gray-600 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-100 transition duration-200">
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- CENTRAL DROP ZONE -->
+        <section class="p-8 bg-white border-2 border-dashed border-indigo-300 rounded-xl mb-8 min-h-[400px] flex flex-col justify-center items-center drop-zone">
+            <i class="bi bi-cloud-upload text-5xl mb-4"></i>
+            <p class="text-lg font-semibold text-gray-700 mb-2">Drag & Drop files or folders here</p>
+            <p class="text-sm text-gray-500 mb-6">Max 10 files per folder</p>
+            <button class="btn-primary">
+                <i class="bi bi-file-earmark-arrow-up"></i> <span>Browse My CloudDrive</span>
+            </button>
+        </section>
+
+        <!-- RECENT ACTIVITY LOG -->
+        <section class="bg-white p-6 rounded-xl shadow-md">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Recent Activity</h3>
+            <ul class="space-y-4">
+                <!-- Activity Item -->
+                <li class="flex items-start space-x-3 p-3 bg-indigo-50 rounded-lg border border-indigo-100 hover:bg-indigo-100 transition duration-200">
+                    <i class="bi bi-arrow-clockwise text-indigo-600 mt-1 text-lg"></i>
+                    <div class="flex-1">
+                        <span class="font-medium text-indigo-700">User Alice</span>
+                        <span class="text-gray-500 text-xs">added <span>new_report_Q3.pdf</span> to <span>Project Alpha</span></span>
+                    </div>
+                    <span class="text-xs text-gray-400 ml-auto">1 minute ago</span>
+                </li>
+                <!-- Activity Item -->
+                <li class="flex items-start space-x-3 p-3 bg-gray-50 rounded-xl border border-gray-200 hover:bg-gray-100 transition duration-200">
+                    <i class="bi bi-file-earmark-arrow-down text-gray-500 mt-1 text-lg"></i>
+                    <div class="flex-1">
+                        <span class="font-medium text-gray-800">System</span>
+                        <span class="text-gray-500 text-xs">deleted <span>temp_data.txt</span> from <span>Temp</span></span>
+                    </div>
+                    <span class="text-xs text-gray-400 ml-auto">10 minutes ago</span>
+                </li>
+            </ul>
+        </section>
+
+    </main>
+</body>
+</html>

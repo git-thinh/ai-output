@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drive Pro - My Drive</title>
+    <!-- Tailwind CSS v4 CDN - Assume this is linked -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Customizing Tailwind setup if needed, but keeping it clean */
+        body {
+            background-color: #f4f7f9; /* Light background for modern feel */
+        }
+    </style>
+    <!-- Include Bootstrap Icons CSS (Assuming link in a real project) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <div class="flex h-screen overflow-hidden">
+        <!-- ---------------------------------------------------------- -->
+        <!-- 1. Sidebar / Navigation (Fixed on Desktop) -->
+        <aside class="w-64 bg-gray-900 text-white flex flex-col shadow-xl">
+            <div class="p-6 border-b border-gray-700">
+                <div class="text-2xl font-bold text-blue-400">Drive Pro</div>
+            </div>
+            
+            <!-- Nav Links -->
+            <nav class="flex-grow overflow-y-auto py-6">
+                <ul class="space-y-3 text-sm font-medium">
+                    <li class="flex items-center space-x-3 bg-gray-800 px-4 py-2 rounded-lg transition duration-150 ease-in-out hover:bg-gray-880">
+                        <i class="fas fa-cloud-upload-alt text-lg text-blue-400"></i>
+                        <span>My Drive</span>
+                    </li>
+                    <li class="flex items-center space-x-3 px-4 py-2 rounded-lg transition duration-150 ease-in-out hover:bg-gray-700">
+                        <i class="fas fa-inbox text-lg text-gray-400"></i>
+                        <span>Shared with Me</span>
+                    </li>
+                    <li class="flex items-center space-x-3 px-4 py-2 rounded-lg transition duration-150 ease-in-out hover:bg-gray-700">
+                        <i class="fas fa-users text-lg text-gray-400"></i>
+                        <span>Team Folders</span>
+                    </li>
+                    <li class="flex items-center space-x-3 px-4 py-2 rounded-lg transition duration-150 ease-in-out hover:bg-gray-700">
+                        <i class="fas fa-trash text-lg text-gray-400"></i>
+                        <span>Trash</span>
+                    </li>
+                </ul>
+            </nav>
+            
+            <!-- User Footer -->
+            <div class="p-4 border-t border-gray-700 bg-gray-800">
+                <div class="flex items-center">
+                    <img src="user_avatar.png" alt="Avatar" class="w-10 h-10 rounded-full object-cover">
+                    <div class="ml-3 leading-none">
+                        <p class="text-sm font-semibold">Taro Nguyen</p>
+                        <p class="text-xs text-gray-400">Pro Plan</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-grow overflow-y-auto bg-gray-100 p-6">
+            
+            <!-- Top Bar / Header -->
+            <header class="bg-white shadow-md rounded-lg p-4 mb-6 flex justify-between items-center sticky top-0 z-10">
+                <!-- Search Bar -->
+                <div class="flex items-center w-full md:w-1/2">
+                    <input type="text" placeholder="Tìm kiếm tập tin, thư mục, và dự án..." class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 ring-blue-500">
+                    <div class="absolute right-0 pointer-events-none">
+                        <i class="fas fa-search text-gray-400"></i>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="flex space-x-4 items-center">
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition flex items-center">
+                        <i class="fas fa-upload mr-2"></i>
+                        Upload File
+                    </button>
+                    <!-- User Avatar/Notifications -->
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-bell text-xl text-gray-500 cursor-pointer"></i>
+                        <div class="w-9 h-9 bg-gray-300 rounded-full"></div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Storage Summary & Quick Access -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <!-- Card 1: Storage Used -->
+                <div class="bg-white p-6 rounded-lg shadow-lg border-l-4 border-blue-500">
+                    <div class="text-sm text-gray-500">Tổng dung lượng</div>
+                    <div class="text-2xl font-semibold mt-1 text-gray-800">15 GB / 100 GB</div>
+                    <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+                        <div class="bg-blue-500 h-2 rounded-full" style="width: 15%;"></div>
+                    </div>
+                </div>
+                <!-- Card 2: Recently Accessed -->
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <div class="text-sm text-gray-500">Truy cập gần đây</div>
+                    <div class="text-lg font-semibold mt-1 truncate">Project Alpha v3.pdf</div>
+                    <div class="text-xs text-gray-400">5 phút trước</div>
+                </div>
+                 <!-- Card 3: Recently Modified -->
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <div class="text-sm text-gray-500">Sửa đổi gần đây</div>
+                    <div class="text-lg font-semibold mt-1 truncate">Meeting Notes.docx</div>
+                    <div class="text-xs text-gray-400">1 giờ trước</div>
+                </div>
+                 <!-- Card 4: Quick Action -->
+                <div class="bg-white p-6 rounded-lg shadow-lg flex items-center justify-center cursor-pointer hover:bg-gray-50">
+                    <div class="text-center">
+                        <i class="fas fa-plus-circle text-3xl text-green-500"></i>
+                        <p class="text-sm font-semibold mt-1">Tạo Mới</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main File List Section -->
+            <div class="bg-white p-6 rounded-lg shadow-xl">
+                <div class="flex justify-between items-center mb-4 border-b pb-3">
+                    <h2 class="text-xl font-semibold text-gray-800">My Drive - Các mục gần đây</h2>
+                    <div class="flex space-x-3 text-sm">
+                        <select class="p-1 border rounded-md">
+                            <option>Sort by: Last Modified</option>
+                        </select>
+                        <select class="p-1 border rounded-md">
+                            <option>View: Large Icons</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- File Display Table/List -->
+                <div class="space-y-1">
+                    <!-- Example Row (Folder) -->
+                    <div class="flex items-center p-3 border-b border-gray-200 hover:bg-gray-50 cursor-pointer">
+                        <div class="w-8">
+                            <i class="fas fa-folder text-amber-500"></i>
+                        </div>
+                        <div class="pl-4 flex-grow">
+                            <p class="font-semibold text-gray-800">Project Phoenix Alpha</p>
+                            <p class="text-xs text-gray-500">Folder · 2.4 GB</p>
+                        </div>
+                        <div class="text-sm text-gray-600 w-28 text-right">2024-05-20</div>
+                        <div class="text-right">
+                            <div class="flex space-x-3 text-gray-400 text-sm">
+                                <button class="hover:text-red-500 transition">Delete</button>
+                                <button class="hover:text-blue-500 transition">Share</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Example Row (File) -->
+                    <div class="flex items-center p-3 border-b border-gray-200 hover:bg-gray-50 cursor-pointer">
+                        <div class="w-8">
+                            <i class="fas fa-file-pdf text-red-500"></i>
+                        </div>
+                        <div class="pl-4 flex-grow">
+                            <p class="font-semibold text-gray-800">Quy hoạch tổng thể dự án (V3)</p>
+                            <p class="text-xs text-gray-500">PDF · 1.2 MB</p>
+                        </div>
+                        <div class="text-sm text-gray-600 w-28 text-right">2024-05-21</div>
+                        <div class="text-right">
+                            <div class="flex space-x-3 text-gray-400 text-sm">
+                                <button class="hover:text-red-500 transition">Delete</button>
+                                <button class="hover:text-blue-500 transition">Share</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                     <!-- Example Row (File) -->
+                    <div class="flex items-center p-3 border-b border-gray-200 hover:bg-gray-50 cursor-pointer">
+                        <div class="w-8">
+                            <i class="fas fa-file-word text-green-500"></i>
+                        </div>
+                        <div class="pl-4 flex-grow">
+                            <p class="font-semibold text-gray-800">Báo cáo tuần 1 - Bản nháp</p>
+                            <p class="text-xs text-gray-500">DOCX · 450 KB</p>
+                        </div>
+                        <div class="text-sm text-gray-600 w-28 text-right">2024-05-21</div>
+                        <div class="text-right">
+                            <div class="flex space-x-3 text-gray-400 text-sm">
+                                <button class="hover:text-red-500 transition">Delete</button>
+                                <button class="hover:text-blue-500 transition">Share</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <!-- Footer / Recent Activity Simulation -->
+            <div class="mt-8 pt-6 border-t border-gray-300 text-center text-gray-500 text-sm">
+                <i class="fas fa-server"></i>
+                Dự án Drive Pro - Tình trạng hoạt động ổn định.
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>
