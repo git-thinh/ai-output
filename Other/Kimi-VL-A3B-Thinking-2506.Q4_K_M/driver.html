@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cloud File Management Dashboard</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fontawesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-color: #4299e1;
+            --secondary-color: #2b6cb0;
+            --text-dark: #1a202c;
+            --text-light: #ffffff;
+        }
+
+        body.light-theme {
+            background-color: #f7fafc;
+            color: #333;
+            --text-dark: #333;
+            --text-light: #fff;
+        }
+        
+        .theme-toggle {
+            cursor: pointer;
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body class="light-theme">
+    <!-- Light Theme Section -->
+    <div class="min-h-screen bg-gray-100 text-gray-800">
+        <!-- Header -->
+        <header class="bg-white shadow-sm px-8 py-3 flex justify-between items-center">
+            <h1 class="text-xl font-bold">DriveFlow Pro</h1>
+            
+            <!-- Theme Toggle Button -->
+            <button class="ml-4 p-2 rounded-full border transition-colors hover:bg-gray-200"
+                    onclick="document.body.classList.toggle('dark-theme')">
+                Switch to Dark Theme
+            </button>
+            
+            <!-- Main Navigation -->
+            <nav class="flex gap-6">
+                <ul class="flex space-x-8">
+                    <li><i class="fas fa-folder"></i></li>
+                </ul>
+                
+                <input type="search" 
+                       placeholder="Search files..."
+                       class="py-1 px-4 border-rounded border-gray-300 focus:border-primary-color"/>
+                
+                <div class="flex items-center gap-4">
+                    <i class="far fa-bell"></i>
+                    <img src="avatar-placeholder.jpg" alt="Profile" 
+                         class="w-12 h-12 rounded-full"/>
+                    
+                    <!-- Notification Badge (static) -->
+                    <span class="bg-blue-500 text-white text-xs px-2 rounded-full ml-2">
+                        3
+                    </span>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Main Layout -->
+        <main class="flex min-h-screen mt-16 container mx-auto px-4">
+            <!-- Sidebar -->
+            <aside class="md:w-64 bg-white shadow-lg sticky top-14 pt-14 h-max overflow-y-auto">
+                <nav class="p-4 space-y-3">
+                    <button class="w-full md:flex-grow mb-2 p-3 bg-gray-100 rounded-full 
+                                    text-left text-gray-700 hover:bg-gray-200">
+                        <i class="mr-3 fas fa-list"></i> My Drive
+                    </button>
+                    
+                    <button class="w-full md:flex-grow mb-2 p-3 bg-gray-100 rounded-full 
+                                text-left text-gray-700 hover:bg-gray-200">
+                        <i class="mr-3 fas fa-share-alt"></i> Shared with Me
+                    </button>
+                    
+                    <button class="w-full md:flex-grow mb-2 p-3 bg-gray-100 rounded-full 
+                                   text-left text-gray-700 hover:bg-gray-200">
+                        Recent
+                    </button>
+                    
+                    <button class="w-full md:flex-grow mb-2 p-3 bg-gray-100 rounded-full 
+                                  text-left text-gray-700 hover:bg-gray-200">
+                        Starred
+                    </button>
+                    
+                    <button class="w-full md:flex-grow mb-2 p-3 bg-gray-100 rounded-full 
+                                 text-left text-gray-700 hover:bg-gray-200">
+                        Trash
+                    </button>
+                </nav>
+                
+                <!-- New File Button -->
+                <button class="w-full bg-blue-600 text-white p-4 rounded-full 
+                            font-semibold hover:bg-blue-700 transition-colors">
+                    + New
+                </button>
+            </aside>
+
+            <!-- Content Area -->
+            <main class="flex-1 p-6">
+                <!-- Quick Access Section -->
+                <section class="mb-8 space-y-6">
+                    <h2 class="text-xl font-bold">Recent Files</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                        <!-- File Card 1 -->
+                        <article class="bg-white p-5 rounded-lg shadow-md hover:shadow-sm">
+                            <i class="fas fa-file-pdf text-blue-500 mr-3"></i>
+                            <h3>Project Plan.pdf</h3>
+                            <p class="text-xs text-gray-500">John Doe | 2d ago</p>
+                        </article>
+                        
+                        <!-- File Card 2 -->
+                        <article class="bg-white p-5 rounded-lg shadow-md hover:shadow-sm">
+                            <i class="fas fa-folder text-indigo-400 mr-3"></i>
+                            <h3>Marketing Campaigns.zip</h3>
+                            <p class="text-xs text-gray-500">Sarah Johnson | 4h ago</p>
+                        </article>
+                    </div>
+                </section>
+
+                <!-- Full Files List -->
+                <section class="space-y-5">
+                    <h2 class="text-xl font-bold">Files & Folders</h2>
+                    <table class="min-w-full border-collapse border border-gray-200">
+                        <thead>
+                            <tr class="border-b border-gray-200">
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500">Name</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500">Owner</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500">Last Modified</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500">Size</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="hover:bg-gray-50">
+                                <td class="py-4 px-4 border-t border-t-solid border-gray-200">Document.docx</td>
+                                <td class="py-4 px-4 border-t border-t-solid border-gray-200">Alice Smith</td>
+                                <td class="py-4 px-4 border-t border-t-solid border-gray-200">Yesterday, 10:30 AM</td>
+                                <td class="py-4 px-4 border-t border-t-solid border-gray-200">245 KB</td>
+                            </tr>
+                            <!-- Repeat similar rows for other files/folders -->
+                        </tbody>
+                    </table>
+                </section>
+            </main>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-gray-100 mt-auto py-6 px-8">
+            <p class="text-center text-sm text-gray-600">&copy; 2023 DriveFlow Pro. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Dark Theme Section (Duplicate content) -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fontawesome/6.4.0/js/all.min.js"></script>
+    <style>
+        body.dark-theme {
+            background-color: #1a202c;
+            color: #f7fafc;
+            --primary-color: #3182be;
+            --secondary-color: # da3731;
+        }
+        
+        body.dark-theme .light-theme {
+            light-theme styles swapped with dark-mode variables
+        }
+    </style>
+</body>
+</html>
