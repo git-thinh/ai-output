@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud File Management Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Đảm bảo trải nghiệm cuộn mượt mà */
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans antialiased text-gray-800">
+
+    <div class="fixed bottom-6 right-6 z-50 bg-blue-600 text-white px-4 py-3 rounded-full shadow-2xl flex items-center space-x-3 border border-blue-400">
+        <span class="text-sm font-medium">Chế độ xem:</span>
+        <a href="#light-theme" class="bg-white text-blue-600 px-3 py-1 rounded-full text-xs font-bold hover:bg-gray-100 transition shadow">Sáng</a>
+        <a href="#dark-theme" class="bg-gray-900 text-gray-100 px-3 py-1 rounded-full text-xs font-bold hover:bg-gray-800 transition shadow">Tối</a>
+    </div>
+
+    <div id="light-theme" class="min-h-screen flex flex-col bg-gray-50 pt-4 border-b-8 border-gray-300">
+        <div class="px-6 py-2 text-xs font-bold uppercase tracking-wider text-gray-500 flex items-center justify-between bg-white border-b border-gray-200">
+            <span>Giao diện Sáng (Light Theme)</span>
+            <span class="text-blue-600"><i class="fa-solid fa-sun mr-1"></i> Active View</span>
+        </div>
+
+        <header class="bg-white border-b border-gray-200 sticky top-0 z-30 px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <label for="sidebar-toggle-light" class="md:hidden text-gray-600 hover:text-gray-900 cursor-pointer text-xl p-1">
+                    <i class="fa-solid fa-bars"></i>
+                </label>
+                <div class="flex items-center space-x-2">
+                    <div class="w-9 h-9 bg-blue-600 rounded-lg flex items-center justify-center text-white text-xl shadow-md shadow-blue-200">
+                        <i class="fa-solid fa-cloud"></i>
+                    </div>
+                    <span class="text-xl font-bold tracking-tight text-gray-900 hidden sm:block">Cloud<span class="text-blue-600">Drive</span></span>
+                </div>
+            </div>
+
+            <div class="flex-1 max-w-2xl mx-4 sm:mx-8">
+                <div class="relative w-full">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </span>
+                    <input type="text" placeholder="Tìm kiếm tệp tin, thư mục..." class="w-full pl-10 pr-4 py-2 bg-gray-100 border border-transparent rounded-xl focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition text-sm text-gray-700 placeholder-gray-400">
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-3 sm:space-x-4">
+                <a href="#dark-theme" class="w-9 h-9 flex items-center justify-center rounded-xl text-gray-500 hover:bg-gray-100 hover:text-gray-800 transition relative group" title="Chuyển sang Giao diện Tối">
+                    <i class="fa-solid fa-moon"></i>
+                    <span class="absolute top-0 right-0 w-2 h-2 bg-blue-500 rounded-full"></span>
+                </a>
+
+                <div class="relative">
+                    <input type="checkbox" id="notif-toggle-light" class="peer hidden">
+                    <label for="notif-toggle-light" class="w-9 h-9 flex items-center justify-center rounded-xl text-gray-500 hover:bg-gray-100 cursor-pointer transition">
+                        <i class="fa-solid fa-bell"></i>
+                    </label>
+                    <div class="absolute right-0 mt-2 w-72 bg-white border border-gray-200 rounded-xl shadow-xl py-2 hidden peer-checked:block z-40 animate-fade-in">
+                        <div class="px-4 py-2 font-semibold text-sm border-b border-gray-100 text-gray-900">Thông báo</div>
+                        <a href="#" class="block px-4 py-3 hover:bg-gray-50 transition border-b border-gray-50">
+                            <p class="text-xs text-gray-600"><span class="font-semibold text-gray-800">Nguyễn Văn A</span> đã chia sẻ thư mục "Dự án 2026"</p>
+                            <span class="text-[10px] text-gray-400 block mt-1">10 phút trước</span>
+                        </a>
+                        <a href="#" class="block px-4 py-3 hover:bg-gray-50 transition">
+                            <p class="text-xs text-gray-600">Bộ nhớ của bạn đã sử dụng hết 75% dung lượng.</p>
+                            <span class="text-[10px] text-gray-400 block mt-1">2 giờ trước</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-500 to-indigo-600 text-white flex items-center justify-center font-semibold text-sm shadow-sm ring-2 ring-offset-2 ring-gray-100">
+                    AD
+                </div>
+            </div>
+        </header>
+
+        <div class="flex flex-1 relative overflow-hidden">
+            
+            <input type="checkbox" id="sidebar-toggle-light" class="peer hidden">
+
+            <aside class="fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-gray-200 pt-20 px-4 transform -translate-x-full transition-transform duration-300 ease-in-out peer-checked:translate-x-0 md:relative md:translate-x-0 md:pt-6 md:z-10 flex flex-col justify-between h-[calc(100vh-65px)] md:h-auto">
+                <div>
+                    <div class="relative mb-6">
+                        <input type="checkbox" id="new-dropdown-light" class="peer hidden">
+                        <label for="new-dropdown-light" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-xl shadow-lg shadow-blue-200 flex items-center justify-center space-x-2 cursor-pointer transition group">
+                            <i class="fa-solid fa-plus transition-transform group-hover:rotate-90"></i>
+                            <span>Tạo mới</span>
+                        </label>
+                        <div class="absolute left-0 mt-2 w-full bg-white border border-gray-200 rounded-xl shadow-xl py-1 hidden peer-checked:block z-40">
+                            <a href="#" class="flex items-center space-x-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition">
+                                <i class="fa-solid fa-folder text-blue-500 w-5"></i><span>Thư mục mới</span>
+                            </a>
+                            <hr class="border-gray-100">
+                            <a href="#" class="flex items-center space-x-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition">
+                                <i class="fa-solid fa-file-arrow-up text-emerald-500 w-5"></i><span>Tải tệp lên</span>
+                            </a>
+                            <a href="#" class="flex items-center space-x-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition">
+                                <i class="fa-solid fa-folder-plus text-amber-500 w-5"></i><span>Tải thư mục lên</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <nav class="space-y-1">
+                        <a href="#" class="flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-xl bg-blue-50 text-blue-600 transition">
+                            <i class="fa-solid fa-hard-drive text-base"></i>
+                            <span>My Drive</span>
+                        </a>
+                        <a href="#" class="flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-xl text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition">
+                            <i class="fa-solid fa-users text-base"></i>
+                            <span>Shared with me</span>
+                        </a>
+                        <a href="#" class="flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-xl text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition">
+                            <i class="fa-solid fa-clock text-base"></i>
+                            <span>Recent</span>
+                        </a>
+                        <a href="#" class="flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-xl text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition">
+                            <i class="fa-solid fa-star text-base"></i>
+                            <span>Starred</span>
+                        </a>
+                        <a href="#" class="flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-xl text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition">
+                            <i class="fa-solid fa-trash-can text-base"></i>
+                            <span>Trash</span>
+                        </a>
+                    </nav>
+                </div>
+
+                <div class="mt-auto pb-6 border-t border-gray-100 pt-4">
+                    <div class="flex items-center justify-between text-xs font-medium text-gray-500 mb-2">
+                        <span class="flex items-center"><i class="fa-solid fa-database mr-1.5"></i>Bộ nhớ dữ liệu</span>
+                        <span>11.5 GB / 15 GB</span>
+                    </div>
+                    <div class="w-full bg-gray-100 rounded-full h-2 overflow-hidden">
+                        <div class="bg-blue-600 h-2 rounded-full" style="width: 76%"></div>
+                    </div>
+                </div>
+            </aside>
+
+            <label for="sidebar-toggle-light" class="fixed inset-0 bg-gray-900/30 backdrop-blur-sm z-30 hidden peer-checked:block md:hidden"></label>
+
+            <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-8">
+                
+                <section>
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-base font-bold text-gray-900 tracking-tight flex items-center">
+                            <i class="fa-solid fa-bolt text-amber-500 mr-2"></i>Truy cập nhanh
+                        </h2>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm hover:shadow-md hover:border-gray-300 transition group cursor-pointer">
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="w-10 h-10 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center text-lg">
+                                    <i class="fa-solid fa-folder"></i>
+                                </div>
+                                <button class="text-gray-400 hover:text-gray-600 transition p-1"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                            </div>
+                            <h3 class="font-medium text-sm text-gray-900 truncate group-hover:text-blue-600">Tài liệu Thiết kế UI/UX</h3>
+                            <p class="text-[11px] text-gray-400 mt-1">Đã mở 2 giờ trước</p>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm hover:shadow-md hover:border-gray-300 transition group cursor-pointer">
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="w-10 h-10 bg-rose-50 text-rose-600 rounded-lg flex items-center justify-center text-lg">
+                                    <i class="fa-solid fa-file-pdf"></i>
+                                </div>
+                                <button class="text-gray-400 hover:text-gray-600 transition p-1"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                            </div>
+                            <h3 class="font-medium text-sm text-gray-900 truncate group-hover:text-rose-600">Báo cáo Quý 1_2026.pdf</h3>
+                            <p class="text-[11px] text-gray-400 mt-1">Đã mở hôm qua</p>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm hover:shadow-md hover:border-gray-300 transition group cursor-pointer">
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-lg flex items-center justify-center text-lg">
+                                    <i class="fa-solid fa-file-image"></i>
+                                </div>
+                                <button class="text-gray-400 hover:text-gray-600 transition p-1"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                            </div>
+                            <h3 class="font-medium text-sm text-gray-900 truncate group-hover:text-emerald-600">Banner_Trangchu_Final.png</h3>
+                            <p class="text-[11px] text-gray-400 mt-1">Đã mở 3 ngày trước</p>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm hover:shadow-md hover:border-gray-300 transition group cursor-pointer">
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="w-10 h-10 bg-teal-50 text-teal-600 rounded-lg flex items-center justify-center text-lg">
+                                    <i class="fa-solid fa-file-excel"></i>
+                                </div>
+                                <button class="text-gray-400 hover:text-gray-600 transition p-1"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                            </div>
+                            <h3 class="font-medium text-sm text-gray-900 truncate group-hover:text-teal-600">Kế hoạch Ngân sách 2026.xlsx</h3>
+                            <p class="text-[11px] text-gray-400 mt-1">Đã sửa đổi 1 tuần trước</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-base font-bold text-gray-900 tracking-tight flex items-center">
+                            <i class="fa-solid fa-list text-gray-500 mr-2"></i>Tất cả tệp tin & Thư mục
+                        </h2>
+                    </div>
+
+                    <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-gray-50 border-b border-gray-200 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                        <th class="py-3 px-4">Tên</th>
+                                        <th class="py-3 px-4 hidden sm:table-cell">Chủ sở hữu</th>
+                                        <th class="py-3 px-4 hidden md:table-cell">Ngày sửa đổi</th>
+                                        <th class="py-3 px-4 text-right">Kích thước</th>
+                                        <th class="py-3 px-4 text-center w-12"></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-100 text-sm text-gray-700">
+                                    <tr class="hover:bg-gray-50 transition group cursor-pointer">
+                                        <td class="py-3.5 px-4 font-medium text-gray-900 flex items-center space-x-3 truncate">
+                                            <i class="fa-solid fa-folder text-blue-500 text-lg flex-shrink-0"></i>
+                                            <span class="truncate group-hover:text-blue-600">Source Code Project</span>
+                                        </td>
+                                        <td class="py-3.5 px-4 hidden sm:table-cell text-gray-500">Tôi</td>
+                                        <td class="py-3.5 px-4 hidden md:table-cell text-gray-500">28 thg 6, 2026</td>
+                                        <td class="py-3.5 px-4 text-right font-mono text-xs text-gray-500">—</td>
+                                        <td class="py-3.5 px-4 text-center text-gray-400 hover:text-gray-600"><i class="fa-solid fa-ellipsis-vertical"></i></td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition group cursor-pointer">
+                                        <td class="py-3.5 px-4 font-medium text-gray-900 flex items-center space-x-3 truncate">
+                                            <i class="fa-solid fa-file-word text-blue-600 text-lg flex-shrink-0"></i>
+                                            <span class="truncate group-hover:text-blue-600">Hợp đồng Lao động.docx</span>
+                                        </td>
+                                        <td class="py-3.5 px-4 hidden sm:table-cell text-gray-500">HR Department</td>
+                                        <td class="py-3.5 px-4 hidden md:table-cell text-gray-500">15 thg 6, 2026</td>
+                                        <td class="py-3.5 px-4 text-right font-mono text-xs text-gray-500">1.2 MB</td>
+                                        <td class="py-3.5 px-4 text-center text-gray-400 hover:text-gray-600"><i class="fa-solid fa-ellipsis-vertical"></i></td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition group cursor-pointer">
+                                        <td class="py-3.5 px-4 font-medium text-gray-900 flex items-center space-x-3 truncate">
+                                            <i class="fa-solid fa-file-video text-purple-600 text-lg flex-shrink-0"></i>
+                                            <span class="truncate group-hover:text-blue-600">Demo_Product_v2.mp4</span>
+                                        </td>
+                                        <td class="py-3.5 px-4 hidden sm:table-cell text-gray-500">Tôi</td>
+                                        <td class="py-3.5 px-4 hidden md:table-cell text-gray-500">10 thg 5, 2026</td>
+                                        <td class="py-3.5 px-4 text-right font-mono text-xs text-gray-500">45.8 MB</td>
+                                        <td class="py-3.5 px-4 text-center text-gray-400 hover:text-gray-600"><i class="fa-solid fa-ellipsis-vertical"></i></td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition group cursor-pointer">
+                                        <td class="py-3.5 px-4 font-medium text-gray-900 flex items-center space-x-3 truncate">
+                                            <i class="fa-solid fa-file-zipper text-amber-600 text-lg flex-shrink-0"></i>
+                                            <span class="truncate group-hover:text-blue-600">Backup_Database_2026.zip</span>
+                                        </td>
+                                        <td class="py-3.5 px-4 hidden sm:table-cell text-gray-500">System Admin</td>
+                                        <td class="py-3.5 px-4 hidden md:table-cell text-gray-500">01 thg 4, 2026</td>
+                                        <td class="py-3.5 px-4 text-right font-mono text-xs text-gray-500">320.5 MB</td>
+                                        <td class="py-3.5 px-4 text-center text-gray-400 hover:text-gray-600"><i class="fa-solid fa-ellipsis-vertical"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <footer class="bg-white border-t border-gray-200 px-6 py-4 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 space-y-2 sm:space-y-0 mt-auto">
+            <div>
+                &copy; 2026 <span class="font-semibold text-gray-700">CloudDrive Inc.</span> Bảo lưu mọi quyền.
+            </div>
+            <div class="flex space-x-4">
+                <a href="#" class="hover:text-gray-900 transition">Điều khoản sử dụng</a>
+                <a href="#" class="hover:text-gray-900 transition">Chính sách bảo mật</a>
+                <a href="#" class="hover:text-gray-900 transition">Trung tâm hỗ trợ</a>
+            </div>
+        </footer>
+    </div>
+
+
+    <div id="dark-theme" class="min-h-screen flex flex-col bg-gray-950 pt-4">
+        <div class="px-6 py-2 text-xs font-bold uppercase tracking-wider text-gray-400 flex items-center justify-between bg-gray-900 border-b border-gray-800">
+            <span>Giao diện Tối (Dark Theme)</span>
+            <span class="text-blue-400"><i class="fa-solid fa-moon mr-1"></i> Active View</span>
+        </div>
+
+        <header class="bg-gray-900 border-b border-gray-800 sticky top-0 z-30 px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <label for="sidebar-toggle-dark" class="md:hidden text-gray-400 hover:text-white cursor-pointer text-xl p-1">
+                    <i class="fa-solid fa-bars"></i>
+                </label>
+                <div class="flex items-center space-x-2">
+                    <div class="w-9 h-9 bg-blue-500 rounded-lg flex items-center justify-center text-white text-xl shadow-lg shadow-blue-900/50">
+                        <i class="fa-solid fa-cloud"></i>
+                    </div>
+                    <span class="text-xl font-bold tracking-tight text-white hidden sm:block">Cloud<span class="text-blue-400">Drive</span></span>
+                </div>
+            </div>
+
+            <div class="flex-1 max-w-2xl mx-4 sm:mx-8">
+                <div class="relative w-full">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </span>
+                    <input type="text" placeholder="Tìm kiếm tệp tin, thư mục..." class="w-full pl-10 pr-4 py-2 bg-gray-800 border border-transparent rounded-xl focus:bg-gray-800 focus:border-blue-500 focus:ring-2 focus:ring-blue-900/50 outline-none transition text-sm text-gray-200 placeholder-gray-500">
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-3 sm:space-x-4">
+                <a href="#light-theme" class="w-9 h-9 flex items-center justify-center rounded-xl text-gray-400 hover:bg-gray-800 hover:text-white transition relative group" title="Chuyển sang Giao diện Sáng">
+                    <i class="fa-solid fa-sun"></i>
+                    <span class="absolute top-0 right-0 w-2 h-2 bg-blue-400 rounded-full"></span>
+                </a>
+
+                <div class="relative">
+                    <input type="checkbox" id="notif-toggle-dark" class="peer hidden">
+                    <label for="notif-toggle-dark" class="w-9 h-9 flex items-center justify-center rounded-xl text-gray-400 hover:bg-gray-800 cursor-pointer transition">
+                        <i class="fa-solid fa-bell"></i>
+                    </label>
+                    <div class="absolute right-0 mt-2 w-72 bg-gray-900 border border-gray-800 rounded-xl shadow-2xl py-2 hidden peer-checked:block z-40">
+                        <div class="px-4 py-2 font-semibold text-sm border-b border-gray-800 text-white">Thông báo</div>
+                        <a href="#" class="block px-4 py-3 hover:bg-gray-850 transition border-b border-gray-850">
+                            <p class="text-xs text-gray-300"><span class="font-semibold text-white">Nguyễn Văn A</span> đã chia sẻ thư mục "Dự án 2026"</p>
+                            <span class="text-[10px] text-gray-500 block mt-1">10 phút trước</span>
+                        </a>
+                        <a href="#" class="block px-4 py-3 hover:bg-gray-850 transition">
+                            <p class="text-xs text-gray-300">Bộ nhớ của bạn đã sử dụng hết 75% dung lượng.</p>
+                            <span class="text-[10px] text-gray-500 block mt-1">2 giờ trước</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-500 to-indigo-600 text-white flex items-center justify-center font-semibold text-sm shadow-sm ring-2 ring-offset-2 ring-gray-900">
+                    AD
+                </div>
+            </div>
+        </header>
+
+        <div class="flex flex-1 relative overflow-hidden">
+            
+            <input type="checkbox" id="sidebar-toggle-dark" class="peer hidden">
+
+            <aside class="fixed inset-y-0 left-0 z-40 w-64 bg-gray-900 border-r border-gray-800 pt-20 px-4 transform -translate-x-full transition-transform duration-300 ease-in-out peer-checked:translate-x-0 md:relative md:translate-x-0 md:pt-6 md:z-10 flex flex-col justify-between h-[calc(100vh-65px)] md:h-auto">
+                <div>
+                    <div class="relative mb-6">
+                        <input type="checkbox" id="new-dropdown-dark" class="peer hidden">
+                        <label for="new-dropdown-dark" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-4 rounded-xl shadow-lg shadow-blue-900/40 flex items-center justify-center space-x-2 cursor-pointer transition group">
+                            <i class="fa-solid fa-plus transition-transform group-hover:rotate-90"></i>
+                            <span>Tạo mới</span>
+                        </label>
+                        <div class="absolute left-0 mt-2 w-full bg-gray-900 border border-gray-800 rounded-xl shadow-2xl py-1 hidden peer-checked:block z-40">
+                            <a href="#" class="flex items-center space-x-3 px-4 py-2.5 text-sm text-gray-300 hover:bg-gray-800 transition">
+                                <i class="fa-solid fa-folder text-blue-400 w-5"></i><span>Thư mục mới</span>
+                            </a>
+                            <hr class="border-gray-800">
+                            <a href="#" class="flex items-center space-x-3 px-4 py-2.5 text-sm text-gray-300 hover:bg-gray-800 transition">
+                                <i class="fa-solid fa-file-arrow-up text-emerald-400 w-5"></i><span>Tải tệp lên</span>
+                            </a>
+                            <a href="#" class="flex items-center space-x-3 px-4 py-2.5 text-sm text-gray-300 hover:bg-gray-800 transition">
+                                <i class="fa-solid fa-folder-plus text-amber-400 w-5"></i><span>Tải thư mục lên</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <nav class="space-y-1">
+                        <a href="#" class="flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-xl bg-blue-950 text-blue-400 transition">
+                            <i class="fa-solid fa-hard-drive text-base"></i>
+                            <span>My Drive</span>
+                        </a>
+                        <a href="#" class="flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-xl text-gray-400 hover:bg-gray-850 hover:text-gray-200 transition">
+                            <i class="fa-solid fa-users text-base"></i>
+                            <span>Shared with me</span>
+                        </a>
+                        <a href="#" class="flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-xl text-gray-400 hover:bg-gray-850 hover:text-gray-200 transition">
+                            <i class="fa-solid fa-clock text-base"></i>
+                            <span>Recent</span>
+                        </a>
+                        <a href="#" class="flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-xl text-gray-400 hover:bg-gray-850 hover:text-gray-200 transition">
+                            <i class="fa-solid fa-star text-base"></i>
+                            <span>Starred</span>
+                        </a>
+                        <a href="#" class="flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-xl text-gray-400 hover:bg-gray-850 hover:text-gray-200 transition">
+                            <i class="fa-solid fa-trash-can text-base"></i>
+                            <span>Trash</span>
+                        </a>
+                    </nav>
+                </div>
+
+                <div class="mt-auto pb-6 border-t border-gray-800 pt-4">
+                    <div class="flex items-center justify-between text-xs font-medium text-gray-400 mb-2">
+                        <span class="flex items-center"><i class="fa-solid fa-database mr-1.5"></i>Bộ nhớ dữ liệu</span>
+                        <span>11.5 GB / 15 GB</span>
+                    </div>
+                    <div class="w-full bg-gray-800 rounded-full h-2 overflow-hidden">
+                        <div class="bg-blue-500 h-2 rounded-full" style="width: 76%"></div>
+                    </div>
+                </div>
+            </aside>
+
+            <label for="sidebar-toggle-dark" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-30 hidden peer-checked:block md:hidden"></label>
+
+            <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-8">
+                
+                <section>
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-base font-bold text-white tracking-tight flex items-center">
+                            <i class="fa-solid fa-bolt text-amber-400 mr-2"></i>Truy cập nhanh
+                        </h2>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 shadow-md hover:border-gray-700 transition group cursor-pointer">
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="w-10 h-10 bg-blue-950 text-blue-400 rounded-lg flex items-center justify-center text-lg">
+                                    <i class="fa-solid fa-folder"></i>
+                                </div>
+                                <button class="text-gray-500 hover:text-gray-300 transition p-1"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                            </div>
+                            <h3 class="font-medium text-sm text-gray-200 truncate group-hover:text-blue-400">Tài liệu Thiết kế UI/UX</h3>
+                            <p class="text-[11px] text-gray-500 mt-1">Đã mở 2 giờ trước</p>
+                        </div>
+
+                        <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 shadow-md hover:border-gray-700 transition group cursor-pointer">
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="w-10 h-10 bg-rose-950 text-rose-400 rounded-lg flex items-center justify-center text-lg">
+                                    <i class="fa-solid fa-file-pdf"></i>
+                                </div>
+                                <button class="text-gray-500 hover:text-gray-300 transition p-1"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                            </div>
+                            <h3 class="font-medium text-sm text-gray-200 truncate group-hover:text-rose-400">Báo cáo Quý 1_2026.pdf</h3>
+                            <p class="text-[11px] text-gray-500 mt-1">Đã mở hôm qua</p>
+                        </div>
+
+                        <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 shadow-md hover:border-gray-700 transition group cursor-pointer">
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="w-10 h-10 bg-emerald-950 text-emerald-400 rounded-lg flex items-center justify-center text-lg">
+                                    <i class="fa-solid fa-file-image"></i>
+                                </div>
+                                <button class="text-gray-500 hover:text-gray-300 transition p-1"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                            </div>
+                            <h3 class="font-medium text-sm text-gray-200 truncate group-hover:text-emerald-400">Banner_Trangchu_Final.png</h3>
+                            <p class="text-[11px] text-gray-500 mt-1">Đã mở 3 ngày trước</p>
+                        </div>
+
+                        <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 shadow-md hover:border-gray-700 transition group cursor-pointer">
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="w-10 h-10 bg-teal-950 text-teal-400 rounded-lg flex items-center justify-center text-lg">
+                                    <i class="fa-solid fa-file-excel"></i>
+                                </div>
+                                <button class="text-gray-500 hover:text-gray-300 transition p-1"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                            </div>
+                            <h3 class="font-medium text-sm text-gray-200 truncate group-hover:text-teal-400">Kế hoạch Ngân sách 2026.xlsx</h3>
+                            <p class="text-[11px] text-gray-500 mt-1">Đã sửa đổi 1 tuần trước</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-base font-bold text-white tracking-tight flex items-center">
+                            <i class="fa-solid fa-list text-gray-400 mr-2"></i>Tất cả tệp tin & Thư mục
+                        </h2>
+                    </div>
+
+                    <div class="bg-gray-900 rounded-xl border border-gray-800 shadow-xl overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-gray-850 border-b border-gray-800 text-xs font-semibold uppercase tracking-wider text-gray-400">
+                                        <th class="py-3 px-4">Tên</th>
+                                        <th class="py-3 px-4 hidden sm:table-cell">Chủ sở hữu</th>
+                                        <th class="py-3 px-4 hidden md:table-cell">Ngày sửa đổi</th>
+                                        <th class="py-3 px-4 text-right">Kích thước</th>
+                                        <th class="py-3 px-4 text-center w-12"></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-800 text-sm text-gray-300">
+                                    <tr class="hover:bg-gray-850/50 transition group cursor-pointer">
+                                        <td class="py-3.5 px-4 font-medium text-white flex items-center space-x-3 truncate">
+                                            <i class="fa-solid fa-folder text-blue-400 text-lg flex-shrink-0"></i>
+                                            <span class="truncate group-hover:text-blue-400">Source Code Project</span>
+                                        </td>
+                                        <td class="py-3.5 px-4 hidden sm:table-cell text-gray-400">Tôi</td>
+                                        <td class="py-3.5 px-4 hidden md:table-cell text-gray-400">28 thg 6, 2026</td>
+                                        <td class="py-3.5 px-4 text-right font-mono text-xs text-gray-400">—</td>
+                                        <td class="py-3.5 px-4 text-center text-gray-500 hover:text-gray-300"><i class="fa-solid fa-ellipsis-vertical"></i></td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-850/50 transition group cursor-pointer">
+                                        <td class="py-3.5 px-4 font-medium text-white flex items-center space-x-3 truncate">
+                                            <i class="fa-solid fa-file-word text-blue-500 text-lg flex-shrink-0"></i>
+                                            <span class="truncate group-hover:text-blue-400">Hợp đồng Lao động.docx</span>
+                                        </td>
+                                        <td class="py-3.5 px-4 hidden sm:table-cell text-gray-400">HR Department</td>
+                                        <td class="py-3.5 px-4 hidden md:table-cell text-gray-400">15 thg 6, 2026</td>
+                                        <td class="py-3.5 px-4 text-right font-mono text-xs text-gray-400">1.2 MB</td>
+                                        <td class="py-3.5 px-4 text-center text-gray-500 hover:text-gray-300"><i class="fa-solid fa-ellipsis-vertical"></i></td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-850/50 transition group cursor-pointer">
+                                        <td class="py-3.5 px-4 font-medium text-white flex items-center space-x-3 truncate">
+                                            <i class="fa-solid fa-file-video text-purple-400 text-lg flex-shrink-0"></i>
+                                            <span class="truncate group-hover:text-blue-400">Demo_Product_v2.mp4</span>
+                                        </td>
+                                        <td class="py-3.5 px-4 hidden sm:table-cell text-gray-400">Tôi</td>
+                                        <td class="py-3.5 px-4 hidden md:table-cell text-gray-400">10 thg 5, 2026</td>
+                                        <td class="py-3.5 px-4 text-right font-mono text-xs text-gray-400">45.8 MB</td>
+                                        <td class="py-3.5 px-4 text-center text-gray-500 hover:text-gray-300"><i class="fa-solid fa-ellipsis-vertical"></i></td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-850/50 transition group cursor-pointer">
+                                        <td class="py-3.5 px-4 font-medium text-white flex items-center space-x-3 truncate">
+                                            <i class="fa-solid fa-file-zipper text-amber-400 text-lg flex-shrink-0"></i>
+                                            <span class="truncate group-hover:text-blue-400">Backup_Database_2026.zip</span>
+                                        </td>
+                                        <td class="py-3.5 px-4 hidden sm:table-cell text-gray-400">System Admin</td>
+                                        <td class="py-3.5 px-4 hidden md:table-cell text-gray-400">01 thg 4, 2026</td>
+                                        <td class="py-3.5 px-4 text-right font-mono text-xs text-gray-400">320.5 MB</td>
+                                        <td class="py-3.5 px-4 text-center text-gray-500 hover:text-gray-300"><i class="fa-solid fa-ellipsis-vertical"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <footer class="bg-gray-900 border-t border-gray-800 px-6 py-4 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-400 space-y-2 sm:space-y-0 mt-auto">
+            <div>
+                &copy; 2026 <span class="font-semibold text-gray-200">CloudDrive Inc.</span> Bảo lưu mọi quyền.
+            </div>
+            <div class="flex space-x-4">
+                <a href="#" class="hover:text-white transition">Điều khoản sử dụng</a>
+                <a href="#" class="hover:text-white transition">Chính sách bảo mật</a>
+                <a href="#" class="hover:text-white transition">Trung tâm hỗ trợ</a>
+            </div>
+        </footer>
+    </div>
+
+</body>
+</html>
